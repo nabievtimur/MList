@@ -14,15 +14,18 @@ namespace MList
         [STAThread]
         static void Main()
         {
-            if (Authorization.Status.PASSWORD_NOT_EXIXT == Authorization.passwordExist())
-            {
-                Authorization.passwordCreate("123456"); // TODO passwordRequest
-            }
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            if (Authorization.Status.PASSWORD_NOT_EXIXT == Authorization.passwordExist())
+            {
+                if (Authorization.Status.OK != Authorization.passwordCreate())
+                {
+                    return;
+                }
+            }
+
             Application.Run(new MainForm());
         }
-
     }
 }
