@@ -6,6 +6,7 @@ namespace MList.Storage
     public class SqLiteStorage
     {
         private SqliteConnection _connection;
+        private static SqLiteStorage instance;
         public enum Status
         {
             OK,
@@ -67,7 +68,14 @@ namespace MList.Storage
             public int numberMlist;
         }
 
-        SqLiteStorage() { }
+        private SqLiteStorage() { }
+
+        public static SqLiteStorage getInstance()
+        {
+            if (instance == null)
+                instance = new SqLiteStorage();
+            return instance;
+        }
 
         public Status initConnection()
         {

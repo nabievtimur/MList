@@ -60,5 +60,34 @@ namespace MList
         {
             Authorization.passwordCreate();
         }
+
+        private void открытьБДToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void авторизацияToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            InputBox inputBox = new InputBox("Аунтентификация", "Введите пароль");
+            if (DialogResult.OK == inputBox.ShowDialog())
+            {
+                if (Authorization.Status.PASSWORD_CORRECT == Authorization.login(inputBox.getResult())) // TODO password request
+                {
+                    this.базаToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Неверный пароль",
+                        "Ошибка аунтетификации",
+                        MessageBoxButtons.OK);
+                }
+            }
+        }
+
+        private void сменитьПарольToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Authorization.passwordCreate();
+        }
     }
 }
