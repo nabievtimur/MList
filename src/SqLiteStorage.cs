@@ -81,13 +81,13 @@ namespace MList.Storage
             return Status.OK;
         }
 
-        public Status export()
+        public Status export(string path)
         {
             
             return Status.OK;
         }
 
-        public Status import()
+        public Status import(string path)
         {
             
             return Status.OK;
