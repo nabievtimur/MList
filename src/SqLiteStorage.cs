@@ -15,62 +15,59 @@ namespace MList.Storage
 
         public struct Address
         {
-            int id;
-            string address;
+            private int id;
+            public string address;
         }
 
         public struct Cars
         {
-            int id;
-            string brand;
-            string number;
+            private int id;
+            public string brand;
+            public string number;
         }
 
         public struct Gun
         {
-            int id;
-            string brand;
-            string series;
-            int number;
-            string ammo;
+            private int id;
+            public string brand;
+            public string series;
+            public int number;
+            public string ammo;
         }
 
         public struct Employee
         {
-            int id;
-            string firstName;
-            string secondName;
-            string middleName;
+            private int id;
+            public string firstName;
+            public string secondName;
+            public string middleName;
         }
 
         public struct Orders
         {
-            int id;
-            int number;
-            int employeeId;
-            int date;
+            private int id;
+            public int number;
+            public int employeeId;
+            public int date;
         }
 
         public struct MList
         {
-            int id;
-            int dateCreate;
-            int dateBegin;
-            int dateEnd;
-            int dateCoach;
-            int datePassGun;
-            int datePring;
-            string notes;
-            int timeDeep;
-            int timeArrive;
-            int timePassGun;
-            int numberMlist;
+            private int id;
+            public int dateCreate;
+            public int dateBegin;
+            public int dateEnd;
+            public int dateCoach;
+            public int datePassGun;
+            public int datePring;
+            public string notes;
+            public int timeDeep;
+            public int timeArrive;
+            public int timePassGun;
+            public int numberMlist;
         }
 
-        SqLiteStorage()
-        {
-            
-        }
+        SqLiteStorage() { }
 
         public Status initConnection()
         {
