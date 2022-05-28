@@ -1,4 +1,4 @@
-using Microsoft.Data.Sqlite;
+п»їusing Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 
 namespace MList.Storage
@@ -71,9 +71,9 @@ namespace MList.Storage
 
         public Status initConnection()
         {
-            // получить путь /*Users*/Public/MList/BD
-            // проверить есть ли бд
-            // создать или открыть
+            // РїРѕР»СѓС‡РёС‚СЊ РїСѓС‚СЊ /*Users*/Public/MList/BD
+            // РїСЂРѕРІРµСЂРёС‚СЊ РµСЃС‚СЊ Р»Рё Р±Рґ
+            // СЃРѕР·РґР°С‚СЊ РёР»Рё РѕС‚РєСЂС‹С‚СЊ
             // 
             return Status.OK;
         }
