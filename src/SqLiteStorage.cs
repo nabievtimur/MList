@@ -16,8 +16,14 @@ namespace MList.Storage
 
         public struct Address
         {
-            private int id;
+            internal int id;
             public string address;
+
+            public Address(int id, string address)
+            {
+                this.id = id;
+                this.address = address;
+            }
         }
 
         public struct Cars
@@ -25,6 +31,8 @@ namespace MList.Storage
             private int id;
             public string brand;
             public string number;
+            
+            // public Cars()
         }
 
         public struct Gun
@@ -101,6 +109,24 @@ namespace MList.Storage
         public Status get(out List<Address> adresses)
         {
             adresses = new List<Address>();
+
+            Address address1 = new Address(0, "");
+            address1.id = 1;
+            
+            string sqlExpression = "SELECT (id, address) FROM addresses";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read())   // построчно считываем данные
+                    {
+                        Address address = new Address(reader.GetInt32(0), reader.GetString(1));
+                        address.id = 5;
+                        adresses.Add(address);
+                    }
+                }
+            }
             return Status.OK;
         }
 
