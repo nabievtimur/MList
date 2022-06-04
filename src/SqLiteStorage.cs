@@ -44,7 +44,7 @@ namespace MList.Storage
         {
             public long id;
             public string firstName;
-            public string secondName;
+            public string lastName;
             public string middleName;
         }
 
@@ -181,6 +181,26 @@ namespace MList.Storage
         public Status get(out List<Employee> employees)
         {
             employees = new List<Employee>();
+            
+            string sqlExpression = "SELECT (id, first_name, last_name, middle_name) FROM employees";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Employee employee = new Employee()
+                        {
+                            id = reader.GetInt64(0),
+                            firstName = reader.GetString(1),
+                            lastName = reader.GetString(2),
+                            middleName =  reader.GetString(3),
+                        };
+                        employees.Add(employee);
+                    }
+                }
+            }
             return Status.OK;
         }
 
