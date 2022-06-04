@@ -13,7 +13,8 @@ namespace MList.Storage
         {
             OK,
             ERROR,
-            ERROR_CONNECTION
+            ERROR_CONNECTION,
+            NO_ROWS
         }
 
         public struct Address
@@ -51,9 +52,9 @@ namespace MList.Storage
         public struct Orders
         {
             public long id;
-            public int number;
-            public int employeeId;
-            public int date;
+            public long number;
+            public long employeeID;
+            public long date;
         }
 
         public struct MList
@@ -207,6 +208,25 @@ namespace MList.Storage
         public Status get(out List<Orders> orders)
         {
             orders = new List<Orders>();
+            string sqlExpression = "SELECT (id, number, employee_id, 'date') FROM employees";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Orders order = new Orders()
+                        {
+                            id = reader.GetInt64(0),
+                            number = reader.GetInt64(1),
+                            employeeID = reader.GetInt64(2),
+                            date =  reader.GetInt64(3),
+                        };
+                        orders.Add(order);
+                    }
+                }
+            }
             return Status.OK;
         }
 
