@@ -113,6 +113,7 @@ namespace MList.Storage
                     Console.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
+
                 SqliteCommand command = new SqliteCommand(DbCreate.createDbSql, this._connection);
                 try
                 {
@@ -126,7 +127,7 @@ namespace MList.Storage
                 }
             }
 
-            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;", 
+            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;",
                 dbFilePath);
             this._connection = new SqliteConnection(connectionString);
             try
@@ -138,6 +139,7 @@ namespace MList.Storage
                 Console.WriteLine(e.ToString());
                 return Status.ERROR;
             }
+
             return Status.OK;
         }
 
