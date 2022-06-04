@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MList.Storage
 {
@@ -13,7 +14,8 @@ namespace MList.Storage
         {
             OK,
             ERROR,
-            ERROR_CONNECTION
+            ERROR_CONNECTION,
+            NO_ROWS
         }
 
         public struct Address
@@ -22,7 +24,7 @@ namespace MList.Storage
             public string address;
         }
 
-        public struct Cars
+        public struct Car
         {
             public long id;
             public string brand;
@@ -48,12 +50,12 @@ namespace MList.Storage
             public string middleName;
         }
 
-        public struct Orders
+        public struct Order
         {
             public long id;
-            public int number;
-            public int employeeId;
-            public int date;
+            public long number;
+            public long employeeID;
+            public long date;
         }
 
         public struct MList
@@ -83,185 +85,535 @@ namespace MList.Storage
             return instance;
         }
 
-        public Status initConnection()
+        public Status InitConnection()
         {
-            // получить путь /*Users*/Public/MList/BD
-            // проверить есть ли бд
-            // создать или открыть
-            // 
+            string dbFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "MList\\DataBase");
+            Console.WriteLine(dbFolderPath);
+            if (!Directory.Exists(dbFolderPath))
+            {
+                Directory.CreateDirectory(dbFolderPath);
+            }
+
+            string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "MList\\DataBase\\mlist.db");
+            string connectionString;
+
+            if (!File.Exists(dbFilePath))
+            {
+                connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
+                    dbFilePath);
+                this._connection = new SqliteConnection(connectionString);
+                try
+                {
+                    this._connection.Open();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
+
+                SqliteCommand command = new SqliteCommand(DbCreate.createDbSql, this._connection);
+                try
+                {
+                    command.ExecuteNonQuery();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
+            }
+
+            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;",
+                dbFilePath);
+            this._connection = new SqliteConnection(connectionString);
+            try
+            {
+                this._connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+
             return Status.OK;
         }
 
-        public Status export(string path)
+        public Status Export(string path)
         {
             return Status.OK;
         }
 
-        public Status import(string path)
+        public Status Import(string path)
         {
             return Status.OK;
         }
 
-        public Status get(out List<Address> adresses)
+        public Status Get(out List<Address> adresses)
         {
             adresses = new List<Address>();
 
             string sqlExpression = "SELECT (id, address) FROM addresses";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
-            using (SqliteDataReader reader = command.ExecuteReader())
+            try
             {
-                if (reader.HasRows) // если есть данные
+                SqliteDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
                 {
-                    while (reader.Read()) // построчно считываем данные
-                    {
-                        Address address = new Address
-                        {
-                            id = reader.GetInt64(0), 
-                            address = reader.GetString(1)
-                        };
-                        adresses.Add(address);
-                    }
+                    return Status.NO_ROWS;
                 }
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Address address = new Address
+                    {
+                        id = reader.GetInt64(0),
+                        address = reader.GetString(1)
+                    };
+                    adresses.Add(address);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
             }
 
             return Status.OK;
         }
 
-        public Status get(out List<Cars> cars)
+        public Status Get(out List<Car> cars)
         {
-            cars = new List<Cars>();
+            cars = new List<Car>();
             string sqlExpression = "SELECT (id, brand, number) FROM cars";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
-            using (SqliteDataReader reader = command.ExecuteReader())
-            {
-                if (reader.HasRows) // если есть данные
-                {
-                    while (reader.Read()) // построчно считываем данные
-                    {
-                        Cars car = new Cars
-                        {
-                            id = reader.GetInt64(0),
-                            brand = reader.GetString(1),
-                            number = reader.GetString(2)
-                        };
-                        cars.Add(car);
-                    }
-                }
-            }
 
-            return Status.OK;
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    return Status.NO_ROWS;
+                }
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Car car = new Car
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        number = reader.GetString(2)
+                    };
+                    cars.Add(car);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status get(out List<Gun> guns)
+        public Status Get(out List<Gun> guns)
         {
             guns = new List<Gun>();
             string sqlExpression = "SELECT (id, brand, series, number, ammo) FROM guns";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
-            using (SqliteDataReader reader = command.ExecuteReader())
+
+            try
             {
-                if (reader.HasRows) // если есть данные
+                SqliteDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
                 {
-                    while (reader.Read()) // построчно считываем данные
-                    {
-                        Gun gun = new Gun
-                        {
-                            id = reader.GetInt64(0),
-                            brand = reader.GetString(1),
-                            series = reader.GetString(2),
-                            number =  reader.GetInt64(3),
-                            ammo = reader.GetString(4)
-                        };
-                        guns.Add(gun);
-                    }
+                    return Status.NO_ROWS;
                 }
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        series = reader.GetString(2),
+                        number = reader.GetInt64(3),
+                        ammo = reader.GetString(4)
+                    };
+                    guns.Add(gun);
+                }
+
+
+                return Status.OK;
             }
-            return Status.OK;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status get(out List<Employee> employees)
+        public Status Get(out List<Employee> employees)
         {
             employees = new List<Employee>();
-            
+
             string sqlExpression = "SELECT (id, first_name, last_name, middle_name) FROM employees";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
-            using (SqliteDataReader reader = command.ExecuteReader())
+
+            try
             {
-                if (reader.HasRows) // если есть данные
+                SqliteDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
                 {
-                    while (reader.Read()) // построчно считываем данные
-                    {
-                        Employee employee = new Employee()
-                        {
-                            id = reader.GetInt64(0),
-                            firstName = reader.GetString(1),
-                            lastName = reader.GetString(2),
-                            middleName =  reader.GetString(3),
-                        };
-                        employees.Add(employee);
-                    }
+                    return Status.NO_ROWS;
                 }
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Employee employee = new Employee()
+                    {
+                        id = reader.GetInt64(0),
+                        firstName = reader.GetString(1),
+                        lastName = reader.GetString(2),
+                        middleName = reader.GetString(3),
+                    };
+                    employees.Add(employee);
+                }
+
+                return Status.OK;
             }
-            return Status.OK;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status get(out List<Orders> orders)
+        public Status Get(out List<Order> orders)
         {
-            orders = new List<Orders>();
-            return Status.OK;
+            orders = new List<Order>();
+            string sqlExpression = "SELECT (id, number, employee_id, 'date') FROM employees";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    return Status.NO_ROWS;
+                }
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Order order = new Order()
+                    {
+                        id = reader.GetInt64(0),
+                        number = reader.GetInt64(1),
+                        employeeID = reader.GetInt64(2),
+                        date = reader.GetInt64(3),
+                    };
+                    orders.Add(order);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
         // MLIST add
 
-        public Status add(Address adress)
+        public Status Add(Address adress)
         {
-            return Status.OK;
+            string sqlExpression = "INSERT INTO addresses (address) VALUES (@address)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteParameter addressParam = new SqliteParameter("@address", adress.address);
+            command.Parameters.Add(addressParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status add(Cars car)
+        public Status Add(Car car)
         {
-            return Status.OK;
+            string sqlExpression = "INSERT INTO cars (brand, number) VALUES (@brand, @number)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteParameter brandParam = new SqliteParameter("@brand", car.brand);
+            command.Parameters.Add(brandParam);
+            SqliteParameter numberParam = new SqliteParameter("@number", car.number);
+            command.Parameters.Add(numberParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status add(Gun gun)
+        public Status Add(Gun gun)
         {
-            return Status.OK;
+            string sqlExpression =
+                "INSERT INTO guns (brand, series, number, ammo) VALUES (@brand, @series, @number, @ammo)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter brandParam = new SqliteParameter("@brand", gun.brand);
+            command.Parameters.Add(brandParam);
+
+            SqliteParameter seriesParam = new SqliteParameter("@series", gun.series);
+            command.Parameters.Add(seriesParam);
+
+            SqliteParameter numberParam = new SqliteParameter("@number", gun.number);
+            command.Parameters.Add(numberParam);
+
+            SqliteParameter ammoParam = new SqliteParameter("@ammo", gun.ammo);
+            command.Parameters.Add(ammoParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status add(Employee employee)
+        public Status Add(Employee employee)
         {
-            return Status.OK;
+            string sqlExpression =
+                "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter firstNameParam = new SqliteParameter("@first_name", employee.firstName);
+            command.Parameters.Add(firstNameParam);
+
+            SqliteParameter lastNameParam = new SqliteParameter("@last_name", employee.lastName);
+            command.Parameters.Add(lastNameParam);
+
+            SqliteParameter middleNameParam = new SqliteParameter("@middle_name", employee.middleName);
+            command.Parameters.Add(middleNameParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status add(Orders order)
+        public Status Add(Order order)
         {
-            return Status.OK;
+            string sqlExpression =
+                "INSERT INTO orders (number, employee_id, date) VALUES (@number, @employee_id, @date)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter numberParam = new SqliteParameter("@number", order.number);
+            command.Parameters.Add(numberParam);
+
+            SqliteParameter employeeIdParam = new SqliteParameter("@employee_id", order.employeeID);
+            command.Parameters.Add(employeeIdParam);
+
+            SqliteParameter dateParam = new SqliteParameter("@date", order.date);
+            command.Parameters.Add(dateParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
         // add Mlist
 
-        public Status delete(Address adresse)
+        public Status Delete(Address address)
         {
-            return Status.OK;
+            string sqlExpression = "DELETE FROM addresses WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter idParam = new SqliteParameter("@id", address.id);
+            command.Parameters.Add(idParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status delete(Cars car)
+        public Status Delete(Car car)
         {
-            return Status.OK;
+            string sqlExpression = "DELETE FROM cars WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter idParam = new SqliteParameter("@id", car.id);
+            command.Parameters.Add(idParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status delete(Gun gun)
+        public Status Delete(Gun gun)
         {
-            return Status.OK;
+            string sqlExpression = "DELETE FROM guns WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter idParam = new SqliteParameter("@id", gun.id);
+            command.Parameters.Add(idParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status delete(Employee employee)
+        public Status Delete(Employee employee)
         {
-            return Status.OK;
+            string sqlExpression = "DELETE FROM employees WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter idParam = new SqliteParameter("@id", employee.id);
+            command.Parameters.Add(idParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status delete(Orders order)
+        public Status Delete(Order order)
         {
-            return Status.OK;
+            string sqlExpression = @"DELETE FROM orders WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter idParam = new SqliteParameter("@id", order.id);
+            command.Parameters.Add(idParam);
+
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
         //delete MList
