@@ -98,16 +98,25 @@ namespace MList.Storage
             string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MList\\DataBase\\mlist.db");
             string connectionString;
+            
             if (!File.Exists(dbFilePath))
             {
-                File.Create(dbFilePath);
+                try
+                {
+                    File.Create(dbFilePath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
                 connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
                     dbFilePath);
                 this._connection = new SqliteConnection(connectionString);
-                SqliteCommand command = new SqliteCommand(DbCreate.createDbSql, _connection);
+                SqliteCommand command = new SqliteCommand(DbCreate.createDbSql, this._connection);
                 try
                 {
-                    int number = command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
                     return Status.OK;
                 }
                 catch (Exception e)
