@@ -23,7 +23,7 @@ namespace MList.Storage
             public string address;
         }
 
-        public struct Cars
+        public struct Car
         {
             public long id;
             public string brand;
@@ -49,7 +49,7 @@ namespace MList.Storage
             public string middleName;
         }
 
-        public struct Orders
+        public struct Order
         {
             public long id;
             public long number;
@@ -128,9 +128,9 @@ namespace MList.Storage
             return Status.OK;
         }
 
-        public Status get(out List<Cars> cars)
+        public Status get(out List<Car> cars)
         {
-            cars = new List<Cars>();
+            cars = new List<Car>();
             string sqlExpression = "SELECT (id, brand, number) FROM cars";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
             using (SqliteDataReader reader = command.ExecuteReader())
@@ -139,7 +139,7 @@ namespace MList.Storage
                 {
                     while (reader.Read()) // построчно считываем данные
                     {
-                        Cars car = new Cars
+                        Car car = new Car
                         {
                             id = reader.GetInt64(0),
                             brand = reader.GetString(1),
@@ -205,9 +205,9 @@ namespace MList.Storage
             return Status.OK;
         }
 
-        public Status get(out List<Orders> orders)
+        public Status get(out List<Order> orders)
         {
-            orders = new List<Orders>();
+            orders = new List<Order>();
             string sqlExpression = "SELECT (id, number, employee_id, 'date') FROM employees";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
             using (SqliteDataReader reader = command.ExecuteReader())
@@ -216,7 +216,7 @@ namespace MList.Storage
                 {
                     while (reader.Read()) // построчно считываем данные
                     {
-                        Orders order = new Orders()
+                        Order order = new Order()
                         {
                             id = reader.GetInt64(0),
                             number = reader.GetInt64(1),
@@ -247,7 +247,7 @@ namespace MList.Storage
             return Status.OK;
         }
 
-        public Status add(Cars car)
+        public Status add(Car car)
         {
             string sqlExpression = "INSERT INTO cars (brand, number) VALUES (@brand, @number)";
 
@@ -315,37 +315,119 @@ namespace MList.Storage
             return Status.OK;
         }
 
-        public Status add(Orders order)
+        public Status add(Order order)
         {
+            string sqlExpression = "INSERT INTO orders (number, employee_id, date) VALUES (@number, @employee_id, @date)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
             
+            SqliteParameter numberParam = new SqliteParameter("@number", order.number);
+            command.Parameters.Add(numberParam);
+            
+            SqliteParameter employeeIdParam = new SqliteParameter("@employee_id", order.employeeID);
+            command.Parameters.Add(employeeIdParam);
+            
+            SqliteParameter dateParam = new SqliteParameter("@date", order.date);
+            command.Parameters.Add(dateParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
             
             return Status.OK;
         }
 
         // add Mlist
 
-        public Status delete(Address adresse)
+        public Status delete(Address address)
         {
+            string sqlExpression = "DELETE FROM addresses WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter idParam = new SqliteParameter("@id", address.id);
+            command.Parameters.Add(idParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
-        public Status delete(Cars car)
+        public Status delete(Car car)
         {
+            string sqlExpression = "DELETE FROM cars WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter idParam = new SqliteParameter("@id", car.id);
+            command.Parameters.Add(idParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
         public Status delete(Gun gun)
         {
+            string sqlExpression = "DELETE FROM guns WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter idParam = new SqliteParameter("@id", gun.id);
+            command.Parameters.Add(idParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
         public Status delete(Employee employee)
         {
+            string sqlExpression = "DELETE FROM employees WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter idParam = new SqliteParameter("@id", employee.id);
+            command.Parameters.Add(idParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
-        public Status delete(Orders order)
+        public Status delete(Order order)
         {
+            string sqlExpression = "DELETE FROM orders WHERE id = @id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter idParam = new SqliteParameter("@id", order.id);
+            command.Parameters.Add(idParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
