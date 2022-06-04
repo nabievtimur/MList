@@ -234,26 +234,91 @@ namespace MList.Storage
 
         public Status add(Address adress)
         {
+            string sqlExpression = "INSERT INTO addresses (address) VALUES (@address)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteParameter addressParam = new SqliteParameter("@address", adress.address);
+            command.Parameters.Add(addressParam);
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
             return Status.OK;
         }
 
         public Status add(Cars car)
         {
+            string sqlExpression = "INSERT INTO cars (brand, number) VALUES (@brand, @number)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteParameter brandParam = new SqliteParameter("@brand", car.brand);
+            command.Parameters.Add(brandParam);
+            SqliteParameter numberParam = new SqliteParameter("@number", car.number);
+            command.Parameters.Add(numberParam);
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
             return Status.OK;
         }
 
         public Status add(Gun gun)
         {
+            string sqlExpression = "INSERT INTO guns (brand, series, number, ammo) VALUES (@brand, @series, @number, @ammo)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter brandParam = new SqliteParameter("@brand", gun.brand);
+            command.Parameters.Add(brandParam);
+            
+            SqliteParameter seriesParam = new SqliteParameter("@series", gun.series);
+            command.Parameters.Add(seriesParam);
+            
+            SqliteParameter numberParam = new SqliteParameter("@number", gun.number);
+            command.Parameters.Add(numberParam);
+            
+            SqliteParameter ammoParam = new SqliteParameter("@ammo", gun.ammo);
+            command.Parameters.Add(ammoParam);
+            
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
         public Status add(Employee employee)
         {
+            string sqlExpression = "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            SqliteParameter firstNameParam = new SqliteParameter("@first_name", employee.firstName);
+            command.Parameters.Add(firstNameParam);
+            
+            SqliteParameter lastNameParam = new SqliteParameter("@last_name", employee.lastName);
+            command.Parameters.Add(lastNameParam);
+            
+            SqliteParameter middleNameParam = new SqliteParameter("@middle_name", employee.middleName);
+            command.Parameters.Add(middleNameParam);
+
+            int number = command.ExecuteNonQuery();
+            if (number == 0)
+            {
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
         public Status add(Orders order)
         {
+            
+            
             return Status.OK;
         }
 
