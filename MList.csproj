@@ -75,11 +75,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\TableFormEmployee.cs">
+    <Compile Include="Forms\CustomizeInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\TableFormEmployee.Designer.cs">
+    <Compile Include="Forms\CustomizeInputForm.Designer.cs">
+      <DependentUpon>CustomizeInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormAddresses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormAddresses.Designer.cs">
+      <DependentUpon>TableFormAddresses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormCars.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormCars.Designer.cs">
+      <DependentUpon>TableFormCars.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormEmployee.Designer.cs">
       <DependentUpon>TableFormEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormGuns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormGuns.Designer.cs">
+      <DependentUpon>TableFormGuns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormTemplate.Designer.cs">
+      <DependentUpon>TableFormTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Authorization.cs" />
     <Compile Include="Forms\InputBox.cs">
@@ -94,17 +124,21 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Attr.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\SqLiteStorage.cs" />
+    <EmbeddedResource Include="Forms\CustomizeInputForm.resx">
+      <DependentUpon>CustomizeInputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TableFormEmployee.resx">
-      <DependentUpon>TableFormEmployee.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\TableForm\TableFormTemplate.resx">
+      <DependentUpon>TableFormTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

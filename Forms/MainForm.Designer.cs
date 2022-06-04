@@ -158,18 +158,21 @@
             this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
             this.импортToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.импортToolStripMenuItem.Text = "Вооружение";
+            this.импортToolStripMenuItem.Click += new System.EventHandler(this.импортToolStripMenuItem_Click);
             // 
             // экспортToolStripMenuItem
             // 
             this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
             this.экспортToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.экспортToolStripMenuItem.Text = "Адреса";
+            this.экспортToolStripMenuItem.Click += new System.EventHandler(this.экспортToolStripMenuItem_Click);
             // 
             // очиститьБДToolStripMenuItem
             // 
             this.очиститьБДToolStripMenuItem.Name = "очиститьБДToolStripMenuItem";
             this.очиститьБДToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.очиститьБДToolStripMenuItem.Text = "Автомобили";
+            this.очиститьБДToolStripMenuItem.Click += new System.EventHandler(this.очиститьБДToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
