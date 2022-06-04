@@ -39,7 +39,7 @@ namespace MList
             {
                 if (Authorization.Status.PASSWORD_CORRECT == Authorization.login(inputBox.getResult())) // TODO password request
                 {
-                    this.базаToolStripMenuItem.Enabled = true;
+                    this.базаДанныхToolStripMenuItem.Enabled = true;
                 }
                 else
                 {
@@ -73,7 +73,7 @@ namespace MList
             {
                 if (Authorization.Status.PASSWORD_CORRECT == Authorization.login(inputBox.getResult())) // TODO password request
                 {
-                    this.базаToolStripMenuItem.Enabled = true;
+                    this.базаДанныхToolStripMenuItem.Enabled = true;
                 }
                 else
                 {

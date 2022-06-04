@@ -29,11 +29,22 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.импортToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.экспортToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.авторизацияToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.сменитьПарольToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.базаДанныхToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьБДToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.очиститьБДToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.приказыОЗакрепленияОружияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,17 +56,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.импортToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.экспортToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.авторизацияToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.сменитьПарольToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.приказыОЗакрепленияОружияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +69,69 @@
             this.menuStrip1.Size = new System.Drawing.Size(1280, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.открытьToolStripMenuItem,
+            this.импортToolStripMenuItem1,
+            this.экспортToolStripMenuItem1,
+            this.toolStripSeparator3,
+            this.авторизацияToolStripMenuItem1,
+            this.сменитьПарольToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // открытьToolStripMenuItem
+            // 
+            this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.открытьToolStripMenuItem.Text = "Открыть";
+            // 
+            // импортToolStripMenuItem1
+            // 
+            this.импортToolStripMenuItem1.Name = "импортToolStripMenuItem1";
+            this.импортToolStripMenuItem1.Size = new System.Drawing.Size(270, 22);
+            this.импортToolStripMenuItem1.Text = "Импорт";
+            // 
+            // экспортToolStripMenuItem1
+            // 
+            this.экспортToolStripMenuItem1.Name = "экспортToolStripMenuItem1";
+            this.экспортToolStripMenuItem1.Size = new System.Drawing.Size(270, 22);
+            this.экспортToolStripMenuItem1.Text = "Экспорт";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(267, 6);
+            // 
+            // авторизацияToolStripMenuItem1
+            // 
+            this.авторизацияToolStripMenuItem1.Name = "авторизацияToolStripMenuItem1";
+            this.авторизацияToolStripMenuItem1.Size = new System.Drawing.Size(270, 22);
+            this.авторизацияToolStripMenuItem1.Text = "Авторизация";
+            this.авторизацияToolStripMenuItem1.Click += new System.EventHandler(this.авторизацияToolStripMenuItem1_Click);
+            // 
+            // сменитьПарольToolStripMenuItem
+            // 
+            this.сменитьПарольToolStripMenuItem.Name = "сменитьПарольToolStripMenuItem";
+            this.сменитьПарольToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.сменитьПарольToolStripMenuItem.Text = "Сменить пароль";
+            this.сменитьПарольToolStripMenuItem.Click += new System.EventHandler(this.сменитьПарольToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(267, 6);
+            // 
+            // очиститьБазуМаршрутныхЛистовToolStripMenuItem
+            // 
+            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem.Name = "очиститьБазуМаршрутныхЛистовToolStripMenuItem";
+            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem.Text = "Очистить базу маршрутных листов";
             // 
             // базаДанныхToolStripMenuItem
             // 
@@ -107,6 +170,17 @@
             this.очиститьБДToolStripMenuItem.Name = "очиститьБДToolStripMenuItem";
             this.очиститьБДToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.очиститьБДToolStripMenuItem.Text = "Автомобили";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(248, 6);
+            // 
+            // приказыОЗакрепленияОружияToolStripMenuItem
+            // 
+            this.приказыОЗакрепленияОружияToolStripMenuItem.Name = "приказыОЗакрепленияОружияToolStripMenuItem";
+            this.приказыОЗакрепленияОружияToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.приказыОЗакрепленияОружияToolStripMenuItem.Text = "Приказы о закрепления оружия";
             // 
             // statusStrip1
             // 
@@ -200,80 +274,6 @@
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 11;
             this.label3.Text = "Поиск";
-            // 
-            // файлToolStripMenuItem
-            // 
-            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.открытьToolStripMenuItem,
-            this.импортToolStripMenuItem1,
-            this.экспортToolStripMenuItem1,
-            this.toolStripSeparator3,
-            this.авторизацияToolStripMenuItem1,
-            this.сменитьПарольToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem});
-            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.файлToolStripMenuItem.Text = "Файл";
-            // 
-            // открытьToolStripMenuItem
-            // 
-            this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.открытьToolStripMenuItem.Text = "Открыть";
-            // 
-            // импортToolStripMenuItem1
-            // 
-            this.импортToolStripMenuItem1.Name = "импортToolStripMenuItem1";
-            this.импортToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.импортToolStripMenuItem1.Text = "Импорт";
-            // 
-            // экспортToolStripMenuItem1
-            // 
-            this.экспортToolStripMenuItem1.Name = "экспортToolStripMenuItem1";
-            this.экспортToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.экспортToolStripMenuItem1.Text = "Экспорт";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
-            // 
-            // авторизацияToolStripMenuItem1
-            // 
-            this.авторизацияToolStripMenuItem1.Name = "авторизацияToolStripMenuItem1";
-            this.авторизацияToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.авторизацияToolStripMenuItem1.Text = "Авторизация";
-            this.авторизацияToolStripMenuItem1.Click += new System.EventHandler(this.авторизацияToolStripMenuItem1_Click);
-            // 
-            // сменитьПарольToolStripMenuItem
-            // 
-            this.сменитьПарольToolStripMenuItem.Name = "сменитьПарольToolStripMenuItem";
-            this.сменитьПарольToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.сменитьПарольToolStripMenuItem.Text = "Сменить пароль";
-            this.сменитьПарольToolStripMenuItem.Click += new System.EventHandler(this.сменитьПарольToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(248, 6);
-            // 
-            // приказыОЗакрепленияОружияToolStripMenuItem
-            // 
-            this.приказыОЗакрепленияОружияToolStripMenuItem.Name = "приказыОЗакрепленияОружияToolStripMenuItem";
-            this.приказыОЗакрепленияОружияToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
-            this.приказыОЗакрепленияОружияToolStripMenuItem.Text = "Приказы о закрепления оружия";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(267, 6);
-            // 
-            // очиститьБазуМаршрутныхЛистовToolStripMenuItem
-            // 
-            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem.Name = "очиститьБазуМаршрутныхЛистовToolStripMenuItem";
-            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
-            this.очиститьБазуМаршрутныхЛистовToolStripMenuItem.Text = "Очистить базу маршрутных листов";
             // 
             // MainForm
             // 

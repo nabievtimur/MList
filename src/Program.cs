@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MList.Storage;
 
 namespace MList
 {
@@ -25,6 +26,9 @@ namespace MList
                 }
             }
 
+            var st = SqLiteStorage.getInstance();
+            SqLiteStorage.Address add = new SqLiteStorage.Address();
+            add.id=5;
             Application.Run(new MainForm());
         }
     }

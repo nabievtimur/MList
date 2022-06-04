@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System;
+using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 
 namespace MList.Storage
@@ -7,6 +8,7 @@ namespace MList.Storage
     {
         private SqliteConnection _connection;
         private static SqLiteStorage instance;
+
         public enum Status
         {
             OK,
@@ -16,37 +18,39 @@ namespace MList.Storage
 
         public struct Address
         {
-            private int id;
+            public long id;
             public string address;
         }
 
         public struct Cars
         {
-            private int id;
+            public long id;
             public string brand;
             public string number;
+
+            // public Cars()
         }
 
         public struct Gun
         {
-            private int id;
+            public long id;
             public string brand;
             public string series;
-            public int number;
+            public long number;
             public string ammo;
         }
 
         public struct Employee
         {
-            private int id;
+            public long id;
             public string firstName;
-            public string secondName;
+            public string lastName;
             public string middleName;
         }
 
         public struct Orders
         {
-            private int id;
+            public long id;
             public int number;
             public int employeeId;
             public int date;
@@ -54,21 +58,23 @@ namespace MList.Storage
 
         public struct MList
         {
-            private int id;
-            public int dateCreate;
-            public int dateBegin;
-            public int dateEnd;
-            public int dateCoach;
-            public int datePassGun;
-            public int datePring;
+            public long id;
+            public long dateCreate;
+            public long dateBegin;
+            public long dateEnd;
+            public long dateCoach;
+            public long datePassGun;
+            public long datePring;
             public string notes;
-            public int timeDeep;
-            public int timeArrive;
-            public int timePassGun;
-            public int numberMlist;
+            public long timeDeep;
+            public long timeArrive;
+            public long timePassGun;
+            public long numberMlist;
         }
 
-        private SqLiteStorage() { }
+        private SqLiteStorage()
+        {
+        }
 
         public static SqLiteStorage getInstance()
         {
@@ -88,37 +94,113 @@ namespace MList.Storage
 
         public Status export(string path)
         {
-            
             return Status.OK;
         }
 
         public Status import(string path)
         {
-            
             return Status.OK;
         }
 
         public Status get(out List<Address> adresses)
         {
             adresses = new List<Address>();
+
+            string sqlExpression = "SELECT (id, address) FROM addresses";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Address address = new Address
+                        {
+                            id = reader.GetInt64(0), 
+                            address = reader.GetString(1)
+                        };
+                        adresses.Add(address);
+                    }
+                }
+            }
+
             return Status.OK;
         }
 
         public Status get(out List<Cars> cars)
         {
             cars = new List<Cars>();
+            string sqlExpression = "SELECT (id, brand, number) FROM cars";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Cars car = new Cars
+                        {
+                            id = reader.GetInt64(0),
+                            brand = reader.GetString(1),
+                            number = reader.GetString(2)
+                        };
+                        cars.Add(car);
+                    }
+                }
+            }
+
             return Status.OK;
         }
 
         public Status get(out List<Gun> guns)
         {
             guns = new List<Gun>();
+            string sqlExpression = "SELECT (id, brand, series, number, ammo) FROM guns";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Gun gun = new Gun
+                        {
+                            id = reader.GetInt64(0),
+                            brand = reader.GetString(1),
+                            series = reader.GetString(2),
+                            number =  reader.GetInt64(3),
+                            ammo = reader.GetString(4)
+                        };
+                        guns.Add(gun);
+                    }
+                }
+            }
             return Status.OK;
         }
 
         public Status get(out List<Employee> employees)
         {
             employees = new List<Employee>();
+            
+            string sqlExpression = "SELECT (id, first_name, last_name, middle_name) FROM employees";
+            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            using (SqliteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Employee employee = new Employee()
+                        {
+                            id = reader.GetInt64(0),
+                            firstName = reader.GetString(1),
+                            lastName = reader.GetString(2),
+                            middleName =  reader.GetString(3),
+                        };
+                        employees.Add(employee);
+                    }
+                }
+            }
             return Status.OK;
         }
 
