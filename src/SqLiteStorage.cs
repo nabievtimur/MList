@@ -85,7 +85,7 @@ namespace MList.Storage
             return instance;
         }
 
-        public Status initConnection()
+        public Status InitConnection()
         {
             string dbFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MList\\DataBase");
@@ -101,19 +101,18 @@ namespace MList.Storage
 
             if (!File.Exists(dbFilePath))
             {
+                connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
+                    dbFilePath);
+                this._connection = new SqliteConnection(connectionString);
                 try
                 {
-                    File.Create(dbFilePath);
+                    this._connection.Open();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
-                    dbFilePath);
-                this._connection = new SqliteConnection(connectionString);
                 SqliteCommand command = new SqliteCommand(DbCreate.createDbSql, this._connection);
                 try
                 {
@@ -127,29 +126,32 @@ namespace MList.Storage
                 }
             }
 
-            connectionString =
-                string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;", dbFilePath);
+            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;", 
+                dbFilePath);
             this._connection = new SqliteConnection(connectionString);
-
-            // string connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadOnly;", dbFilePath);
-            // получить путь /*Users*/Public/MList/BD
-            // проверить есть ли бд
-            // создать или открыть
-            // 
+            try
+            {
+                this._connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
             return Status.OK;
         }
 
-        public Status export(string path)
+        public Status Export(string path)
         {
             return Status.OK;
         }
 
-        public Status import(string path)
+        public Status Import(string path)
         {
             return Status.OK;
         }
 
-        public Status get(out List<Address> adresses)
+        public Status Get(out List<Address> adresses)
         {
             adresses = new List<Address>();
 
@@ -182,7 +184,7 @@ namespace MList.Storage
             return Status.OK;
         }
 
-        public Status get(out List<Car> cars)
+        public Status Get(out List<Car> cars)
         {
             cars = new List<Car>();
             string sqlExpression = "SELECT (id, brand, number) FROM cars";
@@ -216,7 +218,7 @@ namespace MList.Storage
             }
         }
 
-        public Status get(out List<Gun> guns)
+        public Status Get(out List<Gun> guns)
         {
             guns = new List<Gun>();
             string sqlExpression = "SELECT (id, brand, series, number, ammo) FROM guns";
@@ -253,7 +255,7 @@ namespace MList.Storage
             }
         }
 
-        public Status get(out List<Employee> employees)
+        public Status Get(out List<Employee> employees)
         {
             employees = new List<Employee>();
 
@@ -289,7 +291,7 @@ namespace MList.Storage
             }
         }
 
-        public Status get(out List<Order> orders)
+        public Status Get(out List<Order> orders)
         {
             orders = new List<Order>();
             string sqlExpression = "SELECT (id, number, employee_id, 'date') FROM employees";
@@ -326,7 +328,7 @@ namespace MList.Storage
 
         // MLIST add
 
-        public Status add(Address adress)
+        public Status Add(Address adress)
         {
             string sqlExpression = "INSERT INTO addresses (address) VALUES (@address)";
 
@@ -351,7 +353,7 @@ namespace MList.Storage
             }
         }
 
-        public Status add(Car car)
+        public Status Add(Car car)
         {
             string sqlExpression = "INSERT INTO cars (brand, number) VALUES (@brand, @number)";
 
@@ -378,7 +380,7 @@ namespace MList.Storage
             }
         }
 
-        public Status add(Gun gun)
+        public Status Add(Gun gun)
         {
             string sqlExpression =
                 "INSERT INTO guns (brand, series, number, ammo) VALUES (@brand, @series, @number, @ammo)";
@@ -414,7 +416,7 @@ namespace MList.Storage
             }
         }
 
-        public Status add(Employee employee)
+        public Status Add(Employee employee)
         {
             string sqlExpression =
                 "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)";
@@ -447,7 +449,7 @@ namespace MList.Storage
             }
         }
 
-        public Status add(Order order)
+        public Status Add(Order order)
         {
             string sqlExpression =
                 "INSERT INTO orders (number, employee_id, date) VALUES (@number, @employee_id, @date)";
@@ -482,7 +484,7 @@ namespace MList.Storage
 
         // add Mlist
 
-        public Status delete(Address address)
+        public Status Delete(Address address)
         {
             string sqlExpression = "DELETE FROM addresses WHERE id = @id)";
 
@@ -508,7 +510,7 @@ namespace MList.Storage
             }
         }
 
-        public Status delete(Car car)
+        public Status Delete(Car car)
         {
             string sqlExpression = "DELETE FROM cars WHERE id = @id)";
 
@@ -534,7 +536,7 @@ namespace MList.Storage
             }
         }
 
-        public Status delete(Gun gun)
+        public Status Delete(Gun gun)
         {
             string sqlExpression = "DELETE FROM guns WHERE id = @id)";
 
@@ -560,7 +562,7 @@ namespace MList.Storage
             }
         }
 
-        public Status delete(Employee employee)
+        public Status Delete(Employee employee)
         {
             string sqlExpression = "DELETE FROM employees WHERE id = @id)";
 
@@ -586,7 +588,7 @@ namespace MList.Storage
             }
         }
 
-        public Status delete(Order order)
+        public Status Delete(Order order)
         {
             string sqlExpression = @"DELETE FROM orders WHERE id = @id)";
 
