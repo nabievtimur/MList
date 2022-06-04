@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MList.Storage
 {
@@ -86,6 +87,36 @@ namespace MList.Storage
 
         public Status initConnection()
         {
+            string dbFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MList\\DataBase");
+            Console.WriteLine(dbFolderPath);
+            if (!Directory.Exists(dbFolderPath))
+            {
+                Directory.CreateDirectory(dbFolderPath);
+            }
+            string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MList\\DataBase\\mlist.db");
+            string connectionString;
+            if (!File.Exists(dbFilePath))
+            {
+                File.Create(dbFilePath);
+                connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;", dbFilePath);
+                this._connection = new SqliteConnection(connectionString);
+                SqliteCommand command = new SqliteCommand(DbCreate.createDbSql, _connection);
+                try
+                {
+                    int number = command.ExecuteNonQuery();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    // throw;
+                    return Status.ERROR;
+                }
+            }
+            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;", dbFilePath);
+            this._connection = new SqliteConnection(connectionString);
+
+            // string connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadOnly;", dbFilePath);
             // получить путь /*Users*/Public/MList/BD
             // проверить есть ли бд
             // создать или открыть
@@ -415,7 +446,7 @@ namespace MList.Storage
 
         public Status delete(Order order)
         {
-            string sqlExpression = "DELETE FROM orders WHERE id = @id)";
+            string sqlExpression = @"DELETE FROM orders WHERE id = @id)";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
             
