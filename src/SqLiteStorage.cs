@@ -98,7 +98,7 @@ namespace MList.Storage
             string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MList\\DataBase\\mlist.db");
             string connectionString;
-            
+
             if (!File.Exists(dbFilePath))
             {
                 try
@@ -110,6 +110,7 @@ namespace MList.Storage
                     Console.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
+
                 connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
                     dbFilePath);
                 this._connection = new SqliteConnection(connectionString);
