@@ -20,7 +20,7 @@ namespace MList.Forms
 
         public Storage.SqLiteStorage.Status init()
         {
-            return Storage.SqLiteStorage.getInstance().get(out this.list);
+            return Storage.SqLiteStorage.getInstance().Get(out this.list);
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -66,12 +66,14 @@ namespace MList.Storage
             public long dateEnd;
             public long dateCoach;
             public long datePassGun;
-            public long datePring;
+            public long datePrint;
             public string notes;
             public long timeDeep;
             public long timeArrive;
             public long timePassGun;
             public long numberMlist;
+            public long employeeID;
+            public string employeeFullName;
         }
 
         private SqLiteStorage()
@@ -151,6 +153,155 @@ namespace MList.Storage
         public Status Import(string path)
         {
             return Status.OK;
+        }
+
+        public Status GetCurrent(MList mlist, out List<Car> cars, out List<Gun> guns, out List<Address> arriveAddresses,
+            out List<Address> deepAddresses)
+        {
+            cars = new List<Car>();
+            guns = new List<Gun>();
+            arriveAddresses = new List<Address>();
+            deepAddresses = new List<Address>();
+
+
+            string sqlExpression = @"
+select cr.id, cr.brand, cr.number
+from cars as cr
+         join mlist_cars mc on cr.id = mc.car_id
+where mc.mlist_id = @mlist_id
+";
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+
+            SqliteParameter mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
+            command.Parameters.Add(mlistIdParam);
+
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Car car = new Car
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        number = reader.GetString(2)
+                    };
+                    cars.Add(car);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+
+            sqlExpression = @"
+select gn.id, gn.number, gn.brand, gn.series, gn.ammo
+from guns as gn
+         join mlist_gun mg on gn.id = mg.gun_id
+where mg.mlist_id = @mlist_id
+";
+            command = new SqliteCommand(sqlExpression, this._connection);
+
+            mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
+            command.Parameters.Add(mlistIdParam);
+            
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(2),
+                        series = reader.GetString(3),
+                        number = reader.GetInt64(1),
+                        ammo = reader.GetString(4)
+                    };
+                    guns.Add(gun);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+
+            return Status.OK;
+        }
+
+        public Status Get(out List<MList> mlists)
+        {
+            mlists = new List<MList>();
+
+            // string sqlExpression = "SELECT (ml.id, ml.num_mlist, ml.date_create, ml.date_begin, ml.date_end, ml.coach_date, ml.pass_gun_date, ml.pass_gun_time, ml.print_date, ml.notes, ml.arrive_time, ml.deep_time) FROM mlist as ml";
+            string sqlExpression = @"
+select ml.id,
+       ml.num_mlist,
+       ml.date_create,
+       ml.date_begin,
+       ml.date_end,
+       ml.coach_date,
+       ml.pass_gun_date,
+       ml.pass_gun_time,
+       ml.print_date,
+       ml.notes,
+       ml.arrive_time,
+       ml.deep_time,
+       e.id,
+       e.last_name,
+       e.first_name,
+       e.middle_name
+from mlist as ml
+         JOIN mlist_employees me on ml.id = me.mlist_id
+         JOIN employees e on e.id = me.employee_id;
+";
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    return Status.NO_ROWS;
+                }
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    MList mList = new MList
+                    {
+                        id = reader.GetInt64(0),
+                        dateCreate = reader.GetInt64(2),
+                        dateBegin = reader.GetInt64(3),
+                        dateEnd = reader.GetInt64(4),
+                        dateCoach = reader.GetInt64(5),
+                        datePassGun = reader.GetInt64(6),
+                        datePrint = reader.GetInt64(8),
+                        notes = reader.GetString(9),
+                        timeDeep = reader.GetInt64(11),
+                        timeArrive = reader.GetInt64(10),
+                        timePassGun = reader.GetInt64(7),
+                        numberMlist = reader.GetInt64(1),
+                        employeeID = reader.GetInt64(12),
+                        employeeFullName = string.Format(
+                            "{0} {1} {2}",
+                            reader.GetString(13),
+                            reader.GetString(14),
+                            reader.GetString(15)
+                        )
+                    };
+                    mlists.Add(mList);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
         public Status Get(out List<Address> adresses)
