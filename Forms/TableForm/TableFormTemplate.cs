@@ -42,5 +42,16 @@ namespace MList.Forms
         {
 
         }
+        protected DataGridView getGrid() { return this.dataGridView1; } 
+
+        // virtual
+        protected void add(List<string> result) { }
+        protected void change(List<string> result) { }
+        protected void delete() { }
+        protected void updateGrid() { }
+        private void TableFormTemplate_Load(object sender, EventArgs e)
+        {
+            this.updateGrid();
+        }
     }
 }

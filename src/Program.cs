@@ -25,10 +25,7 @@ namespace MList
                     return;
                 }
             }
-
-            var st = SqLiteStorage.getInstance();
-            SqLiteStorage.Address add = new SqLiteStorage.Address();
-            add.id=5;
+            SqLiteStorage.getInstance().InitConnection();
             Application.Run(new MainForm());
         }
     }

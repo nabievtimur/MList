@@ -95,15 +95,15 @@ namespace MList.Storage
                 Directory.CreateDirectory(dbFolderPath);
             }
 
-            string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            string dbFilePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MList\\DataBase\\mlist.db");
-            string connectionString;
 
             if (!File.Exists(dbFilePath))
             {
-                connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
-                    dbFilePath);
-                this._connection = new SqliteConnection(connectionString);
+                this._connection = new SqliteConnection(
+                    string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
+                    dbFilePath));
                 try
                 {
                     this._connection.Open();
@@ -127,9 +127,9 @@ namespace MList.Storage
                 }
             }
 
-            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;",
-                dbFilePath);
-            this._connection = new SqliteConnection(connectionString);
+            this._connection = new SqliteConnection(
+                string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;", 
+                dbFilePath));
             try
             {
                 this._connection.Open();
@@ -389,22 +389,14 @@ namespace MList.Storage
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
-            SqliteParameter brandParam = new SqliteParameter("@brand", gun.brand);
-            command.Parameters.Add(brandParam);
-
-            SqliteParameter seriesParam = new SqliteParameter("@series", gun.series);
-            command.Parameters.Add(seriesParam);
-
-            SqliteParameter numberParam = new SqliteParameter("@number", gun.number);
-            command.Parameters.Add(numberParam);
-
-            SqliteParameter ammoParam = new SqliteParameter("@ammo", gun.ammo);
-            command.Parameters.Add(ammoParam);
+            command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
+            command.Parameters.Add(new SqliteParameter("@series", gun.series));
+            command.Parameters.Add(new SqliteParameter("@number", gun.number));
+            command.Parameters.Add(new SqliteParameter("@ammo", gun.ammo));
 
             try
             {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
+                if (command.ExecuteNonQuery() == 0)
                 {
                     return Status.ERROR;
                 }

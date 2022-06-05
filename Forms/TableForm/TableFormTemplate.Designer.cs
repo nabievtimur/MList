@@ -105,6 +105,7 @@
             this.Controls.Add(this.button1);
             this.Name = "TableFormTemplate";
             this.Text = "TableFormTemplate";
+            this.Load += new System.EventHandler(this.TableFormTemplate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
