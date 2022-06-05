@@ -56,6 +56,7 @@ namespace MList.Storage
             public long number;
             public long employeeID;
             public long date;
+            public string employeeFullName;
         }
 
         public struct MList
@@ -95,19 +96,26 @@ namespace MList.Storage
             if (!Directory.Exists(dbFolderPath))
             {
                 Directory.CreateDirectory(dbFolderPath);
+                try
+                {
+                    Directory.CreateDirectory(dbFolderPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
             }
 
             string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MList\\DataBase\\mlist.db");
-            string connectionString;
 
             if (!File.Exists(dbFilePath))
             {
-                connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
-                    dbFilePath);
-                this._connection = new SqliteConnection(connectionString);
                 try
                 {
+                    this._connection = new SqliteConnection(string.Format("Data Source={0};Cache=Shared;Mode=ReadWriteCreate;Foreign Keys=True;",
+                        dbFilePath));
                     this._connection.Open();
                 }
                 catch (Exception e)
@@ -128,10 +136,8 @@ namespace MList.Storage
                     return Status.ERROR;
                 }
             }
-
-            connectionString = string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;",
-                dbFilePath);
-            this._connection = new SqliteConnection(connectionString);
+            this._connection = new SqliteConnection(string.Format("Data Source={0};Cache=Shared;Mode=ReadWrite;Foreign Keys=True;",
+                dbFilePath));
             try
             {
                 this._connection.Open();
@@ -155,6 +161,51 @@ namespace MList.Storage
             return Status.OK;
         }
 
+        public Status GetCurrent(Order order, out List<Gun> guns)
+        {
+            guns = new List<Gun>();
+
+            string sqlExpression = @"
+select gn.id,
+       gn.number,
+       gn.ammo,
+       gn.series,
+       gn.brand
+from guns as gn
+         join order_gun og on gn.id = og.gun_id
+where og.order_id = @order_id
+";
+            
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteParameter mlistIdParam = new SqliteParameter("@order_id", order.id);
+            command.Parameters.Add(mlistIdParam);
+            
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        series = reader.GetString(3),
+                        number = reader.GetInt64(4),
+                        ammo = reader.GetString(5)
+                    };
+                    guns.Add(gun);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+        }
+        
         public Status GetCurrent(MList mlist, out List<Car> cars, out List<Gun> guns, out List<Address> arriveAddresses,
             out List<Address> deepAddresses)
         {
@@ -230,6 +281,71 @@ where mg.mlist_id = @mlist_id
                 return Status.ERROR;
             }
 
+            sqlExpression = @"
+select ad.id,
+       ad.address
+from addresses as ad
+         join mlist_arrive_address maa on ad.id = maa.arrive_address_id
+where maa.mlist_id = @mlist_id
+";
+            
+            command = new SqliteCommand(sqlExpression, this._connection);
+
+            mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
+            command.Parameters.Add(mlistIdParam);
+            
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Address address = new Address
+                    {
+                        id = reader.GetInt64(0),
+                        address = reader.GetString(1)
+                    };
+                    arriveAddresses.Add(address);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+
+            sqlExpression = @"
+select ad.id,
+       ad.address
+from addresses as ad
+         join mlist_deep_address mda on ad.id = mda.deep_address_id
+where mda.mlist_id = @mlist_id
+";
+            command = new SqliteCommand(sqlExpression, this._connection);
+
+            mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
+            command.Parameters.Add(mlistIdParam);
+            
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Address address = new Address
+                    {
+                        id = reader.GetInt64(0),
+                        address = reader.GetString(1)
+                    };
+                    deepAddresses.Add(address);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+            
             return Status.OK;
         }
 
@@ -447,7 +563,18 @@ from mlist as ml
         public Status Get(out List<Order> orders)
         {
             orders = new List<Order>();
-            string sqlExpression = "SELECT (id, number, employee_id, 'date') FROM employees";
+            string sqlExpression = @"
+select od.id,
+       od.number,
+       od.date,
+       e.id,
+       e.last_name,
+       e.first_name,
+       e.middle_name
+from orders as od
+         join orders_employees oe on od.id = oe.order_id
+         join employees e on e.id = oe.employee_id
+         ";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
 
             try
@@ -464,8 +591,14 @@ from mlist as ml
                     {
                         id = reader.GetInt64(0),
                         number = reader.GetInt64(1),
-                        employeeID = reader.GetInt64(2),
-                        date = reader.GetInt64(3),
+                        date = reader.GetInt64(2),
+                        employeeID = reader.GetInt64(3),
+                        employeeFullName = string.Format(
+                            "{0} {1} {2}",
+                            reader.GetString(4),
+                            reader.GetString(5),
+                            reader.GetString(6)
+                        )
                     };
                     orders.Add(order);
                 }
@@ -633,6 +766,45 @@ from mlist as ml
                 Console.WriteLine(e.ToString());
                 return Status.ERROR;
             }
+        }
+        
+        public Status Add(long orderID, long employeeID, long gunID)
+        {
+            string sqlExpression =
+                "insert into order_gun (order_id, gun_id) VALUES (@order_id, @gun_id)";
+
+            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            
+            command.Parameters.Add(new SqliteParameter("@order_id", orderID));
+            command.Parameters.Add(new SqliteParameter("@gun_id", gunID));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0) return Status.ERROR;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+
+            sqlExpression = "insert into orders_employees (order_id, employee_id) VALUES (@order_id, @employee_id)";
+            command = new SqliteCommand(sqlExpression, this._connection);
+            
+            command.Parameters.Add(new SqliteParameter("@order_id", orderID));
+            command.Parameters.Add(new SqliteParameter("@employee_id", employeeID));
+            
+            try
+            {
+                if (command.ExecuteNonQuery() == 0) return Status.ERROR;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+            
+            return Status.OK;
         }
 
         // add Mlist
