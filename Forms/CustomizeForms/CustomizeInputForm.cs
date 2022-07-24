@@ -74,7 +74,7 @@ namespace MList.Forms
             if (edited)
                 this.button1.Enabled = true;
             else
-                this.button2.Enabled = false;
+                this.button1.Enabled = false;
         }
     }
 }

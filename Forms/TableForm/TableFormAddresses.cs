@@ -80,7 +80,6 @@ namespace MList.Forms.TableForm
 
             this.Text = "Адреса";
             this.items = new List<Tuple<SqLiteStorage.Address, int>>();
-            this.updateGrid();
         }
         protected override CustomizeInputForm getAddForm()
         {
@@ -112,12 +111,16 @@ namespace MList.Forms.TableForm
         {
             System.Diagnostics.Debug.WriteLine("enter TableFormAddress::updateGrid");
             List<SqLiteStorage.Address> list = new List<SqLiteStorage.Address>();
-            if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Get(out list))
+            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
+            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
             {
-                MessageBox.Show(
+                if (status != SqLiteStorage.Status.NO_ROWS)
+                {
+                    MessageBox.Show(
                     "Ошибка",
                     "Чтение из базы данных",
                     MessageBoxButtons.OK);
+                }
             }
 
             this.items.Clear();
@@ -126,7 +129,8 @@ namespace MList.Forms.TableForm
             {
                 this.items.Add(new Tuple<SqLiteStorage.Address, int>(addr, i));
                 System.Diagnostics.Debug.WriteLine(addr.address);
-                this.dataGridView1.Rows.Add();
+                if (i >= dataGridView1.Rows.Count)
+                    this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = addr.address;
                 i++;
             }

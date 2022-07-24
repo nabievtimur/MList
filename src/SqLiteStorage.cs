@@ -84,9 +84,10 @@ namespace MList.Storage
         }
         public Status InitConnection()
         {
-            string dbFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            string dbFolderPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MList\\DataBase");
-            Console.WriteLine(dbFolderPath);
+            System.Diagnostics.Debug.WriteLine(dbFolderPath);
             if (!Directory.Exists(dbFolderPath))
             {
                 Directory.CreateDirectory(dbFolderPath);
@@ -96,7 +97,7 @@ namespace MList.Storage
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
             }
@@ -116,7 +117,7 @@ namespace MList.Storage
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
 
@@ -128,7 +129,7 @@ namespace MList.Storage
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
             }
@@ -142,7 +143,7 @@ namespace MList.Storage
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
 
@@ -197,7 +198,7 @@ where og.order_id = @order_id
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -236,7 +237,7 @@ where og.order_id = @order_id
 //             }
 //             catch (Exception e)
 //             {
-//                 Console.WriteLine(e.ToString());
+//                 System.Diagnostics.Debug.WriteLine(e.ToString());
 //                 return Status.ERROR;
 //             }
 //             
@@ -265,7 +266,7 @@ where og.order_id = @order_id
 //             }
 //             catch (Exception e)
 //             {
-//                 Console.WriteLine(e.ToString());
+//                 System.Diagnostics.Debug.WriteLine(e.ToString());
 //                 return Status.ERROR;
 //             }
 //             
@@ -293,7 +294,7 @@ where og.order_id = @order_id
 //             }
 //             catch (Exception e)
 //             {
-//                 Console.WriteLine(e.ToString());
+//                 System.Diagnostics.Debug.WriteLine(e.ToString());
 //                 return Status.ERROR;
 //             }
 //         }
@@ -335,7 +336,7 @@ where mc.mlist_id = @mlist_id
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
 
@@ -369,7 +370,7 @@ where mg.mlist_id = @mlist_id
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
 
@@ -402,7 +403,7 @@ where maa.mlist_id = @mlist_id
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
 
@@ -434,7 +435,7 @@ where mda.mlist_id = @mlist_id
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
 
@@ -507,7 +508,7 @@ from mlist as ml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -516,7 +517,7 @@ from mlist as ml
         {
             adresses = new List<Address>();
 
-            string sqlExpression = "SELECT (id, address) FROM addresses";
+            string sqlExpression = "SELECT id, address FROM addresses";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
             try
             {
@@ -538,7 +539,7 @@ from mlist as ml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
 
@@ -547,7 +548,7 @@ from mlist as ml
         public Status Get(out List<Car> cars)
         {
             cars = new List<Car>();
-            string sqlExpression = "SELECT (id, brand, number) FROM cars";
+            string sqlExpression = "SELECT id, brand, number FROM cars";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
 
             try
@@ -573,14 +574,14 @@ from mlist as ml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
         public Status Get(out List<Gun> guns)
         {
             guns = new List<Gun>();
-            string sqlExpression = "SELECT (id, brand, series, number, ammo) FROM guns";
+            string sqlExpression = "SELECT id, brand, series, number, ammo FROM guns";
             SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
 
             try
@@ -609,7 +610,7 @@ from mlist as ml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -617,7 +618,7 @@ from mlist as ml
         {
             employees = new List<Employee>();
             SqliteCommand command = new SqliteCommand(
-                "SELECT (id, first_name, last_name, middle_name) FROM employees", 
+                "SELECT id, first_name, last_name, middle_name FROM employees", 
                 _connection);
 
             try
@@ -644,7 +645,7 @@ from mlist as ml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -695,7 +696,7 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -724,7 +725,7 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -750,7 +751,7 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -776,7 +777,7 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -807,14 +808,14 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
         public Status Add(Order order)
         {
             string sqlExpression =
-                "INSERT INTO orders (number, employee_id, date) VALUES (@number, @employee_id, @date)";
+                "INSERT INTO orders number, employee_id, date VALUES @number, @employee_id, @date";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
@@ -839,7 +840,7 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
@@ -875,7 +876,7 @@ from orders as od
         // delete Mlist
         public Status Delete(Address address)
         {
-            string sqlExpression = "DELETE FROM addresses WHERE id = @id)";
+            string sqlExpression = "DELETE FROM addresses WHERE id = @id";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
@@ -894,13 +895,13 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
         public Status Delete(Car car)
         {
-            string sqlExpression = "DELETE FROM cars WHERE id = @id)";
+            string sqlExpression = "DELETE FROM cars WHERE id = @id";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
@@ -919,13 +920,13 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
         public Status Delete(Gun gun)
         {
-            string sqlExpression = "DELETE FROM guns WHERE id = @id)";
+            string sqlExpression = "DELETE FROM guns WHERE id = @id";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
@@ -944,13 +945,13 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
         public Status Delete(Employee employee)
         {
-            string sqlExpression = "DELETE FROM employees WHERE id = @id)";
+            string sqlExpression = "DELETE FROM employees WHERE id = @id";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
@@ -969,13 +970,13 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }
         public Status Delete(Order order)
         {
-            string sqlExpression = @"DELETE FROM orders WHERE id = @id)";
+            string sqlExpression = @"DELETE FROM orders WHERE id = @id";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
@@ -994,7 +995,7 @@ from orders as od
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
         }

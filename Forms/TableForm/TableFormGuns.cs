@@ -115,7 +115,6 @@ namespace MList.Forms.TableForm
 
             this.Text = "Оружие";
             this.items = new List<Tuple<SqLiteStorage.Gun, int>>();
-            this.updateGrid();
         }
         protected override CustomizeInputForm getAddForm()
         {
@@ -153,12 +152,16 @@ namespace MList.Forms.TableForm
         {
             System.Diagnostics.Debug.WriteLine("enter TableFormAddress::updateGrid");
             List<SqLiteStorage.Gun> list = new List<SqLiteStorage.Gun>();
-            if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Get(out list))
+            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
+            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
             {
-                MessageBox.Show(
+                if (status != SqLiteStorage.Status.NO_ROWS)
+                {
+                    MessageBox.Show(
                     "Ошибка",
                     "Чтение из базы данных",
                     MessageBoxButtons.OK);
+                }
             }
 
             this.items.Clear();
@@ -171,7 +174,8 @@ namespace MList.Forms.TableForm
                     gun.series + " " + 
                     gun.number + " " + 
                     gun.ammo);
-                this.dataGridView1.Rows.Add();
+                if (i >= dataGridView1.Rows.Count)
+                    this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
                 this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
                 this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
