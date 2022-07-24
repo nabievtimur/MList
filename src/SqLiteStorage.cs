@@ -202,101 +202,101 @@ where og.order_id = @order_id
             }
         }
 
-        public Status GetDataFoMlistByEmployee(
-            Employee employee,
-            out List<Car> cars,
-            out List<Gun> guns,
-            out List<Address> addresses
-        )
-        {
-            cars = new List<Car>();
-            guns = new List<Gun>();
-            addresses = new List<Address>();
-            
-            string sqlExpression = @"
-select cr.id, cr.brand, cr.number
-from cars as cr;
-";
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            try
-            {
-                SqliteDataReader reader = command.ExecuteReader();
-
-                while (reader.Read()) // построчно считываем данные
-                {
-                    Car car = new Car
-                    {
-                        id = reader.GetInt64(0),
-                        brand = reader.GetString(1),
-                        number = reader.GetString(2)
-                    };
-                    cars.Add(car);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
-            
-            sqlExpression = @"
-select gn.id, gn.number, gn.brand, gn.series, gn.ammo
-from guns as gn
-";
-            command = new SqliteCommand(sqlExpression, this._connection);
-            
-            try
-            {
-                SqliteDataReader reader = command.ExecuteReader();
-
-                while (reader.Read()) // построчно считываем данные
-                {
-                    Gun gun = new Gun
-                    {
-                        id = reader.GetInt64(0),
-                        brand = reader.GetString(2),
-                        series = reader.GetString(3),
-                        number = reader.GetInt64(1),
-                        ammo = reader.GetString(4)
-                    };
-                    guns.Add(gun);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
-            
-            sqlExpression = @"
-select ad.id,
-       ad.address
-from addresses as ad
-";
-
-            command = new SqliteCommand(sqlExpression, this._connection);
-
-            try
-            {
-                SqliteDataReader reader = command.ExecuteReader();
-
-                while (reader.Read()) // построчно считываем данные
-                {
-                    Address address = new Address
-                    {
-                        id = reader.GetInt64(0),
-                        address = reader.GetString(1)
-                    };
-                    addresses.Add(address);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
-        }
+//         public Status GetDataFoMlistByEmployee(
+//             Employee employee,
+//             out List<Car> cars,
+//             out List<Gun> guns,
+//             out List<Address> addresses
+//         )
+//         {
+//             cars = new List<Car>();
+//             guns = new List<Gun>();
+//             addresses = new List<Address>();
+//             
+//             string sqlExpression = @"
+// select cr.id, cr.brand, cr.number
+// from cars as cr;
+// ";
+//             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+//
+//             try
+//             {
+//                 SqliteDataReader reader = command.ExecuteReader();
+//
+//                 while (reader.Read()) // построчно считываем данные
+//                 {
+//                     Car car = new Car
+//                     {
+//                         id = reader.GetInt64(0),
+//                         brand = reader.GetString(1),
+//                         number = reader.GetString(2)
+//                     };
+//                     cars.Add(car);
+//                 }
+//             }
+//             catch (Exception e)
+//             {
+//                 Console.WriteLine(e.ToString());
+//                 return Status.ERROR;
+//             }
+//             
+//             sqlExpression = @"
+// select gn.id, gn.number, gn.brand, gn.series, gn.ammo
+// from guns as gn
+// ";
+//             command = new SqliteCommand(sqlExpression, this._connection);
+//             
+//             try
+//             {
+//                 SqliteDataReader reader = command.ExecuteReader();
+//
+//                 while (reader.Read()) // построчно считываем данные
+//                 {
+//                     Gun gun = new Gun
+//                     {
+//                         id = reader.GetInt64(0),
+//                         brand = reader.GetString(2),
+//                         series = reader.GetString(3),
+//                         number = reader.GetInt64(1),
+//                         ammo = reader.GetString(4)
+//                     };
+//                     guns.Add(gun);
+//                 }
+//             }
+//             catch (Exception e)
+//             {
+//                 Console.WriteLine(e.ToString());
+//                 return Status.ERROR;
+//             }
+//             
+//             sqlExpression = @"
+// select ad.id,
+//        ad.address
+// from addresses as ad
+// ";
+//
+//             command = new SqliteCommand(sqlExpression, this._connection);
+//
+//             try
+//             {
+//                 SqliteDataReader reader = command.ExecuteReader();
+//
+//                 while (reader.Read()) // построчно считываем данные
+//                 {
+//                     Address address = new Address
+//                     {
+//                         id = reader.GetInt64(0),
+//                         address = reader.GetString(1)
+//                     };
+//                     addresses.Add(address);
+//                 }
+//             }
+//             catch (Exception e)
+//             {
+//                 Console.WriteLine(e.ToString());
+//                 return Status.ERROR;
+//             }
+//         }
 
         public Status GetCurrent(MList mlist, out List<Car> cars, out List<Gun> guns, out List<Address> arriveAddresses,
             out List<Address> deepAddresses)
@@ -704,10 +704,6 @@ from orders as od
                 return Status.ERROR;
             }
         }
-        public Status Get(out List<MList> orders)
-        {
-            throw new NotImplementedException();
-        }
         public Status GetByEmployee(Employee emp, out List<Gun> orders)
         {
             throw new NotImplementedException();
@@ -859,60 +855,7 @@ from orders as od
         // Mlist update
         public Status Update(Address adress)
         {
-            SqliteCommand command = new SqliteCommand(
-                "INSERT INTO addresses (address) VALUES (@address)",
-                this._connection);
-            SqliteParameter addressParam = new SqliteParameter("@address", adress.address);
-            command.Parameters.Add(addressParam);
-
-        public Status Add(long orderID, long employeeID, long gunID)
-        {
-            string sqlExpression =
-                "insert into order_gun (order_id, gun_id) VALUES (@order_id, @gun_id)";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            command.Parameters.Add(new SqliteParameter("@order_id", orderID));
-            command.Parameters.Add(new SqliteParameter("@gun_id", gunID));
-
-            try
-            {
-                if (command.ExecuteNonQuery() == 0) return Status.ERROR;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
-
-            sqlExpression = "insert into orders_employees (order_id, employee_id) VALUES (@order_id, @employee_id)";
-            command = new SqliteCommand(sqlExpression, this._connection);
-
-            command.Parameters.Add(new SqliteParameter("@order_id", orderID));
-            command.Parameters.Add(new SqliteParameter("@employee_id", employeeID));
-
-            try
-            {
-                if (command.ExecuteNonQuery() == 0) return Status.ERROR;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
-
-            return Status.OK;
-        }
-
-        // add Mlist
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
+            throw new NotImplementedException();
         }
         public Status Update(Car car)
         {

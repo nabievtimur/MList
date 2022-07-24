@@ -26,7 +26,8 @@ namespace MList
                 }
             }
 
-            SqLiteStorage.getInstance().InitConnection();
+            SqLiteStorage.Status status = SqLiteStorage.getInstance().InitConnection();
+            // System.Diagnostics.Debug.WriteLine("start");
             Application.Run(new MainForm());
         }
     }
