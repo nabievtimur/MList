@@ -94,18 +94,40 @@ namespace MList.Forms.TableForm
 
         protected override CustomizeInputForm getUpdateForm()
         {
-            //this.dataGridView1.
-            return new CustomizeInputForm(
-                new CustomizeInputFormContainerAddress(
-                    new SqLiteStorage.Address
-                    {
-                        id = -1,
-                        address = ""
-                    }));
+            int rowIndex = this.dataGridView1.SelectedRows[0].Index;
+            foreach (Tuple<SqLiteStorage.Address, int> item in this.items)
+            {
+                if (item.Item2 == rowIndex)
+                {
+                    return new CustomizeInputForm(
+                        new CustomizeInputFormContainerAddress(
+                            new SqLiteStorage.Address
+                            {
+                                id = item.Item1.id,
+                                address = item.Item1.address
+                            }));
+                }
+            }
+            throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
         protected override void delete() 
         { 
-
+            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            {
+                foreach (Tuple<SqLiteStorage.Address, int> item in this.items)
+                {
+                    if (item.Item2 == row.Index)
+                    {
+                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        {
+                            MessageBox.Show(
+                                "Удаление элемента не удалось",
+                                "Ошибка",
+                                MessageBoxButtons.OK);
+                        }
+                    }
+                }
+            }
         }
         protected override void updateGrid()
         {
@@ -123,6 +145,7 @@ namespace MList.Forms.TableForm
                 }
             }
 
+            this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
             foreach (SqLiteStorage.Address addr in list)

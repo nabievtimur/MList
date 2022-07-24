@@ -161,19 +161,16 @@ namespace MList.Storage
         public Status GetCurrent(Order order, out List<Gun> guns)
         {
             guns = new List<Gun>();
-
-            string sqlExpression = @"
-select gn.id,
-       gn.number,
-       gn.ammo,
-       gn.series,
-       gn.brand
-from guns as gn
-         join order_gun og on gn.id = og.gun_id
-where og.order_id = @order_id
-";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT gn.id, " +
+                    "gn.number, " +
+                    "gn.ammo, " +
+                    "gn.series, " +
+                    "gn.brand " +
+                    "FROM guns AS gn " +
+                        "JOIN order_gun og ON gn.id = og.gun_id " +
+                        "WHERE og.order_id = @order_id", 
+                this._connection);
             SqliteParameter mlistIdParam = new SqliteParameter("@order_id", order.id);
             command.Parameters.Add(mlistIdParam);
 
@@ -306,15 +303,15 @@ where og.order_id = @order_id
             guns = new List<Gun>();
             arriveAddresses = new List<Address>();
             deepAddresses = new List<Address>();
-
-
-            string sqlExpression = @"
-select cr.id, cr.brand, cr.number
-from cars as cr
-         join mlist_cars mc on cr.id = mc.car_id
-where mc.mlist_id = @mlist_id
-";
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+;
+            SqliteCommand command = new SqliteCommand(
+                "SELECT cr.id, " +
+                    "cr.brand, " +
+                    "cr.number " +
+                    "FROM cars AS cr " +
+                        "JOIN mlist_cars mc ON cr.id = mc.car_id " +
+                        "WHERE mc.mlist_id = @mlist_id ", 
+                this._connection);
 
             SqliteParameter mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
             command.Parameters.Add(mlistIdParam);
@@ -339,14 +336,17 @@ where mc.mlist_id = @mlist_id
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
-
-            sqlExpression = @"
-select gn.id, gn.number, gn.brand, gn.series, gn.ammo
-from guns as gn
-         join mlist_gun mg on gn.id = mg.gun_id
-where mg.mlist_id = @mlist_id
-";
-            command = new SqliteCommand(sqlExpression, this._connection);
+;
+            command = new SqliteCommand(
+                "SELECT gn.id, " +
+                    "gn.number, " +
+                    "gn.brand, " +
+                    "gn.series, " +
+                    "gn.ammo " +
+                    "FROM guns AS gn " +
+                        "JOIN mlist_gun mg ON gn.id = mg.gun_id " +
+                        "WHERE mg.mlist_id = @mlist_id", 
+                this._connection);
 
             mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
             command.Parameters.Add(mlistIdParam);
@@ -374,15 +374,13 @@ where mg.mlist_id = @mlist_id
                 return Status.ERROR;
             }
 
-            sqlExpression = @"
-select ad.id,
-       ad.address
-from addresses as ad
-         join mlist_arrive_address maa on ad.id = maa.arrive_address_id
-where maa.mlist_id = @mlist_id
-";
-
-            command = new SqliteCommand(sqlExpression, this._connection);
+            command = new SqliteCommand(
+                "SELECT ad.id, " +
+                    "ad.address " +
+                    "FROM addresses AS ad " +
+                        "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id " +
+                        "WHERE maa.mlist_id = @mlist_id", 
+                this._connection);
 
             mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
             command.Parameters.Add(mlistIdParam);
@@ -406,15 +404,14 @@ where maa.mlist_id = @mlist_id
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
-
-            sqlExpression = @"
-select ad.id,
-       ad.address
-from addresses as ad
-         join mlist_deep_address mda on ad.id = mda.deep_address_id
-where mda.mlist_id = @mlist_id
-";
-            command = new SqliteCommand(sqlExpression, this._connection);
+;
+            command = new SqliteCommand(
+                "SELECT ad.id, " +
+                    "ad.address " +
+                    "FROM addresses AS ad " +
+                        "JOIN mlist_deep_address mda ON ad.id = mda.deep_address_id " +
+                        "WHERE mda.mlist_id = @mlist_id", 
+                this._connection);
 
             mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
             command.Parameters.Add(mlistIdParam);
@@ -445,30 +442,27 @@ where mda.mlist_id = @mlist_id
         public Status Get(out List<MList> mlists)
         {
             mlists = new List<MList>();
-
-            // string sqlExpression = "SELECT (ml.id, ml.num_mlist, ml.date_create, ml.date_begin, ml.date_end, ml.coach_date, ml.pass_gun_date, ml.pass_gun_time, ml.print_date, ml.notes, ml.arrive_time, ml.deep_time) FROM mlist as ml";
-            string sqlExpression = @"
-select ml.id,
-       ml.num_mlist,
-       ml.date_create,
-       ml.date_begin,
-       ml.date_end,
-       ml.coach_date,
-       ml.pass_gun_date,
-       ml.pass_gun_time,
-       ml.print_date,
-       ml.notes,
-       ml.arrive_time,
-       ml.deep_time,
-       e.id,
-       e.last_name,
-       e.first_name,
-       e.middle_name
-from mlist as ml
-         JOIN mlist_employees me on ml.id = me.mlist_id
-         JOIN employees e on e.id = me.employee_id;
-";
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT ml.id, " +
+                    "ml.num_mlist, " +
+                    "ml.date_create, " +
+                    "ml.date_begin, " +
+                    "ml.date_end, " +
+                    "ml.coach_date, " +
+                    "ml.pass_gun_date, " +
+                    "ml.pass_gun_time, " +
+                    "ml.print_date, " +
+                    "ml.notes, " +
+                    "ml.arrive_time, " +
+                    "ml.deep_time, " +
+                    "e.id, " +
+                    "e.last_name, " +
+                    "e.first_name, " +
+                    "e.middle_name " +
+                    "FROM mlist AS ml " +
+                        "JOIN mlist_employees me ON ml.id = me.mlist_id " +
+                        "JOIN employees e ON e.id = me.employee_id;", 
+                this._connection);
             try
             {
                 SqliteDataReader reader = command.ExecuteReader();
@@ -516,9 +510,10 @@ from mlist as ml
         public Status Get(out List<Address> adresses)
         {
             adresses = new List<Address>();
-
-            string sqlExpression = "SELECT id, address FROM addresses";
-            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT id, address " +
+                    "FROM addresses", 
+                _connection);
             try
             {
                 SqliteDataReader reader = command.ExecuteReader();
@@ -548,8 +543,10 @@ from mlist as ml
         public Status Get(out List<Car> cars)
         {
             cars = new List<Car>();
-            string sqlExpression = "SELECT id, brand, number FROM cars";
-            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT id, brand, number " +
+                    "FROM cars", 
+                _connection);
 
             try
             {
@@ -581,8 +578,10 @@ from mlist as ml
         public Status Get(out List<Gun> guns)
         {
             guns = new List<Gun>();
-            string sqlExpression = "SELECT id, brand, series, number, ammo FROM guns";
-            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT id, brand, series, number, ammo " +
+                    "FROM guns", 
+                _connection);
 
             try
             {
@@ -652,19 +651,18 @@ from mlist as ml
         public Status Get(out List<Order> orders)
         {
             orders = new List<Order>();
-            string sqlExpression = @"
-select od.id,
-       od.number,
-       od.date,
-       e.id,
-       e.last_name,
-       e.first_name,
-       e.middle_name
-from orders as od
-         join orders_employees oe on od.id = oe.order_id
-         join employees e on e.id = oe.employee_id
-         ";
-            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT od.id, " +
+                    "od.number, " +
+                    "od.date, " +
+                    "e.id, " +
+                    "e.last_name, " +
+                    "e.first_name, " +
+                    "e.middle_name " +
+                    "FROM orders AS od " +
+                        "JOIN orders_employees oe ON od.id = oe.order_id " +
+                        "JOIN employees e ON e.id = oe.employee_id", 
+                _connection);
 
             try
             {
@@ -708,15 +706,14 @@ from orders as od
         public Status Add(Address adress)
         {
             SqliteCommand command = new SqliteCommand(
-                "INSERT INTO addresses (address) VALUES (@address)", 
+                "INSERT INTO addresses (address) " +
+                    "VALUES (@address)", 
                 this._connection);
-            SqliteParameter addressParam = new SqliteParameter("@address", adress.address);
-            command.Parameters.Add(addressParam);
+            command.Parameters.Add(new SqliteParameter("@address", adress.address));
 
             try
-            {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
+            { 
+                if (command.ExecuteNonQuery() == 0)
                 {
                     return Status.ERROR;
                 }
@@ -732,17 +729,15 @@ from orders as od
         public Status Add(Car car)
         {
             SqliteCommand command = new SqliteCommand(
-                "INSERT INTO cars (brand, number) VALUES (@brand, @number)", 
+                "INSERT INTO cars (brand, number)" +
+                    "VALUES (@brand, @number)", 
                 this._connection);
-            SqliteParameter brandParam = new SqliteParameter("@brand", car.brand);
-            command.Parameters.Add(brandParam);
-            SqliteParameter numberParam = new SqliteParameter("@number", car.number);
-            command.Parameters.Add(numberParam);
+            command.Parameters.Add(new SqliteParameter("@brand", car.brand));
+            command.Parameters.Add(new SqliteParameter("@number", car.number));
 
             try
             {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
+                if (command.ExecuteNonQuery() == 0)
                 {
                     return Status.ERROR;
                 }
@@ -758,7 +753,8 @@ from orders as od
         public Status Add(Gun gun)
         {
             SqliteCommand command = new SqliteCommand(
-                "INSERT INTO guns (brand, series, number, ammo) VALUES (@brand, @series, @number, @ammo)", 
+                "INSERT INTO guns (brand, series, number, ammo) " +
+                    "VALUES (@brand, @series, @number, @ammo)", 
                 this._connection);
 
             command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
@@ -784,22 +780,17 @@ from orders as od
         public Status Add(Employee employee)
         {
             SqliteCommand command = new SqliteCommand(
-                "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)", 
+                "INSERT INTO employees (first_name, last_name, middle_name) " +
+                    "VALUES (@first_name, @last_name, @middle_name)", 
                 this._connection);
 
-            SqliteParameter firstNameParam = new SqliteParameter("@first_name", employee.firstName);
-            command.Parameters.Add(firstNameParam);
-
-            SqliteParameter lastNameParam = new SqliteParameter("@last_name", employee.lastName);
-            command.Parameters.Add(lastNameParam);
-
-            SqliteParameter middleNameParam = new SqliteParameter("@middle_name", employee.middleName);
-            command.Parameters.Add(middleNameParam);
+            command.Parameters.Add(new SqliteParameter("@first_name", employee.firstName));
+            command.Parameters.Add(new SqliteParameter("@last_name", employee.lastName));
+            command.Parameters.Add(new SqliteParameter("@middle_name", employee.middleName));
 
             try
             {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
+                if (command.ExecuteNonQuery() == 0)
                 {
                     return Status.ERROR;
                 }
@@ -814,24 +805,18 @@ from orders as od
         }
         public Status Add(Order order)
         {
-            string sqlExpression =
-                "INSERT INTO orders number, employee_id, date VALUES @number, @employee_id, @date";
+            SqliteCommand command = new SqliteCommand(
+                "INSERT INTO orders number, employee_id, date" +
+                    "VALUES @number, @employee_id, @date", 
+                this._connection);
 
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            SqliteParameter numberParam = new SqliteParameter("@number", order.number);
-            command.Parameters.Add(numberParam);
-
-            SqliteParameter employeeIdParam = new SqliteParameter("@employee_id", order.employeeID);
-            command.Parameters.Add(employeeIdParam);
-
-            SqliteParameter dateParam = new SqliteParameter("@date", order.date);
-            command.Parameters.Add(dateParam);
+            command.Parameters.Add(new SqliteParameter("@number", order.number));
+            command.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
+            command.Parameters.Add(new SqliteParameter("@date", order.date));
 
             try
             {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
+                if (command.ExecuteNonQuery() == 0)
                 {
                     return Status.ERROR;
                 }
@@ -848,6 +833,7 @@ from orders as od
         {
             throw new NotImplementedException();
         }
+
         // Mlist update
         public Status Update(Address adress)
         {
@@ -874,13 +860,13 @@ from orders as od
             throw new NotImplementedException();
         }
         // delete Mlist
-        public Status Delete(Address address)
+        public Status Delete(string DataBase, long id)
         {
-            string sqlExpression = "DELETE FROM addresses WHERE id = @id";
+            string sqlExpression = "DELETE FROM " + DataBase + " WHERE id = @id";
 
             SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
 
-            SqliteParameter idParam = new SqliteParameter("@id", address.id);
+            SqliteParameter idParam = new SqliteParameter("@id", id);
             command.Parameters.Add(idParam);
 
             try
@@ -898,110 +884,30 @@ from orders as od
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
+        }
+        public Status Delete(Address address)
+        {
+            return Delete("addresses", address.id);
         }
         public Status Delete(Car car)
         {
-            string sqlExpression = "DELETE FROM cars WHERE id = @id";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            SqliteParameter idParam = new SqliteParameter("@id", car.id);
-            command.Parameters.Add(idParam);
-
-            try
-            {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
-                {
-                    return Status.ERROR;
-                }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
+            return Delete("cars", car.id);
         }
         public Status Delete(Gun gun)
         {
-            string sqlExpression = "DELETE FROM guns WHERE id = @id";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            SqliteParameter idParam = new SqliteParameter("@id", gun.id);
-            command.Parameters.Add(idParam);
-
-            try
-            {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
-                {
-                    return Status.ERROR;
-                }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
+            return Delete("guns", gun.id);
         }
         public Status Delete(Employee employee)
         {
-            string sqlExpression = "DELETE FROM employees WHERE id = @id";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            SqliteParameter idParam = new SqliteParameter("@id", employee.id);
-            command.Parameters.Add(idParam);
-
-            try
-            {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
-                {
-                    return Status.ERROR;
-                }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
+            return Delete("employees", employee.id);
         }
         public Status Delete(Order order)
         {
-            string sqlExpression = @"DELETE FROM orders WHERE id = @id";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            SqliteParameter idParam = new SqliteParameter("@id", order.id);
-            command.Parameters.Add(idParam);
-
-            try
-            {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
-                {
-                    return Status.ERROR;
-                }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
+            return Delete("orders", order.id);
         }
         public Status Delete(MList mlist)
         {
-            throw new NotImplementedException();
+            return Delete("mlist", mlist.id);
         }
     }
 }

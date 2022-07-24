@@ -108,19 +108,41 @@ namespace MList.Forms.TableForm
 
         protected override CustomizeInputForm getUpdateForm()
         {
-            //this.dataGridView1.
-            return new CustomizeInputForm(
-                new CustomizeInputFormContainerCar(
-                    new SqLiteStorage.Car
-                    {
-                        id = -1,
-                        brand = "",
-                        number = ""
-                    }));
+            int rowIndex = this.dataGridView1.SelectedRows[0].Index;
+            foreach (Tuple<SqLiteStorage.Car, int> item in this.items)
+            {
+                if (item.Item2 == rowIndex)
+                {
+                    return new CustomizeInputForm(
+                        new CustomizeInputFormContainerCar(
+                            new SqLiteStorage.Car
+                            {
+                                id = item.Item1.id,
+                                brand = item.Item1.brand,
+                                number = item.Item1.number
+                            }));
+                }
+            }
+            throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
         protected override void delete()
         {
-
+            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            {
+                foreach (Tuple<SqLiteStorage.Car, int> item in this.items)
+                {
+                    if (item.Item2 == row.Index)
+                    {
+                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        {
+                            MessageBox.Show(
+                                "Удаление элемента не удалось",
+                                "Ошибка",
+                                MessageBoxButtons.OK);
+                        }
+                    }
+                }
+            }
         }
         protected override void updateGrid()
         {
@@ -138,6 +160,7 @@ namespace MList.Forms.TableForm
                 }
             }
 
+            this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
             foreach (SqLiteStorage.Car car in list)

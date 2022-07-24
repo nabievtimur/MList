@@ -132,17 +132,24 @@ namespace MList.Forms.TableForm
 
         protected override CustomizeInputForm getUpdateForm()
         {
-            //this.dataGridView1.
-            return new CustomizeInputForm(
-                new CustomizeInputFormContainerGun(
-                    new SqLiteStorage.Gun
-                    {
-                        id = -1,
-                        brand = "",
-                        series = "",
-                        number = 0,
-                        ammo = ""
-                    }));
+            int rowIndex = this.dataGridView1.SelectedRows[0].Index;
+            foreach (Tuple<SqLiteStorage.Gun, int> item in this.items)
+            {
+                if (item.Item2 == rowIndex)
+                {
+                    return new CustomizeInputForm(
+                        new CustomizeInputFormContainerGun(
+                            new SqLiteStorage.Gun
+                            {
+                                id = item.Item1.id,
+                                brand = item.Item1.brand,
+                                series = item.Item1.series,
+                                number = item.Item1.number,
+                                ammo = item.Item1.ammo
+                            }));
+                }
+            }
+            throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
         protected override void delete()
         {
@@ -164,6 +171,7 @@ namespace MList.Forms.TableForm
                 }
             }
 
+            this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
             foreach (SqLiteStorage.Gun gun in list)
