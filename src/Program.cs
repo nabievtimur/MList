@@ -25,6 +25,7 @@ namespace MList
                     return;
                 }
             }
+
             SqLiteStorage.getInstance().InitConnection();
             Application.Run(new MainForm());
         }

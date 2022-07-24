@@ -7,48 +7,90 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MList.src;
+
+using MList.Forms.CustomizeForms;
 
 namespace MList.Forms
 {
     public partial class TableFormTemplate : Form
     {
-        protected List<Attr> attrs;
+        private class CustomizeInputFormContainerEmpty :
+            CustomizeInputFormContainer
+        {
+            public CustomizeInputFormContainerEmpty() : base("empty") {}
+            public override bool check(ref List<Tuple<Label, TextBox>> lItems)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override DialogResult operation(List<Tuple<Label, TextBox>> lItems)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public TableFormTemplate()
         {
             InitializeComponent();
-
-            this.attrs = new List<Attr>();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CustomizeInputForm form = new CustomizeInputForm(this.attrs, "Добавить");
-            form.ShowDialog();
+            this.getAddForm().ShowDialog();
+            this.updateGrid();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            CustomizeInputForm form = new CustomizeInputForm(this.attrs, "Изменить");
-            form.ShowDialog();
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                        "Не выбрано ни одной строки",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                return;
+            }
+            this.getUpdateForm().ShowDialog();
+            this.updateGrid();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                        "Не выбрано ни одной строки",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                return;
+            }
+            for (int i = 0; i < this.dataGridView1.SelectedRows.Count; i++)
+            {
+                System.Diagnostics.Debug.Write(this.dataGridView1.SelectedRows[i].Index);
+            }
+            this.delete();
+            this.updateGrid();
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        protected DataGridView getGrid() { return this.dataGridView1; } 
 
         // virtual
-        protected void add(List<string> result) { }
-        protected void change(List<string> result) { }
-        protected void delete() { }
-        protected void updateGrid() { }
+        protected virtual CustomizeInputForm getAddForm()
+        {
+            return new CustomizeInputForm(
+                new CustomizeInputFormContainerEmpty());
+        }
+
+        protected virtual CustomizeInputForm getUpdateForm()
+        {
+            return new CustomizeInputForm(
+                new CustomizeInputFormContainerEmpty());
+        }
+        protected virtual void delete() { }
+        protected virtual void updateGrid() { }
         private void TableFormTemplate_Load(object sender, EventArgs e)
         {
             this.updateGrid();

@@ -52,11 +52,6 @@ namespace MList
             }
         }
 
-        private void операцииToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void задатьПарольToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Authorization.passwordCreate();

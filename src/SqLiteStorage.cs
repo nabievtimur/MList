@@ -29,8 +29,6 @@ namespace MList.Storage
             public long id;
             public string brand;
             public string number;
-
-            // public Cars()
         }
 
         public struct Gun
@@ -74,17 +72,13 @@ namespace MList.Storage
             public long numberMlist;
         }
 
-        private SqLiteStorage()
-        {
-        }
-
+        private SqLiteStorage() { }
         public static SqLiteStorage getInstance()
         {
             if (instance == null)
                 instance = new SqLiteStorage();
             return instance;
         }
-
         public Status InitConnection()
         {
             string dbFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -142,17 +136,14 @@ namespace MList.Storage
 
             return Status.OK;
         }
-
         public Status Export(string path)
         {
             return Status.OK;
         }
-
         public Status Import(string path)
         {
             return Status.OK;
         }
-
         public Status Get(out List<Address> adresses)
         {
             adresses = new List<Address>();
@@ -185,7 +176,6 @@ namespace MList.Storage
 
             return Status.OK;
         }
-
         public Status Get(out List<Car> cars)
         {
             cars = new List<Car>();
@@ -219,7 +209,6 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Get(out List<Gun> guns)
         {
             guns = new List<Gun>();
@@ -256,13 +245,17 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Get(out List<Employee> employees)
         {
             employees = new List<Employee>();
+            employees.Add(new Employee() { id = 1, firstName = "Первый", lastName = "Численный", middleName = "Большой" });
+            employees.Add(new Employee() { id = 2, firstName = "Второй", lastName = "Порядковый", middleName = "Маленький" });
+            employees.Add(new Employee() { id = 3, firstName = "Третий", lastName = "Перечислительный", middleName = "Средний" });
+            return Status.OK;
 
-            string sqlExpression = "SELECT (id, first_name, last_name, middle_name) FROM employees";
-            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT (id, first_name, last_name, middle_name) FROM employees", 
+                _connection);
 
             try
             {
@@ -292,12 +285,12 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Get(out List<Order> orders)
         {
             orders = new List<Order>();
-            string sqlExpression = "SELECT (id, number, employee_id, 'date') FROM employees";
-            SqliteCommand command = new SqliteCommand(sqlExpression, _connection);
+            SqliteCommand command = new SqliteCommand(
+                "SELECT (id, number, employee_id, 'date') FROM employees", 
+                _connection);
 
             try
             {
@@ -327,14 +320,20 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
+        public Status Get(out List<MList> orders)
+        {
+            throw new NotImplementedException();
+        }
+        public Status GetByEmployee(Employee emp, out List<Gun> orders)
+        {
+            throw new NotImplementedException();
+        }
         // MLIST add
-
         public Status Add(Address adress)
         {
-            string sqlExpression = "INSERT INTO addresses (address) VALUES (@address)";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteCommand command = new SqliteCommand(
+                "INSERT INTO addresses (address) VALUES (@address)", 
+                this._connection);
             SqliteParameter addressParam = new SqliteParameter("@address", adress.address);
             command.Parameters.Add(addressParam);
 
@@ -354,12 +353,11 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Add(Car car)
         {
-            string sqlExpression = "INSERT INTO cars (brand, number) VALUES (@brand, @number)";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteCommand command = new SqliteCommand(
+                "INSERT INTO cars (brand, number) VALUES (@brand, @number)", 
+                this._connection);
             SqliteParameter brandParam = new SqliteParameter("@brand", car.brand);
             command.Parameters.Add(brandParam);
             SqliteParameter numberParam = new SqliteParameter("@number", car.number);
@@ -381,13 +379,11 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Add(Gun gun)
         {
-            string sqlExpression =
-                "INSERT INTO guns (brand, series, number, ammo) VALUES (@brand, @series, @number, @ammo)";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteCommand command = new SqliteCommand(
+                "INSERT INTO guns (brand, series, number, ammo) VALUES (@brand, @series, @number, @ammo)", 
+                this._connection);
 
             command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
             command.Parameters.Add(new SqliteParameter("@series", gun.series));
@@ -409,13 +405,11 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Add(Employee employee)
         {
-            string sqlExpression =
-                "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
+            SqliteCommand command = new SqliteCommand(
+                "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)", 
+                this._connection);
 
             SqliteParameter firstNameParam = new SqliteParameter("@first_name", employee.firstName);
             command.Parameters.Add(firstNameParam);
@@ -442,7 +436,6 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Add(Order order)
         {
             string sqlExpression =
@@ -475,9 +468,56 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+        public Status Add(MList mlist)
+        {
+            throw new NotImplementedException();
+        }
+        // Mlist update
+        public Status Update(Address adress)
+        {
+            SqliteCommand command = new SqliteCommand(
+                "INSERT INTO addresses (address) VALUES (@address)",
+                this._connection);
+            SqliteParameter addressParam = new SqliteParameter("@address", adress.address);
+            command.Parameters.Add(addressParam);
 
-        // add Mlist
+            try
+            {
+                int number = command.ExecuteNonQuery();
+                if (number == 0)
+                {
+                    return Status.ERROR;
+                }
 
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+        }
+        public Status Update(Car car)
+        {
+            throw new NotImplementedException();
+        }
+        public Status Update(Gun gun)
+        {
+            throw new NotImplementedException();
+        }
+        public Status Update(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
+        public Status Update(Order order)
+        {
+            throw new NotImplementedException();
+        }
+        public Status Update(MList mlist)
+        {
+            throw new NotImplementedException();
+        }
+        // delete Mlist
         public Status Delete(Address address)
         {
             string sqlExpression = "DELETE FROM addresses WHERE id = @id)";
@@ -503,7 +543,6 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Delete(Car car)
         {
             string sqlExpression = "DELETE FROM cars WHERE id = @id)";
@@ -529,7 +568,6 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Delete(Gun gun)
         {
             string sqlExpression = "DELETE FROM guns WHERE id = @id)";
@@ -555,7 +593,6 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Delete(Employee employee)
         {
             string sqlExpression = "DELETE FROM employees WHERE id = @id)";
@@ -581,7 +618,6 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
         public Status Delete(Order order)
         {
             string sqlExpression = @"DELETE FROM orders WHERE id = @id)";
@@ -607,7 +643,9 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-
-        //delete MList
+        public Status Delete(MList mlist)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
