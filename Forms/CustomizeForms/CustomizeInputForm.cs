@@ -16,6 +16,7 @@ namespace MList.Forms
         public CustomizeInputForm(CustomizeInputFormContainer container)
         {
             InitializeComponent();
+            this.cContainer = container;
             this.lItems = new List<Tuple<Label, TextBox>>();
             container.fillItemList(ref this.lItems);
             this.Text = container.getOperationName();

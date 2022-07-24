@@ -616,11 +616,6 @@ from mlist as ml
         public Status Get(out List<Employee> employees)
         {
             employees = new List<Employee>();
-            employees.Add(new Employee() { id = 1, firstName = "Первый", lastName = "Численный", middleName = "Большой" });
-            employees.Add(new Employee() { id = 2, firstName = "Второй", lastName = "Порядковый", middleName = "Маленький" });
-            employees.Add(new Employee() { id = 3, firstName = "Третий", lastName = "Перечислительный", middleName = "Средний" });
-            return Status.OK;
-
             SqliteCommand command = new SqliteCommand(
                 "SELECT (id, first_name, last_name, middle_name) FROM employees", 
                 _connection);

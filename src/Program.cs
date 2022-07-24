@@ -26,8 +26,14 @@ namespace MList
                 }
             }
 
-            SqLiteStorage.Status status = SqLiteStorage.getInstance().InitConnection();
-            // System.Diagnostics.Debug.WriteLine("start");
+            if (SqLiteStorage.getInstance().InitConnection() != SqLiteStorage.Status.OK)
+            {
+                MessageBox.Show(
+                        "Ошибка подключения к базе данных обратитесь к разработчикам.",
+                        "Ошибка БД",
+                        MessageBoxButtons.OK);
+            }
+
             Application.Run(new MainForm());
         }
     }
