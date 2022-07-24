@@ -26,12 +26,7 @@ namespace MList
                 }
             }
 
-            var st = SqLiteStorage.getInstance();
-            var stat = st.InitConnection();
-            Console.WriteLine("бд инициализировалась");
-            Console.WriteLine(stat);
-            SqLiteStorage.Address add = new SqLiteStorage.Address();
-            add.id=5;
+            SqLiteStorage.getInstance().InitConnection();
             Application.Run(new MainForm());
         }
     }

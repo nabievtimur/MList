@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MList.Forms.TableForm;
 
 namespace MList
 {
@@ -51,19 +52,9 @@ namespace MList
             }
         }
 
-        private void операцииToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void задатьПарольToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Authorization.passwordCreate();
-        }
-
-        private void открытьБДToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void авторизацияToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -88,6 +79,30 @@ namespace MList
         private void сменитьПарольToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Authorization.passwordCreate();
+        }
+
+        private void открытьБДToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TableFormEmployee form = new TableFormEmployee();
+            form.ShowDialog();
+        }
+
+        private void импортToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TableFormGuns form = new TableFormGuns();
+            form.ShowDialog();
+        }
+
+        private void экспортToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TableFormAddresses form = new TableFormAddresses();
+            form.ShowDialog();
+        }
+
+        private void очиститьБДToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TableFormCars form = new TableFormCars();
+            form.ShowDialog();
         }
     }
 }
