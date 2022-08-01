@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using MList.Forms.CustomizeForms;
@@ -68,10 +62,6 @@ namespace MList.Forms
                         "Ошибка",
                         MessageBoxButtons.OK);
                 return;
-            }
-            for (int i = 0; i < this.dataGridView1.SelectedRows.Count; i++)
-            {
-                System.Diagnostics.Debug.Write(this.dataGridView1.SelectedRows[i].Index);
             }
             this.delete();
             this.updateGrid();

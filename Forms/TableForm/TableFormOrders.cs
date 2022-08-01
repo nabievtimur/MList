@@ -40,13 +40,42 @@ namespace MList.Forms.TableForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            TableFormOrder form = new TableFormOrder();
-            form.ShowDialog();
+            if (this.dataGridView1.SelectedRows.Count <= 0)
+            {
+                MessageBox.Show(
+                        "Не выбрано ни одной строки",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                return;
+            }
+            foreach(var item in this.items)
+            {
+                if (item.Item2 == this.dataGridView1.SelectedRows[0].Index)
+                {
+                    TableFormOrder form = new TableFormOrder(item.Item1);
+                    form.ShowDialog();
+                }
+            }            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            {
+                foreach (Tuple<SqLiteStorage.Order, int> item in this.items)
+                {
+                    if (item.Item2 == row.Index)
+                    {
+                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        {
+                            MessageBox.Show(
+                                "Удаление элемента не удалось",
+                                "Ошибка",
+                                MessageBoxButtons.OK);
+                        }
+                    }
+                }
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

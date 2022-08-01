@@ -66,6 +66,14 @@ namespace MList.Forms.TableForm
             this.UpdatePickedGunGrid();
 
             this.dataGridView1.SelectedRows.Clear();
+            foreach (var item in this.itemsEmployee)
+            {
+                if (item.Item1.id == order.employeeID)
+                {
+                    this.dataGridView1.Rows[item.Item2].Selected = true;
+                }
+            }
+
 
             this.Text = "Изменить";
         }
