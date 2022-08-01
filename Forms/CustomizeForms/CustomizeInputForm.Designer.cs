@@ -70,6 +70,7 @@
             this.ClientSize = new System.Drawing.Size(458, 450);
             this.Controls.Add(this.panel1);
             this.Name = "CustomizeInputForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.CustomizeInputForm_Load);
             this.panel1.ResumeLayout(false);

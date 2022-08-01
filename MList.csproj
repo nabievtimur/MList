@@ -119,6 +119,18 @@
     <Compile Include="Forms\TableForm\TableFormGuns.Designer.cs">
       <DependentUpon>TableFormGuns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\TableForm\TableFormOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormOrder.Designer.cs">
+      <DependentUpon>TableFormOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TableForm\TableFormOrders.Designer.cs">
+      <DependentUpon>TableFormOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TableForm\TableFormTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,6 +162,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TableForm\TableFormOrder.resx">
+      <DependentUpon>TableFormOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TableForm\TableFormOrders.resx">
+      <DependentUpon>TableFormOrders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TableForm\TableFormTemplate.resx">
       <DependentUpon>TableFormTemplate.cs</DependentUpon>

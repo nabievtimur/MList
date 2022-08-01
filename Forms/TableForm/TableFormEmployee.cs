@@ -66,8 +66,8 @@ namespace MList.Forms.TableForm
                         }))
                     {
                         MessageBox.Show(
-                            "Ошибка",
                             "Добавления в базу данных",
+                            "Ошибка",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -83,8 +83,8 @@ namespace MList.Forms.TableForm
                         }))
                     {
                         MessageBox.Show(
-                            "Ошибка",
                             "Обновления базы данных",
+                            "Ошибка",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -160,7 +160,6 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
-            System.Diagnostics.Debug.WriteLine("enter TableFormAddress::updateGrid");
             List<SqLiteStorage.Employee> list = new List<SqLiteStorage.Employee>();
             SqLiteStorage.Status status = SqLiteStorage.Status.OK;
             if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
@@ -168,8 +167,8 @@ namespace MList.Forms.TableForm
                 if (status != SqLiteStorage.Status.NO_ROWS)
                 {
                     MessageBox.Show(
-                    "Ошибка",
                     "Чтение из базы данных",
+                    "Ошибка",
                     MessageBoxButtons.OK);
                 }
             }
@@ -180,10 +179,6 @@ namespace MList.Forms.TableForm
             foreach (SqLiteStorage.Employee employee in list)
             {
                 this.items.Add(new Tuple<SqLiteStorage.Employee, int>(employee, i));
-                System.Diagnostics.Debug.WriteLine(
-                    employee.firstName + " " + 
-                    employee.middleName + " " + 
-                    employee.lastName);
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = employee.firstName;

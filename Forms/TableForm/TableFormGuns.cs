@@ -64,19 +64,29 @@ namespace MList.Forms.TableForm
             {
                 if (this.gun.id == -1)
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                        new SqLiteStorage.Gun
+                    try
+                    {
+                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
+                            new SqLiteStorage.Gun
+                            {
+                                id = 0,
+                                brand = lItems[0].Item2.Text,
+                                series = lItems[1].Item2.Text,
+                                number = long.Parse(lItems[2].Item2.Text),
+                                ammo = lItems[3].Item2.Text
+                            }))
                         {
-                            id = 0,
-                            brand = lItems[0].Item2.Text,
-                            series = lItems[1].Item2.Text,
-                            number = long.Parse(lItems[2].Item2.Text),
-                            ammo = lItems[3].Item2.Text
-                        }))
+                            MessageBox.Show(
+                                "Добавления в базу данных",
+                                "Ошибка",
+                                MessageBoxButtons.OK);
+                        }
+                    }
+                    catch(FormatException)
                     {
                         MessageBox.Show(
+                            "Неверный номер приказа.",
                             "Ошибка",
-                            "Добавления в базу данных",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -93,8 +103,8 @@ namespace MList.Forms.TableForm
                         }))
                     {
                         MessageBox.Show(
-                            "Ошибка",
                             "Обновления базы данных",
+                            "Ошибка",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -153,11 +163,25 @@ namespace MList.Forms.TableForm
         }
         protected override void delete()
         {
-
+            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            {
+                foreach (Tuple<SqLiteStorage.Gun, int> item in this.items)
+                {
+                    if (item.Item2 == row.Index)
+                    {
+                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        {
+                            MessageBox.Show(
+                                "Удаление элемента не удалось",
+                                "Ошибка",
+                                MessageBoxButtons.OK);
+                        }
+                    }
+                }
+            }
         }
         protected override void updateGrid()
         {
-            System.Diagnostics.Debug.WriteLine("enter TableFormAddress::updateGrid");
             List<SqLiteStorage.Gun> list = new List<SqLiteStorage.Gun>();
             SqLiteStorage.Status status = SqLiteStorage.Status.OK;
             if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
@@ -165,9 +189,9 @@ namespace MList.Forms.TableForm
                 if (status != SqLiteStorage.Status.NO_ROWS)
                 {
                     MessageBox.Show(
-                    "Ошибка",
-                    "Чтение из базы данных",
-                    MessageBoxButtons.OK);
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
 
@@ -177,11 +201,6 @@ namespace MList.Forms.TableForm
             foreach (SqLiteStorage.Gun gun in list)
             {
                 this.items.Add(new Tuple<SqLiteStorage.Gun, int>(gun, i));
-                System.Diagnostics.Debug.WriteLine(
-                    gun.brand + " " + 
-                    gun.series + " " + 
-                    gun.number + " " + 
-                    gun.ammo);
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;

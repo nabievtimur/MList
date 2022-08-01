@@ -194,6 +194,7 @@
             this.приказыОЗакрепленияОружияToolStripMenuItem.Name = "приказыОЗакрепленияОружияToolStripMenuItem";
             this.приказыОЗакрепленияОружияToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.приказыОЗакрепленияОружияToolStripMenuItem.Text = "Приказы о закрепления оружия";
+            this.приказыОЗакрепленияОружияToolStripMenuItem.Click += new System.EventHandler(this.приказыОЗакрепленияОружияToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -352,6 +353,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MList";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);

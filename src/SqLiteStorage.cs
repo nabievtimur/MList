@@ -698,7 +698,11 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-        public Status GetByEmployee(Employee emp, out List<Gun> orders)
+        public Status Get(out List<Gun> orders, Employee emp)
+        {
+            throw new NotImplementedException();
+        }
+        public Status Get(out List<Gun> guns, Order emp)
         {
             throw new NotImplementedException();
         }

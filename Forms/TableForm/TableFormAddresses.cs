@@ -46,8 +46,8 @@ namespace MList.Forms.TableForm
                         }))
                     {
                         MessageBox.Show(
-                            "Ошибка",
                             "Добавления в базу данных",
+                            "Ошибка",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -61,8 +61,8 @@ namespace MList.Forms.TableForm
                         } ))
                     {
                         MessageBox.Show(
+                            "Обновления базы данных",   
                             "Ошибка",
-                            "Обновления базы данных",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -131,7 +131,6 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
-            System.Diagnostics.Debug.WriteLine("enter TableFormAddress::updateGrid");
             List<SqLiteStorage.Address> list = new List<SqLiteStorage.Address>();
             SqLiteStorage.Status status = SqLiteStorage.Status.OK;
             if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
@@ -139,9 +138,9 @@ namespace MList.Forms.TableForm
                 if (status != SqLiteStorage.Status.NO_ROWS)
                 {
                     MessageBox.Show(
-                    "Ошибка",
-                    "Чтение из базы данных",
-                    MessageBoxButtons.OK);
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
 
@@ -151,7 +150,6 @@ namespace MList.Forms.TableForm
             foreach (SqLiteStorage.Address addr in list)
             {
                 this.items.Add(new Tuple<SqLiteStorage.Address, int>(addr, i));
-                System.Diagnostics.Debug.WriteLine(addr.address);
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = addr.address;

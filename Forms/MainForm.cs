@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using MList.Forms.TableForm;
 
 namespace MList
@@ -102,6 +103,12 @@ namespace MList
         private void очиститьБДToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TableFormCars form = new TableFormCars();
+            form.ShowDialog();
+        }
+
+        private void приказыОЗакрепленияОружияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TableFormOrders form = new TableFormOrders();
             form.ShowDialog();
         }
     }

@@ -57,8 +57,8 @@ namespace MList.Forms.TableForm
                         }))
                     {
                         MessageBox.Show(
-                            "Ошибка",
                             "Добавления в базу данных",
+                            "Ошибка",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -73,8 +73,8 @@ namespace MList.Forms.TableForm
                         }))
                     {
                         MessageBox.Show(
-                            "Ошибка",
                             "Обновления базы данных",
+                            "Ошибка",
                             MessageBoxButtons.OK);
                     }
                 }
@@ -146,7 +146,6 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
-            System.Diagnostics.Debug.WriteLine("enter TableFormCar::updateGrid");
             List<SqLiteStorage.Car> list = new List<SqLiteStorage.Car>();
             SqLiteStorage.Status status = SqLiteStorage.Status.OK;
             if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
@@ -154,9 +153,9 @@ namespace MList.Forms.TableForm
                 if (status != SqLiteStorage.Status.NO_ROWS)
                 {
                     MessageBox.Show(
-                    "Ошибка",
-                    "Чтение из базы данных",
-                    MessageBoxButtons.OK);
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
 
@@ -166,7 +165,6 @@ namespace MList.Forms.TableForm
             foreach (SqLiteStorage.Car car in list)
             {
                 this.items.Add(new Tuple<SqLiteStorage.Car, int>(car, i));
-                System.Diagnostics.Debug.WriteLine(car.brand + " " + car.number);
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = car.brand;
