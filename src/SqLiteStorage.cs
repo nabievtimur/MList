@@ -711,14 +711,87 @@ namespace MList.Storage
             }
         }
 
-        public Status Get(out List<Gun> orders, Employee emp)
+        public Status Get(out List<Gun> guns, Employee employee)
         {
-            throw new NotImplementedException();
+            guns = new List<Gun>();
+            SqliteCommand command = new SqliteCommand(
+                "select gn.id," +
+                "gn.brand," +
+                "gn.series," +
+                "gn.number," +
+                "gn.ammo" +
+                "from guns as gn" +
+                "join order_gun og on gn.id = og.gun_id" +
+                "join orders o on o.id = og.order_id" +
+                "join employees e on e.id = o.employee_id" +
+                "where e.id = @emp_id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@emp_id", employee.id));
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        series = reader.GetString(3),
+                        number = reader.GetInt64(4),
+                        ammo = reader.GetString(5)
+                    };
+                    guns.Add(gun);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
-        public Status Get(out List<Gun> guns, Order emp)
+        public Status Get(out List<Gun> guns, Order order)
         {
-            throw new NotImplementedException();
+            guns = new List<Gun>();
+            SqliteCommand command = new SqliteCommand(
+                "select gn.id," +
+                "gn.brand," +
+                "gn.series," +
+                "gn.number," +
+                "gn.ammo" +
+                "from guns as gn" +
+                "join order_gun og on gn.id = og.gun_id" +
+                "join orders o on o.id = og.order_id" +
+                "where o.id = @ord_id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@ord_id", order.id));
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        series = reader.GetString(3),
+                        number = reader.GetInt64(4),
+                        ammo = reader.GetString(5)
+                    };
+                    guns.Add(gun);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
         // MLIST add
@@ -1034,7 +1107,7 @@ namespace MList.Storage
                 "arrive_time   = @arrive_time," +
                 "pass_gun_time = @pass_gun_time," +
                 "num_mlist     = @num_mlist" +
-                "where id = @id;", 
+                "where id = @id;",
                 this._connection);
             command.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
             command.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
