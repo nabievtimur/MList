@@ -74,7 +74,6 @@ namespace MList.Forms.TableForm
                 }
             }
 
-
             this.Text = "Изменить";
         }
 
@@ -194,12 +193,26 @@ namespace MList.Forms.TableForm
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
+                            new SqLiteStorage.Order
+                            {
+                                id = 0,
+                                number = int.Parse(this.textBox1.Text),
+                                employeeID = this.dataGridView1.SelectedRows[0].,
+                                date = 0,
+                                employeeFullName = ""
+                            }))
+            {
+                MessageBox.Show(
+                    "Добавления в базу данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }
