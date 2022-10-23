@@ -75,13 +75,17 @@ namespace MList.Storage
             public string employeeFullName;
         }
 
-        private SqLiteStorage() { }
+        private SqLiteStorage()
+        {
+        }
+
         public static SqLiteStorage getInstance()
         {
             if (instance == null)
                 instance = new SqLiteStorage();
             return instance;
         }
+
         public Status InitConnection()
         {
             string dbFolderPath = Path.Combine(
@@ -149,10 +153,12 @@ namespace MList.Storage
 
             return Status.OK;
         }
+
         public Status Export(string path)
         {
             return Status.OK;
         }
+
         public Status Import(string path)
         {
             return Status.OK;
@@ -163,13 +169,13 @@ namespace MList.Storage
             guns = new List<Gun>();
             SqliteCommand command = new SqliteCommand(
                 "SELECT gn.id, " +
-                    "gn.number, " +
-                    "gn.ammo, " +
-                    "gn.series, " +
-                    "gn.brand " +
-                    "FROM guns AS gn " +
-                        "JOIN order_gun og ON gn.id = og.gun_id " +
-                        "WHERE og.order_id = @order_id", 
+                "gn.number, " +
+                "gn.ammo, " +
+                "gn.series, " +
+                "gn.brand " +
+                "FROM guns AS gn " +
+                "JOIN order_gun og ON gn.id = og.gun_id " +
+                "WHERE og.order_id = @order_id",
                 this._connection);
             SqliteParameter mlistIdParam = new SqliteParameter("@order_id", order.id);
             command.Parameters.Add(mlistIdParam);
@@ -303,14 +309,14 @@ namespace MList.Storage
             guns = new List<Gun>();
             arriveAddresses = new List<Address>();
             deepAddresses = new List<Address>();
-;
+            ;
             SqliteCommand command = new SqliteCommand(
                 "SELECT cr.id, " +
-                    "cr.brand, " +
-                    "cr.number " +
-                    "FROM cars AS cr " +
-                        "JOIN mlist_cars mc ON cr.id = mc.car_id " +
-                        "WHERE mc.mlist_id = @mlist_id ", 
+                "cr.brand, " +
+                "cr.number " +
+                "FROM cars AS cr " +
+                "JOIN mlist_cars mc ON cr.id = mc.car_id " +
+                "WHERE mc.mlist_id = @mlist_id ",
                 this._connection);
 
             SqliteParameter mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
@@ -336,16 +342,17 @@ namespace MList.Storage
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
-;
+
+            ;
             command = new SqliteCommand(
                 "SELECT gn.id, " +
-                    "gn.number, " +
-                    "gn.brand, " +
-                    "gn.series, " +
-                    "gn.ammo " +
-                    "FROM guns AS gn " +
-                        "JOIN mlist_gun mg ON gn.id = mg.gun_id " +
-                        "WHERE mg.mlist_id = @mlist_id", 
+                "gn.number, " +
+                "gn.brand, " +
+                "gn.series, " +
+                "gn.ammo " +
+                "FROM guns AS gn " +
+                "JOIN mlist_gun mg ON gn.id = mg.gun_id " +
+                "WHERE mg.mlist_id = @mlist_id",
                 this._connection);
 
             mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
@@ -376,10 +383,10 @@ namespace MList.Storage
 
             command = new SqliteCommand(
                 "SELECT ad.id, " +
-                    "ad.address " +
-                    "FROM addresses AS ad " +
-                        "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id " +
-                        "WHERE maa.mlist_id = @mlist_id", 
+                "ad.address " +
+                "FROM addresses AS ad " +
+                "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id " +
+                "WHERE maa.mlist_id = @mlist_id",
                 this._connection);
 
             mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
@@ -404,13 +411,14 @@ namespace MList.Storage
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return Status.ERROR;
             }
-;
+
+            ;
             command = new SqliteCommand(
                 "SELECT ad.id, " +
-                    "ad.address " +
-                    "FROM addresses AS ad " +
-                        "JOIN mlist_deep_address mda ON ad.id = mda.deep_address_id " +
-                        "WHERE mda.mlist_id = @mlist_id", 
+                "ad.address " +
+                "FROM addresses AS ad " +
+                "JOIN mlist_deep_address mda ON ad.id = mda.deep_address_id " +
+                "WHERE mda.mlist_id = @mlist_id",
                 this._connection);
 
             mlistIdParam = new SqliteParameter("@mlist_id", mlist.id);
@@ -444,24 +452,24 @@ namespace MList.Storage
             mlists = new List<MList>();
             SqliteCommand command = new SqliteCommand(
                 "SELECT ml.id, " +
-                    "ml.num_mlist, " +
-                    "ml.date_create, " +
-                    "ml.date_begin, " +
-                    "ml.date_end, " +
-                    "ml.coach_date, " +
-                    "ml.pass_gun_date, " +
-                    "ml.pass_gun_time, " +
-                    "ml.print_date, " +
-                    "ml.notes, " +
-                    "ml.arrive_time, " +
-                    "ml.deep_time, " +
-                    "e.id, " +
-                    "e.last_name, " +
-                    "e.first_name, " +
-                    "e.middle_name " +
-                    "FROM mlist AS ml " +
-                        "JOIN mlist_employees me ON ml.id = me.mlist_id " +
-                        "JOIN employees e ON e.id = me.employee_id;", 
+                "ml.num_mlist, " +
+                "ml.date_create, " +
+                "ml.date_begin, " +
+                "ml.date_end, " +
+                "ml.coach_date, " +
+                "ml.pass_gun_date, " +
+                "ml.pass_gun_time, " +
+                "ml.print_date, " +
+                "ml.notes, " +
+                "ml.arrive_time, " +
+                "ml.deep_time, " +
+                "e.id, " +
+                "e.last_name, " +
+                "e.first_name, " +
+                "e.middle_name " +
+                "FROM mlist AS ml " +
+                "JOIN mlist_employees me ON ml.id = me.mlist_id " +
+                "JOIN employees e ON e.id = me.employee_id;",
                 this._connection);
             try
             {
@@ -512,7 +520,7 @@ namespace MList.Storage
             adresses = new List<Address>();
             SqliteCommand command = new SqliteCommand(
                 "SELECT id, address " +
-                    "FROM addresses", 
+                "FROM addresses",
                 _connection);
             try
             {
@@ -540,12 +548,13 @@ namespace MList.Storage
 
             return Status.OK;
         }
+
         public Status Get(out List<Car> cars)
         {
             cars = new List<Car>();
             SqliteCommand command = new SqliteCommand(
                 "SELECT id, brand, number " +
-                    "FROM cars", 
+                "FROM cars",
                 _connection);
 
             try
@@ -575,12 +584,13 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Get(out List<Gun> guns)
         {
             guns = new List<Gun>();
             SqliteCommand command = new SqliteCommand(
                 "SELECT id, brand, series, number, ammo " +
-                    "FROM guns", 
+                "FROM guns",
                 _connection);
 
             try
@@ -613,11 +623,12 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Get(out List<Employee> employees)
         {
             employees = new List<Employee>();
             SqliteCommand command = new SqliteCommand(
-                "SELECT id, first_name, last_name, middle_name FROM employees", 
+                "SELECT id, first_name, last_name, middle_name FROM employees",
                 _connection);
 
             try
@@ -648,20 +659,21 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Get(out List<Order> orders)
         {
             orders = new List<Order>();
             SqliteCommand command = new SqliteCommand(
                 "SELECT od.id, " +
-                    "od.number, " +
-                    "od.date, " +
-                    "e.id, " +
-                    "e.last_name, " +
-                    "e.first_name, " +
-                    "e.middle_name " +
-                    "FROM orders AS od " +
-                        "JOIN orders_employees oe ON od.id = oe.order_id " +
-                        "JOIN employees e ON e.id = oe.employee_id", 
+                "od.number, " +
+                "od.date, " +
+                "e.id, " +
+                "e.last_name, " +
+                "e.first_name, " +
+                "e.middle_name " +
+                "FROM orders AS od " +
+                "JOIN orders_employees oe ON od.id = oe.order_id " +
+                "JOIN employees e ON e.id = oe.employee_id",
                 _connection);
 
             try
@@ -698,25 +710,101 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
-        public Status Get(out List<Gun> orders, Employee emp)
+
+        public Status Get(out List<Gun> guns, Employee employee)
         {
-            throw new NotImplementedException();
+            guns = new List<Gun>();
+            SqliteCommand command = new SqliteCommand(
+                "select gn.id," +
+                "gn.brand," +
+                "gn.series," +
+                "gn.number," +
+                "gn.ammo" +
+                "from guns as gn" +
+                "join order_gun og on gn.id = og.gun_id" +
+                "join orders o on o.id = og.order_id" +
+                "join employees e on e.id = o.employee_id" +
+                "where e.id = @emp_id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@emp_id", employee.id));
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        series = reader.GetString(3),
+                        number = reader.GetInt64(4),
+                        ammo = reader.GetString(5)
+                    };
+                    guns.Add(gun);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
-        public Status Get(out List<Gun> guns, Order emp)
+
+        public Status Get(out List<Gun> guns, Order order)
         {
-            throw new NotImplementedException();
+            guns = new List<Gun>();
+            SqliteCommand command = new SqliteCommand(
+                "select gn.id," +
+                "gn.brand," +
+                "gn.series," +
+                "gn.number," +
+                "gn.ammo" +
+                "from guns as gn" +
+                "join order_gun og on gn.id = og.gun_id" +
+                "join orders o on o.id = og.order_id" +
+                "where o.id = @ord_id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@ord_id", order.id));
+            try
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read()) // построчно считываем данные
+                {
+                    Gun gun = new Gun
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        series = reader.GetString(3),
+                        number = reader.GetInt64(4),
+                        ammo = reader.GetString(5)
+                    };
+                    guns.Add(gun);
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         // MLIST add
         public Status Add(Address adress)
         {
             SqliteCommand command = new SqliteCommand(
                 "INSERT INTO addresses (address) " +
-                    "VALUES (@address)", 
+                "VALUES (@address)",
                 this._connection);
             command.Parameters.Add(new SqliteParameter("@address", adress.address));
 
             try
-            { 
+            {
                 if (command.ExecuteNonQuery() == 0)
                 {
                     return Status.ERROR;
@@ -730,11 +818,12 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Add(Car car)
         {
             SqliteCommand command = new SqliteCommand(
                 "INSERT INTO cars (brand, number)" +
-                    "VALUES (@brand, @number)", 
+                "VALUES (@brand, @number)",
                 this._connection);
             command.Parameters.Add(new SqliteParameter("@brand", car.brand));
             command.Parameters.Add(new SqliteParameter("@number", car.number));
@@ -754,11 +843,12 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Add(Gun gun)
         {
             SqliteCommand command = new SqliteCommand(
                 "INSERT INTO guns (brand, series, number, ammo) " +
-                    "VALUES (@brand, @series, @number, @ammo)", 
+                "VALUES (@brand, @series, @number, @ammo)",
                 this._connection);
 
             command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
@@ -781,11 +871,12 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Add(Employee employee)
         {
             SqliteCommand command = new SqliteCommand(
                 "INSERT INTO employees (first_name, last_name, middle_name) " +
-                    "VALUES (@first_name, @last_name, @middle_name)", 
+                "VALUES (@first_name, @last_name, @middle_name)",
                 this._connection);
 
             command.Parameters.Add(new SqliteParameter("@first_name", employee.firstName));
@@ -807,11 +898,12 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Add(Order order)
         {
             SqliteCommand command = new SqliteCommand(
                 "INSERT INTO orders number, employee_id, date" +
-                    "VALUES @number, @employee_id, @date", 
+                "VALUES @number, @employee_id, @date",
                 this._connection);
 
             command.Parameters.Add(new SqliteParameter("@number", order.number));
@@ -833,36 +925,219 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Add(MList mlist)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "insert into mlist (date_create, date_begin, end_date, coach_date, pass_gun_date," +
+                " print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
+                "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date," +
+                " @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist);",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
+            command.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
+            command.Parameters.Add(new SqliteParameter("@end_date", mlist.dateEnd));
+            command.Parameters.Add(new SqliteParameter("@coach_date", mlist.dateCoach));
+            command.Parameters.Add(new SqliteParameter("@pass_gun_date", mlist.datePassGun));
+            command.Parameters.Add(new SqliteParameter("@print_date", mlist.datePrint));
+            command.Parameters.Add(new SqliteParameter("@notes", mlist.notes));
+            command.Parameters.Add(new SqliteParameter("@deep_time", mlist.timeDeep));
+            command.Parameters.Add(new SqliteParameter("@arrive_time", mlist.timeArrive));
+            command.Parameters.Add(new SqliteParameter("@pass_gun_time", mlist.timePassGun));
+            command.Parameters.Add(new SqliteParameter("@num_mlist", mlist.numberMlist));
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
 
         // Mlist update
         public Status Update(Address adress)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "update addresses set address = @address where id = @id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@address", adress.address));
+            command.Parameters.Add(new SqliteParameter("@id", adress.id));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         public Status Update(Car car)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "update cars set brand = @brand, number = @number where  id = @id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@brand", car.brand));
+            command.Parameters.Add(new SqliteParameter("@number", car.number));
+            command.Parameters.Add(new SqliteParameter("@id", car.id));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         public Status Update(Gun gun)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "update guns set brand = @brand, series = @series, number = @number, ammo = @ammo where  id = @id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
+            command.Parameters.Add(new SqliteParameter("@number", gun.number));
+            command.Parameters.Add(new SqliteParameter("@ammo", gun.ammo));
+            command.Parameters.Add(new SqliteParameter("@series", gun.series));
+            command.Parameters.Add(new SqliteParameter("@id", gun.id));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         public Status Update(Employee employee)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "update employees " +
+                "set first_name = @first_name, last_name = @last_name, middle_name = @middle_name where id = @id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@first_name", employee.firstName));
+            command.Parameters.Add(new SqliteParameter("@last_name", employee.lastName));
+            command.Parameters.Add(new SqliteParameter("@middle_name", employee.middleName));
+            command.Parameters.Add(new SqliteParameter("@id", employee.id));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         public Status Update(Order order)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "update employees " +
+                "set number = @number, employee_id = @employee_id, date = @date where id = @id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@number", order.number));
+            command.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
+            command.Parameters.Add(new SqliteParameter("@date", order.date));
+            command.Parameters.Add(new SqliteParameter("@id", order.id));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         public Status Update(MList mlist)
         {
-            throw new NotImplementedException();
+            SqliteCommand command = new SqliteCommand(
+                "update mlist" +
+                "set date_create   = @date_create," +
+                "date_begin    = @date_begin," +
+                "end_date      = @end_date," +
+                "coach_date    = @coach_date," +
+                "pass_gun_date = @pass_gun_date," +
+                "print_date    = @print_date," +
+                "notes         = @notes," +
+                "deep_time     = @deep_time," +
+                "arrive_time   = @arrive_time," +
+                "pass_gun_time = @pass_gun_time," +
+                "num_mlist     = @num_mlist" +
+                "where id = @id;",
+                this._connection);
+            command.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
+            command.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
+            command.Parameters.Add(new SqliteParameter("@end_date", mlist.dateEnd));
+            command.Parameters.Add(new SqliteParameter("@coach_date", mlist.dateCoach));
+            command.Parameters.Add(new SqliteParameter("@pass_gun_date", mlist.datePassGun));
+            command.Parameters.Add(new SqliteParameter("@print_date", mlist.datePrint));
+            command.Parameters.Add(new SqliteParameter("@notes", mlist.notes));
+            command.Parameters.Add(new SqliteParameter("@deep_time", mlist.timeDeep));
+            command.Parameters.Add(new SqliteParameter("@arrive_time", mlist.timeArrive));
+            command.Parameters.Add(new SqliteParameter("@pass_gun_time", mlist.timePassGun));
+            command.Parameters.Add(new SqliteParameter("@num_mlist", mlist.numberMlist));
+            command.Parameters.Add(new SqliteParameter("@id", mlist.id));
+
+            try
+            {
+                if (command.ExecuteNonQuery() == 0)
+                {
+                    return Status.ERROR;
+                }
+
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
         }
+
         // delete Mlist
         public Status Delete(string DataBase, long id)
         {
@@ -889,26 +1164,32 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
         public Status Delete(Address address)
         {
             return Delete("addresses", address.id);
         }
+
         public Status Delete(Car car)
         {
             return Delete("cars", car.id);
         }
+
         public Status Delete(Gun gun)
         {
             return Delete("guns", gun.id);
         }
+
         public Status Delete(Employee employee)
         {
             return Delete("employees", employee.id);
         }
+
         public Status Delete(Order order)
         {
             return Delete("orders", order.id);
         }
+
         public Status Delete(MList mlist)
         {
             return Delete("mlist", mlist.id);
