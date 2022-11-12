@@ -193,21 +193,44 @@ namespace MList.Forms.TableForm
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                            new SqLiteStorage.Order
-                            {
-                                id = 0,
-                                number = int.Parse(this.textBox1.Text),
-                                employeeID = this.dataGridView1.SelectedRows[0].,
-                                date = 0,
-                                employeeFullName = ""
-                            }))
+            int index = this.dataGridView1.SelectedRows[0].Index;
+            if (index == -1)
             {
                 MessageBox.Show(
+                    "Не выбран сотрудник",
                     "Добавления в базу данных",
-                    "Ошибка",
                     MessageBoxButtons.OK);
+                return;
             }
+
+            if (this.dataGridView3.Rows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Не выбрано оружие",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
+                new SqLiteStorage.Order
+                {
+                    id = 0,
+                    number = int.Parse(this.textBox1.Text),
+                    employeeID = this.itemsEmployee[index].Item1.id,
+                    date = this.dateTimePicker1.Value.Ticks,
+                    employeeFullName = ""
+                },
+                this.itemsPickedGun))
+            {
+                MessageBox.Show(
+                    "Ошибка",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
         }
 
         private void button4_Click(object sender, EventArgs e)

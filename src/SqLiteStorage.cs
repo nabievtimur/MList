@@ -899,7 +899,7 @@ namespace MList.Storage
             }
         }
 
-        public Status Add(Order order)
+        public Status Add(Order order, List<Gun> guns)
         {
             SqliteCommand command = new SqliteCommand(
                 "INSERT INTO orders number, employee_id, date" +

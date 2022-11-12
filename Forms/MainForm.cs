@@ -109,11 +109,6 @@ namespace MList
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void авторизацияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InputBox inputBox = new InputBox("Аунтентификация", "Введите пароль");
@@ -190,6 +185,18 @@ namespace MList
         {
             TableFormOrders form = new TableFormOrders();
             form.ShowDialog();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
