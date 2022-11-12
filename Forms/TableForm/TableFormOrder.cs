@@ -22,9 +22,9 @@ namespace MList.Forms.TableForm
         {
             InitializeComponent();
 
-            this.dataGridView1.Columns.Add("middleName", "Фамилия");
+            this.dataGridView1.Columns.Add("lastName", "Фамилия");
             this.dataGridView1.Columns.Add("firstName", "Имя");
-            this.dataGridView1.Columns.Add("lastName", "Отчество");
+            this.dataGridView1.Columns.Add("middleName", "Отчество");
 
             this.dataGridView2.Columns.Add("brand", "Брэнд");
             this.dataGridView2.Columns.Add("series", "Серия");
@@ -105,9 +105,9 @@ namespace MList.Forms.TableForm
                 this.itemsEmployee.Add(new Tuple<SqLiteStorage.Employee, int>(employee, i));
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = employee.firstName;
-                this.dataGridView1.Rows[i].Cells[1].Value = employee.middleName;
-                this.dataGridView1.Rows[i].Cells[2].Value = employee.lastName;
+                this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
+                this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
+                this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
                 i++;
             }
         }
@@ -193,6 +193,15 @@ namespace MList.Forms.TableForm
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Нет ни одного сотрудника.",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                this.DialogResult = DialogResult.Cancel;
+            }
+
             int index = this.dataGridView1.SelectedRows[0].Index;
             if (index == -1)
             {
@@ -215,15 +224,15 @@ namespace MList.Forms.TableForm
             try
             {
                 if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                new SqLiteStorage.Order
-                {
-                    id = 0,
-                    number = int.Parse(this.textBox1.Text),
-                    employeeID = this.itemsEmployee[index].Item1.id,
-                    date = this.dateTimePicker1.Value.Ticks,
-                    employeeFullName = ""
-                },
-                this.itemsPickedGun))
+                    new SqLiteStorage.Order
+                    {
+                        id = 0,
+                        number = int.Parse(this.textBox1.Text),
+                        employeeID = this.itemsEmployee[index].Item1.id,
+                        date = this.dateTimePicker1.Value.Ticks,
+                        employeeFullName = ""
+                    },
+                    this.itemsPickedGun))
                 {
                     MessageBox.Show(
                         "Ошибка",
@@ -231,6 +240,7 @@ namespace MList.Forms.TableForm
                         MessageBoxButtons.OK);
                     return;
                 }
+                this.DialogResult = DialogResult.OK;
             }
             catch(FormatException)
             {
@@ -247,7 +257,6 @@ namespace MList.Forms.TableForm
                     MessageBoxButtons.OK);
             }
 
-            this.DialogResult = DialogResult.OK;
         }
 
         private void button4_Click(object sender, EventArgs e)

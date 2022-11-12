@@ -23,7 +23,7 @@ namespace MList.Forms.TableForm
 
             this.Text = "Приказы о закреплении оружия";
             this.dataGridView1.Columns.Add("number", "Номер");
-            this.dataGridView1.Columns.Add("date", "дата");
+            this.dataGridView1.Columns.Add("date", "Дата");
             this.dataGridView1.Columns.Add("employeeFullName", "Сотрудник");
 
             this.dataGridView2.Columns.Add("brand", "Брэнд");

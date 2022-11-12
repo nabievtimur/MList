@@ -61,8 +61,8 @@ namespace MList.Forms.TableForm
                         {
                             id = 0,
                             firstName = lItems[1].Item2.Text,
-                            lastName = lItems[2].Item2.Text,
-                            middleName = lItems[0].Item2.Text
+                            lastName = lItems[0].Item2.Text,
+                            middleName = lItems[2].Item2.Text
                         }))
                     {
                         MessageBox.Show(
