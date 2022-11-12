@@ -928,21 +928,21 @@ namespace MList.Storage
 
         public Status Add(Order order, List<Gun> guns)
         {
-            // using (var firstTransaction = this._connection.BeginTransaction())
-            // {
-                SqliteCommand command = new SqliteCommand(
+            using (var transaction = this._connection.BeginTransaction())
+            {
+                SqliteCommand createOrderCommand = this._connection.CreateCommand();
+                createOrderCommand.CommandText =
                     "INSERT INTO orders (number, employee_id, date)" +
-                    "VALUES (@number, @employee_id, @date);"+
-                    "SELECT last_insert_rowid();",
-                    this._connection);
+                    "VALUES (@number, @employee_id, @date);" +
+                    "SELECT last_insert_rowid();";
 
-                command.Parameters.Add(new SqliteParameter("@number", order.number));
-                command.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
-                command.Parameters.Add(new SqliteParameter("@date", order.date));
+                createOrderCommand.Parameters.Add(new SqliteParameter("@number", order.number));
+                createOrderCommand.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
+                createOrderCommand.Parameters.Add(new SqliteParameter("@date", order.date));
                 object orderID;
                 try
                 {
-                    orderID = command.ExecuteScalar();
+                    orderID = createOrderCommand.ExecuteScalar();
                     // if (command.ExecuteNonQuery() == 0)
                     // {
                     //     firstTransaction.Rollback();
@@ -952,36 +952,37 @@ namespace MList.Storage
                 catch (Exception e)
                 {
                     System.Diagnostics.Debug.WriteLine(e.ToString());
-                    // firstTransaction.Rollback();
+                    transaction.Rollback();
                     return Status.ERROR;
                 }
                 
                 foreach (var gun in guns)
                 {
-                    command = new SqliteCommand(
+                    SqliteCommand orderGunCommand = this._connection.CreateCommand();
+                        
+                    orderGunCommand.CommandText =
                         "INSERT INTO order_gun (order_id, gun_id)" +
-                        "VALUES (@order_id, @gun_id)",
-                        this._connection);
-                    command.Parameters.Add(new SqliteParameter("@order_id", orderID));
-                    command.Parameters.Add(new SqliteParameter("@gun_id", gun.id));
+                        "VALUES (@order_id, @gun_id)";
+                    orderGunCommand.Parameters.Add(new SqliteParameter("@order_id", orderID));
+                    orderGunCommand.Parameters.Add(new SqliteParameter("@gun_id", gun.id));
                     try
                     {
-                        if (command.ExecuteNonQuery() == 0)
+                        if (orderGunCommand.ExecuteNonQuery() == 0)
                         {
-                            // firstTransaction.Rollback();
+                            transaction.Rollback();
                             return Status.ERROR;
                         }
                     }
                     catch (Exception e)
                     {
                         System.Diagnostics.Debug.WriteLine(e.ToString());
-                        // firstTransaction.Rollback();
+                        transaction.Rollback();
                         return Status.ERROR;
                     }
                 }
-
+                transaction.Commit();
                 return Status.OK;
-            // }
+            }
             
         }
 
