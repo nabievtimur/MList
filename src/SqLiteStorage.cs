@@ -794,6 +794,33 @@ namespace MList.Storage
             }
         }
 
+        public Status Get(out long orderRecommendNumber)
+        {
+            SqliteCommand command = new SqliteCommand(
+                "select max(number) from orders;",
+                this._connection);
+            try
+            {
+                long orN = 0;
+                SqliteDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        orN = reader.GetInt64(0);
+                    }
+                }
+                orderRecommendNumber = orN+1;
+                return Status.OK;
+            }
+            catch (Exception e)
+            {
+                orderRecommendNumber = 0;
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return Status.ERROR;
+            }
+        }
+        
         // MLIST add
         public Status Add(Address adress)
         {
