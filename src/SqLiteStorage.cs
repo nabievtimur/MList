@@ -943,11 +943,6 @@ namespace MList.Storage
                 try
                 {
                     orderID = createOrderCommand.ExecuteScalar();
-                    // if (command.ExecuteNonQuery() == 0)
-                    // {
-                    //     firstTransaction.Rollback();
-                    //     return Status.ERROR;
-                    // }
                 }
                 catch (Exception e)
                 {
