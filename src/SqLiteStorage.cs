@@ -901,29 +901,61 @@ namespace MList.Storage
 
         public Status Add(Order order, List<Gun> guns)
         {
-            SqliteCommand command = new SqliteCommand(
-                "INSERT INTO orders number, employee_id, date" +
-                "VALUES @number, @employee_id, @date",
-                this._connection);
-
-            command.Parameters.Add(new SqliteParameter("@number", order.number));
-            command.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
-            command.Parameters.Add(new SqliteParameter("@date", order.date));
-
-            try
+            using (var firstTransaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand command = new SqliteCommand(
+                    "INSERT INTO orders (number, employee_id, date)" +
+                    "VALUES (@number, @employee_id, @date);"+
+                    "SELECT last_insert_rowid();",
+                    this._connection);
+
+                command.Parameters.Add(new SqliteParameter("@number", order.number));
+                command.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
+                command.Parameters.Add(new SqliteParameter("@date", order.date));
+                object orderID;
+                try
                 {
+                    orderID = command.ExecuteScalar();
+                    // if (command.ExecuteNonQuery() == 0)
+                    // {
+                    //     firstTransaction.Rollback();
+                    //     return Status.ERROR;
+                    // }
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    firstTransaction.Rollback();
                     return Status.ERROR;
+                }
+                
+                foreach (var gun in guns)
+                {
+                    command = new SqliteCommand(
+                        "INSERT INTO order_gun (order_id, gun_id)" +
+                        "VALUES (@order_id, @gun_id)",
+                        this._connection);
+                    command.Parameters.Add(new SqliteParameter("@order_id", orderID));
+                    command.Parameters.Add(new SqliteParameter("@gun_id", gun.id));
+                    try
+                    {
+                        if (command.ExecuteNonQuery() == 0)
+                        {
+                            firstTransaction.Rollback();
+                            return Status.ERROR;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        firstTransaction.Rollback();
+                        return Status.ERROR;
+                    }
                 }
 
                 return Status.OK;
             }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
+            
         }
 
         public Status Add(MList mlist)
