@@ -901,8 +901,8 @@ namespace MList.Storage
 
         public Status Add(Order order, List<Gun> guns)
         {
-            using (var firstTransaction = this._connection.BeginTransaction())
-            {
+            // using (var firstTransaction = this._connection.BeginTransaction())
+            // {
                 SqliteCommand command = new SqliteCommand(
                     "INSERT INTO orders (number, employee_id, date)" +
                     "VALUES (@number, @employee_id, @date);"+
@@ -925,7 +925,7 @@ namespace MList.Storage
                 catch (Exception e)
                 {
                     System.Diagnostics.Debug.WriteLine(e.ToString());
-                    firstTransaction.Rollback();
+                    // firstTransaction.Rollback();
                     return Status.ERROR;
                 }
                 
@@ -941,20 +941,20 @@ namespace MList.Storage
                     {
                         if (command.ExecuteNonQuery() == 0)
                         {
-                            firstTransaction.Rollback();
+                            // firstTransaction.Rollback();
                             return Status.ERROR;
                         }
                     }
                     catch (Exception e)
                     {
                         System.Diagnostics.Debug.WriteLine(e.ToString());
-                        firstTransaction.Rollback();
+                        // firstTransaction.Rollback();
                         return Status.ERROR;
                     }
                 }
 
                 return Status.OK;
-            }
+            // }
             
         }
 
