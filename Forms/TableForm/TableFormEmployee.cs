@@ -30,6 +30,14 @@ namespace MList.Forms.TableForm
             {
                 {
                     Label label = new Label();
+                    label.Text = "Фамилия";
+                    TextBox textBox = new TextBox();
+                    textBox.Text = this.employee.lastName;
+                    lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+                }
+
+                {
+                    Label label = new Label();
                     label.Text = "Имя";
                     TextBox textBox = new TextBox();
                     textBox.Text = this.employee.firstName;
@@ -38,17 +46,9 @@ namespace MList.Forms.TableForm
 
                 {
                     Label label = new Label();
-                    label.Text = "Фамилия";
-                    TextBox textBox = new TextBox();
-                    textBox.Text = this.employee.middleName;
-                    lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-                }
-
-                {
-                    Label label = new Label();
                     label.Text = "Отчество";
                     TextBox textBox = new TextBox();
-                    textBox.Text = this.employee.lastName;
+                    textBox.Text = this.employee.middleName;
                     lItems.Add(new Tuple<Label, TextBox>(label, textBox));
                 }
             }
@@ -60,9 +60,9 @@ namespace MList.Forms.TableForm
                         new SqLiteStorage.Employee
                         {
                             id = 0,
-                            firstName = lItems[0].Item2.Text,
-                            middleName = lItems[1].Item2.Text,
-                            lastName = lItems[2].Item2.Text
+                            firstName = lItems[1].Item2.Text,
+                            lastName = lItems[2].Item2.Text,
+                            middleName = lItems[0].Item2.Text
                         }))
                     {
                         MessageBox.Show(
@@ -76,10 +76,10 @@ namespace MList.Forms.TableForm
                     if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Update(
                         new SqLiteStorage.Employee
                         {
-                            id = 0,
-                            firstName = lItems[0].Item2.Text,
-                            middleName = lItems[1].Item2.Text,
-                            lastName = lItems[2].Item2.Text
+                            id = this.employee.id,
+                            firstName = lItems[1].Item2.Text,
+                            lastName = lItems[0].Item2.Text,
+                            middleName = lItems[2].Item2.Text
                         }))
                     {
                         MessageBox.Show(
@@ -99,9 +99,9 @@ namespace MList.Forms.TableForm
         {
             InitializeComponent();
 
-            this.dataGridView1.Columns.Add("middleName", "Фамилия");
+            this.dataGridView1.Columns.Add("lastName", "Фамилия");
             this.dataGridView1.Columns.Add("firstName", "Имя");
-            this.dataGridView1.Columns.Add("lastName", "Отчество");
+            this.dataGridView1.Columns.Add("middleName", "Отчество");
 
             this.Text = "Сотрудники";
             this.items = new List<Tuple<SqLiteStorage.Employee, int>>();
@@ -181,9 +181,9 @@ namespace MList.Forms.TableForm
                 this.items.Add(new Tuple<SqLiteStorage.Employee, int>(employee, i));
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = employee.firstName;
-                this.dataGridView1.Rows[i].Cells[1].Value = employee.middleName;
-                this.dataGridView1.Rows[i].Cells[2].Value = employee.lastName;
+                this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
+                this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
+                this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
                 i++;
             }
         }

@@ -212,7 +212,9 @@ namespace MList.Forms.TableForm
                 return;
             }
 
-            if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
+            try
+            {
+                if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
                 new SqLiteStorage.Order
                 {
                     id = 0,
@@ -222,12 +224,27 @@ namespace MList.Forms.TableForm
                     employeeFullName = ""
                 },
                 this.itemsPickedGun))
+                {
+                    MessageBox.Show(
+                        "Ошибка",
+                        "Добавления в базу данных",
+                        MessageBoxButtons.OK);
+                    return;
+                }
+            }
+            catch(FormatException)
             {
                 MessageBox.Show(
                     "Ошибка",
-                    "Добавления в базу данных",
+                    "Неверный номер приказа.",
                     MessageBoxButtons.OK);
-                return;
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show(
+                    "Ошибка",
+                    "Не заполнен номер приказа.",
+                    MessageBoxButtons.OK);
             }
 
             this.DialogResult = DialogResult.OK;
