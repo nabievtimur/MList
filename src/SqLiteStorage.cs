@@ -724,28 +724,31 @@ namespace MList.Storage
             }
         }
         
-        // MLIST add
         public Status Add(Address adress)
         {
-            SqliteCommand command = new SqliteCommand(
-                "INSERT INTO addresses (address) " +
-                "VALUES (@address)",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@address", adress.address));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand addAddress = this._connection.CreateCommand();
+                addAddress.CommandText =  
+                    "INSERT INTO addresses (address) " +
+                    "VALUES (@address)";
+                addAddress.Parameters.Add(new SqliteParameter("@address", adress.address));
+                try
                 {
+                    if (addAddress.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
@@ -776,29 +779,32 @@ namespace MList.Storage
 
         public Status Add(Gun gun)
         {
-            SqliteCommand command = new SqliteCommand(
-                "INSERT INTO guns (brand, series, number, ammo) " +
-                "VALUES (@brand, @series, @number, @ammo)",
-                this._connection);
-
-            command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
-            command.Parameters.Add(new SqliteParameter("@series", gun.series));
-            command.Parameters.Add(new SqliteParameter("@number", gun.number));
-            command.Parameters.Add(new SqliteParameter("@ammo", gun.ammo));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand addGun = this._connection.CreateCommand();
+                addGun.CommandText =
+                    "INSERT INTO guns (brand, series, number, ammo) " +
+                    "VALUES (@brand, @series, @number, @ammo)";
+                addGun.Parameters.Add(new SqliteParameter("@brand", gun.brand));
+                addGun.Parameters.Add(new SqliteParameter("@series", gun.series));
+                addGun.Parameters.Add(new SqliteParameter("@number", gun.number));
+                addGun.Parameters.Add(new SqliteParameter("@ammo", gun.ammo));
+                try
                 {
+                    if (addGun.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
@@ -886,66 +892,101 @@ namespace MList.Storage
 
         public Status Add(MList mlist)
         {
-            SqliteCommand command = new SqliteCommand(
-                "insert into mlist (date_create, date_begin, end_date, coach_date, pass_gun_date," +
-                " print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
-                "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date," +
-                " @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist);",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
-            command.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
-            command.Parameters.Add(new SqliteParameter("@end_date", mlist.dateEnd));
-            command.Parameters.Add(new SqliteParameter("@coach_date", mlist.dateCoach));
-            command.Parameters.Add(new SqliteParameter("@pass_gun_date", mlist.datePassGun));
-            command.Parameters.Add(new SqliteParameter("@print_date", mlist.datePrint));
-            command.Parameters.Add(new SqliteParameter("@notes", mlist.notes));
-            command.Parameters.Add(new SqliteParameter("@deep_time", mlist.timeDeep));
-            command.Parameters.Add(new SqliteParameter("@arrive_time", mlist.timeArrive));
-            command.Parameters.Add(new SqliteParameter("@pass_gun_time", mlist.timePassGun));
-            command.Parameters.Add(new SqliteParameter("@num_mlist", mlist.numberMlist));
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand addMList = this._connection.CreateCommand();
+                addMList.CommandText =
+                    "insert into mlist (date_create, date_begin, end_date, coach_date, pass_gun_date," +
+                    " print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
+                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date," +
+                    " @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist);";
+                addMList.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
+                addMList.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
+                addMList.Parameters.Add(new SqliteParameter("@end_date", mlist.dateEnd));
+                addMList.Parameters.Add(new SqliteParameter("@coach_date", mlist.dateCoach));
+                addMList.Parameters.Add(new SqliteParameter("@pass_gun_date", mlist.datePassGun));
+                addMList.Parameters.Add(new SqliteParameter("@print_date", mlist.datePrint));
+                addMList.Parameters.Add(new SqliteParameter("@notes", mlist.notes));
+                addMList.Parameters.Add(new SqliteParameter("@deep_time", mlist.timeDeep));
+                addMList.Parameters.Add(new SqliteParameter("@arrive_time", mlist.timeArrive));
+                addMList.Parameters.Add(new SqliteParameter("@pass_gun_time", mlist.timePassGun));
+                addMList.Parameters.Add(new SqliteParameter("@num_mlist", mlist.numberMlist));
+                try
                 {
+                    if (addMList.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
         // Mlist update
         public Status Update(Address adress)
         {
-            SqliteCommand command = new SqliteCommand(
-                "update addresses set address = @address where id = @id;",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@address", adress.address));
-            command.Parameters.Add(new SqliteParameter("@id", adress.id));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand updateAddress = this._connection.CreateCommand();
+                updateAddress.CommandText =  
+                    "update addresses set address = @address where id = @id;";
+                updateAddress.Parameters.Add(new SqliteParameter("@address", adress.address));
+                updateAddress.Parameters.Add(new SqliteParameter("@id", adress.id));
+                
+                try
                 {
+                    if (updateAddress.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
         public Status Update(Car car)
         {
+            using (var transaction = this._connection.BeginTransaction())
+            {
+                SqliteCommand updateAddress = this._connection.CreateCommand();
+                updateAddress.CommandText =  
+                    "update cars set brand = @brand, number = @number where  id = @id;";
+                updateAddress.Parameters.Add(new SqliteParameter("@brand", car.brand));
+                updateAddress.Parameters.Add(new SqliteParameter("@number", car.number));
+                updateAddress.Parameters.Add(new SqliteParameter("@id", car.id));
+                try
+                {
+                    if (updateAddress.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
+            }
             SqliteCommand command = new SqliteCommand(
                 "update cars set brand = @brand, number = @number where  id = @id;",
                 this._connection);
