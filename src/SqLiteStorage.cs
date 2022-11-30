@@ -723,7 +723,134 @@ namespace MList.Storage
                 return Status.ERROR;
             }
         }
+
+        public Status Get(out List<Gun> guns, string like)
+        {
+            guns = new List<Gun>();
+            using (var transaction = this._connection.BeginTransaction())
+            {
+                SqliteCommand getGun = this._connection.CreateCommand();
+                getGun.CommandText = 
+                    "SELECT " +
+                    "g.id," +
+                    "g.brand," +
+                    "g.series," +
+                    "g.number," +
+                    "g.ammo" +
+                    "FROM guns g " +
+                    "WHERE " +
+                    "g.brand LIKE '%@like%' OR " +
+                    "g.series LIKE '%@like%' OR " +
+                    "g.\"number\" LIKE '%@like%' or " +
+                    "g.ammo LIKE '%@like%' " +
+                    "ORDER BY g.brand;";
+                getGun.Parameters.Add(new SqliteParameter("@like", like));
+                try
+                {
+                    SqliteDataReader reader = getGun.ExecuteReader();
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Gun gun = new Gun
+                        {
+                            id = reader.GetInt64(0),
+                            brand = reader.GetString(1),
+                            series = reader.GetString(3),
+                            number = reader.GetInt64(4),
+                            ammo = reader.GetString(5)
+                        };
+                        guns.Add(gun);
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
+            }
+        }
         
+        public Status Get(out List<Address> adresses, string like)
+        {
+            adresses = new List<Address>();
+            using (var transaction = this._connection.BeginTransaction())
+            {
+                SqliteCommand getAddress = this._connection.CreateCommand();
+                getAddress.CommandText = 
+                    "SELECT " +
+                    "id, " +
+                    "address " +
+                    "FROM addresses as ad" +
+                    "WHERE " +
+                    "ad.address LIKE '%@like%';";
+                getAddress.Parameters.Add(new SqliteParameter("@like", like));
+                try
+                {
+                    SqliteDataReader reader = getAddress.ExecuteReader();
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Address address = new Address()
+                        {
+                            id = reader.GetInt64(0),
+                            address = reader.GetString(1),
+                        };
+                        adresses.Add(address);
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
+            }
+        }
+        
+        public Status Get(out List<Car> cars, string like)
+        {
+            cars = new List<Car>();
+            using (var transaction = this._connection.BeginTransaction())
+            {
+                SqliteCommand getCars = this._connection.CreateCommand();
+                getCars.CommandText = 
+                    "SELECT " +
+                    "id, " +
+                    "brand, " +
+                    "number " +
+                    "FROM cars as cr" +
+                    "WHERE " + 
+                    "cr.brand LIKE '%@like%'" +
+                    "cr.number LIKE '%@like%';";
+                getCars.Parameters.Add(new SqliteParameter("@like", like));
+                try
+                {
+                    SqliteDataReader reader = getCars.ExecuteReader();
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        Car car = new Car()
+                        {
+                            id = reader.GetInt64(0),
+                            brand = reader.GetString(1),
+                            number = reader.GetString(2)
+                        };
+                        cars.Add(car);
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    return Status.ERROR;
+                }
+            }
+        }
+
         public Status Add(Address adress)
         {
             using (var transaction = this._connection.BeginTransaction())
