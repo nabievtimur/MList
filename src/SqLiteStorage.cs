@@ -964,15 +964,15 @@ namespace MList.Storage
         {
             using (var transaction = this._connection.BeginTransaction())
             {
-                SqliteCommand updateAddress = this._connection.CreateCommand();
-                updateAddress.CommandText =  
+                SqliteCommand updateCar = this._connection.CreateCommand();
+                updateCar.CommandText =  
                     "update cars set brand = @brand, number = @number where  id = @id;";
-                updateAddress.Parameters.Add(new SqliteParameter("@brand", car.brand));
-                updateAddress.Parameters.Add(new SqliteParameter("@number", car.number));
-                updateAddress.Parameters.Add(new SqliteParameter("@id", car.id));
+                updateCar.Parameters.Add(new SqliteParameter("@brand", car.brand));
+                updateCar.Parameters.Add(new SqliteParameter("@number", car.number));
+                updateCar.Parameters.Add(new SqliteParameter("@id", car.id));
                 try
                 {
-                    if (updateAddress.ExecuteNonQuery() == 0)
+                    if (updateCar.ExecuteNonQuery() == 0)
                     {
                         transaction.Rollback();
                         return Status.ERROR;
@@ -987,180 +987,176 @@ namespace MList.Storage
                     return Status.ERROR;
                 }
             }
-            SqliteCommand command = new SqliteCommand(
-                "update cars set brand = @brand, number = @number where  id = @id;",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@brand", car.brand));
-            command.Parameters.Add(new SqliteParameter("@number", car.number));
-            command.Parameters.Add(new SqliteParameter("@id", car.id));
-
-            try
-            {
-                if (command.ExecuteNonQuery() == 0)
-                {
-                    return Status.ERROR;
-                }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
-            }
         }
 
         public Status Update(Gun gun)
         {
-            SqliteCommand command = new SqliteCommand(
-                "update guns set brand = @brand, series = @series, number = @number, ammo = @ammo where  id = @id;",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@brand", gun.brand));
-            command.Parameters.Add(new SqliteParameter("@number", gun.number));
-            command.Parameters.Add(new SqliteParameter("@ammo", gun.ammo));
-            command.Parameters.Add(new SqliteParameter("@series", gun.series));
-            command.Parameters.Add(new SqliteParameter("@id", gun.id));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand updateGun = this._connection.CreateCommand();
+                updateGun.CommandText =  
+                    "update guns set brand = @brand, series = @series, number = @number, ammo = @ammo where  id = @id;";
+                updateGun.Parameters.Add(new SqliteParameter("@brand", gun.brand));
+                updateGun.Parameters.Add(new SqliteParameter("@number", gun.number));
+                updateGun.Parameters.Add(new SqliteParameter("@ammo", gun.ammo));
+                updateGun.Parameters.Add(new SqliteParameter("@series", gun.series));
+                updateGun.Parameters.Add(new SqliteParameter("@id", gun.id));
+                try
                 {
+                    if (updateGun.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
         public Status Update(Employee employee)
         {
-            SqliteCommand command = new SqliteCommand(
-                "update employees " +
-                "set first_name = @first_name, last_name = @last_name, middle_name = @middle_name where id = @id;",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@first_name", employee.firstName));
-            command.Parameters.Add(new SqliteParameter("@last_name", employee.lastName));
-            command.Parameters.Add(new SqliteParameter("@middle_name", employee.middleName));
-            command.Parameters.Add(new SqliteParameter("@id", employee.id));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand updateEmployee = this._connection.CreateCommand();
+                updateEmployee.CommandText =  
+                    "update employees " +
+                    "set first_name = @first_name, last_name = @last_name, middle_name = @middle_name where id = @id;";
+                updateEmployee.Parameters.Add(new SqliteParameter("@first_name", employee.firstName));
+                updateEmployee.Parameters.Add(new SqliteParameter("@last_name", employee.lastName));
+                updateEmployee.Parameters.Add(new SqliteParameter("@middle_name", employee.middleName));
+                updateEmployee.Parameters.Add(new SqliteParameter("@id", employee.id));
+                try
                 {
+                    if (updateEmployee.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
         public Status Update(Order order)
         {
-            SqliteCommand command = new SqliteCommand(
-                "update employees " +
-                "set number = @number, employee_id = @employee_id, date = @date where id = @id;",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@number", order.number));
-            command.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
-            command.Parameters.Add(new SqliteParameter("@date", order.date));
-            command.Parameters.Add(new SqliteParameter("@id", order.id));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand updateOrder = this._connection.CreateCommand();
+                updateOrder.CommandText =  
+                    "update orders " +
+                    "set number = @number, employee_id = @employee_id, date = @date where id = @id;";
+                updateOrder.Parameters.Add(new SqliteParameter("@number", order.number));
+                updateOrder.Parameters.Add(new SqliteParameter("@employee_id", order.employeeID));
+                updateOrder.Parameters.Add(new SqliteParameter("@date", order.date));
+                updateOrder.Parameters.Add(new SqliteParameter("@id", order.id));
+                try
                 {
+                    if (updateOrder.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
         public Status Update(MList mlist)
         {
-            SqliteCommand command = new SqliteCommand(
-                "update mlist" +
-                "set date_create   = @date_create," +
-                "date_begin    = @date_begin," +
-                "end_date      = @end_date," +
-                "coach_date    = @coach_date," +
-                "pass_gun_date = @pass_gun_date," +
-                "print_date    = @print_date," +
-                "notes         = @notes," +
-                "deep_time     = @deep_time," +
-                "arrive_time   = @arrive_time," +
-                "pass_gun_time = @pass_gun_time," +
-                "num_mlist     = @num_mlist" +
-                "where id = @id;",
-                this._connection);
-            command.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
-            command.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
-            command.Parameters.Add(new SqliteParameter("@end_date", mlist.dateEnd));
-            command.Parameters.Add(new SqliteParameter("@coach_date", mlist.dateCoach));
-            command.Parameters.Add(new SqliteParameter("@pass_gun_date", mlist.datePassGun));
-            command.Parameters.Add(new SqliteParameter("@print_date", mlist.datePrint));
-            command.Parameters.Add(new SqliteParameter("@notes", mlist.notes));
-            command.Parameters.Add(new SqliteParameter("@deep_time", mlist.timeDeep));
-            command.Parameters.Add(new SqliteParameter("@arrive_time", mlist.timeArrive));
-            command.Parameters.Add(new SqliteParameter("@pass_gun_time", mlist.timePassGun));
-            command.Parameters.Add(new SqliteParameter("@num_mlist", mlist.numberMlist));
-            command.Parameters.Add(new SqliteParameter("@id", mlist.id));
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                if (command.ExecuteNonQuery() == 0)
+                SqliteCommand updateMlist = this._connection.CreateCommand();
+                updateMlist.CommandText =  
+                    "update mlist" +
+                    "set date_create   = @date_create," +
+                    "date_begin    = @date_begin," +
+                    "end_date      = @end_date," +
+                    "coach_date    = @coach_date," +
+                    "pass_gun_date = @pass_gun_date," +
+                    "print_date    = @print_date," +
+                    "notes         = @notes," +
+                    "deep_time     = @deep_time," +
+                    "arrive_time   = @arrive_time," +
+                    "pass_gun_time = @pass_gun_time," +
+                    "num_mlist     = @num_mlist" +
+                    "where id = @id;";
+                updateMlist.Parameters.Add(new SqliteParameter("@date_create", mlist.dateCreate));
+                updateMlist.Parameters.Add(new SqliteParameter("@date_begin", mlist.dateBegin));
+                updateMlist.Parameters.Add(new SqliteParameter("@end_date", mlist.dateEnd));
+                updateMlist.Parameters.Add(new SqliteParameter("@coach_date", mlist.dateCoach));
+                updateMlist.Parameters.Add(new SqliteParameter("@pass_gun_date", mlist.datePassGun));
+                updateMlist.Parameters.Add(new SqliteParameter("@print_date", mlist.datePrint));
+                updateMlist.Parameters.Add(new SqliteParameter("@notes", mlist.notes));
+                updateMlist.Parameters.Add(new SqliteParameter("@deep_time", mlist.timeDeep));
+                updateMlist.Parameters.Add(new SqliteParameter("@arrive_time", mlist.timeArrive));
+                updateMlist.Parameters.Add(new SqliteParameter("@pass_gun_time", mlist.timePassGun));
+                updateMlist.Parameters.Add(new SqliteParameter("@num_mlist", mlist.numberMlist));
+                updateMlist.Parameters.Add(new SqliteParameter("@id", mlist.id));
+                try
                 {
+                    if (updateMlist.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
         // delete Mlist
         public Status Delete(string DataBase, long id)
         {
-            string sqlExpression = "DELETE FROM " + DataBase + " WHERE id = @id";
-
-            SqliteCommand command = new SqliteCommand(sqlExpression, this._connection);
-
-            SqliteParameter idParam = new SqliteParameter("@id", id);
-            command.Parameters.Add(idParam);
-
-            try
+            using (var transaction = this._connection.BeginTransaction())
             {
-                int number = command.ExecuteNonQuery();
-                if (number == 0)
+                SqliteCommand updateOrder = this._connection.CreateCommand();
+                updateOrder.CommandText =  
+                    "DELETE FROM " + DataBase + " WHERE id = @id";
+                updateOrder.Parameters.Add(new SqliteParameter("@id", id));
+                try
                 {
+                    if (updateOrder.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return Status.ERROR;
+                    }
+                    transaction.Commit();
+                    return Status.OK;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     return Status.ERROR;
                 }
-
-                return Status.OK;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-                return Status.ERROR;
             }
         }
 
