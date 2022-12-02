@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using MList.Storage;
+using MList.Storage.Container;
 
 namespace MList.Forms.TableForm
 {
     public partial class TableFormOrder : Form
     {
-        private SqLiteStorage.Order order;
-        private List<Tuple<SqLiteStorage.Employee, int>> itemsEmployee;
-        private List<Tuple<SqLiteStorage.Gun, int>> itemsGun;
-        private List<SqLiteStorage.Gun> itemsPickedGun;
+        private Order order;
+        private List<Tuple<Employee, int>> itemsEmployee;
+        private List<Tuple<Gun, int>> itemsGun;
+        private List<Gun> itemsPickedGun;
         public TableFormOrder() 
         {
             InitializeComponent();
@@ -36,32 +37,31 @@ namespace MList.Forms.TableForm
             this.dataGridView3.Columns.Add("number", "Номер");
             this.dataGridView3.Columns.Add("ammo", "Патроны");
 
-            this.itemsEmployee = new List<Tuple<SqLiteStorage.Employee, int>>();
-            this.itemsGun = new List<Tuple<SqLiteStorage.Gun, int>>();
-            this.itemsPickedGun = new List<SqLiteStorage.Gun>();
-            this.order = new SqLiteStorage.Order { 
+            this.itemsEmployee = new List<Tuple<Employee, int>>();
+            this.itemsGun = new List<Tuple<Gun, int>>();
+            this.itemsPickedGun = new List<Gun>();
+            this.order = new Order { 
                 id = -1
             };
 
             this.Text = "Добавить";
         }
 
-        public TableFormOrder(SqLiteStorage.Order order) :
+        public TableFormOrder(Order order) :
             this()
         {
-            SqLiteStorage.Status status= SqLiteStorage.Status.OK;
             this.textBox1.Text = order.number.ToString();
             this.dateTimePicker1.Value = new DateTime(order.date);
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(
-                out this.itemsPickedGun)))
+            try
             {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
+                this.itemsPickedGun = Gun.Get();
+            }
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
             }
             this.UpdatePickedGunGrid();
 
@@ -83,63 +83,57 @@ namespace MList.Forms.TableForm
             this.UpdateGunGrid();
         }
 
-        private void UpdateEmloyeeGrid() {
-            List<SqLiteStorage.Employee> list = new List<SqLiteStorage.Employee>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list))) 
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS) 
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
-            }
-
+        private void UpdateEmloyeeGrid() 
+        {
             this.dataGridView1.Rows.Clear();
             this.itemsEmployee.Clear();
             int i = 0;
-            foreach (SqLiteStorage.Employee employee in list) 
+            try
             {
-                this.itemsEmployee.Add(new Tuple<SqLiteStorage.Employee, int>(employee, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
-                this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
-                this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
-                i++;
+                foreach (Employee employee in Employee.Get())
+                {
+                    this.itemsEmployee.Add(new Tuple<Employee, int>(employee, i));
+                    if (i >= dataGridView1.Rows.Count)
+                        this.dataGridView1.Rows.Add();
+                    this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
+                    this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
+                    this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
+                    i++;
+                }
+            }
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
             }
         }
 
         private void UpdateGunGrid()
         {
-            List<SqLiteStorage.Gun> list = new List<SqLiteStorage.Gun>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
-            }
-
             this.dataGridView2.Rows.Clear();
             this.itemsGun.Clear();
             int i = 0x00;
-            foreach (SqLiteStorage.Gun gun in list)
+            try
             {
-                this.itemsGun.Add(new Tuple<SqLiteStorage.Gun, int>(gun, i));
-                if (i >= dataGridView2.Rows.Count)
+                foreach (Gun gun in Gun.Get())
+                {
+                    this.itemsGun.Add(new Tuple<Gun, int>(gun, i));
                     this.dataGridView2.Rows.Add();
-                this.dataGridView2.Rows[i].Cells[0].Value = gun.brand;
-                this.dataGridView2.Rows[i].Cells[1].Value = gun.series;
-                this.dataGridView2.Rows[i].Cells[2].Value = gun.number;
-                this.dataGridView2.Rows[i].Cells[3].Value = gun.ammo;
-                i++;
+                    this.dataGridView2.Rows[i].Cells[0].Value = gun.brand;
+                    this.dataGridView2.Rows[i].Cells[1].Value = gun.series;
+                    this.dataGridView2.Rows[i].Cells[2].Value = gun.number;
+                    this.dataGridView2.Rows[i].Cells[3].Value = gun.ammo;
+                    i++;
+                }
+            }
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
             }
         }
 
@@ -147,7 +141,7 @@ namespace MList.Forms.TableForm
         {
             this.dataGridView3.Rows.Clear();
             int i = 0x00;
-            foreach (SqLiteStorage.Gun gun in this.itemsPickedGun)
+            foreach (Gun gun in this.itemsPickedGun)
             {
                 if (i >= dataGridView3.Rows.Count)
                     this.dataGridView3.Rows.Add();
@@ -165,7 +159,7 @@ namespace MList.Forms.TableForm
             {
                 return;
             }
-            foreach (Tuple<SqLiteStorage.Gun, int> item in this.itemsGun)
+            foreach (Tuple<Gun, int> item in this.itemsGun)
             {
                 foreach (DataGridViewRow row in this.dataGridView2.SelectedRows)
                 {
@@ -223,24 +217,14 @@ namespace MList.Forms.TableForm
 
             try
             {
-                if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                    new SqLiteStorage.Order
-                    {
+                Order.Add(
+                    new Order {
                         id = 0,
                         number = int.Parse(this.textBox1.Text),
                         employeeID = this.itemsEmployee[index].Item1.id,
                         date = this.dateTimePicker1.Value.Ticks,
-                        employeeFullName = ""
-                    },
-                    this.itemsPickedGun))
-                {
-                    MessageBox.Show(
-                        "Ошибка",
-                        "Добавления в базу данных",
-                        MessageBoxButtons.OK);
-                    return;
-                }
-                this.DialogResult = DialogResult.OK;
+                        employeeFullName = "" },
+                    this.itemsPickedGun);
             }
             catch(FormatException)
             {
@@ -256,7 +240,14 @@ namespace MList.Forms.TableForm
                     "Не заполнен номер приказа.",
                     MessageBoxButtons.OK);
             }
-
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                    "Ошибка",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+            }
+            this.DialogResult = DialogResult.OK;
         }
 
         private void button4_Click(object sender, EventArgs e)

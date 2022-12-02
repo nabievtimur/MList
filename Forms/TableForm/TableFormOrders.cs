@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using MList.Storage;
+using MList.Storage.Container;
 
 namespace MList.Forms.TableForm
 {
     public partial class TableFormOrders : Form
     {
-        private List<Tuple<SqLiteStorage.Order, int>> items;
+        private List<Tuple<Order, int>> items;
         public TableFormOrders()
         {
             InitializeComponent();
 
-            this.items = new List<Tuple<SqLiteStorage.Order, int>>();
+            this.items = new List<Tuple<Order, int>>();
 
             this.Text = "Приказы о закреплении оружия";
             this.dataGridView1.Columns.Add("number", "Номер");
@@ -62,11 +63,15 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<SqLiteStorage.Order, int> item in this.items)
+                foreach (Tuple<Order, int> item in this.items)
                 {
                     if (item.Item2 == row.Index)
                     {
-                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        try
+                        {
+                            Order.Delete(item.Item1);
+                        }
+                        catch (QueryExeption)
                         {
                             MessageBox.Show(
                                 "Удаление элемента не удалось",
@@ -90,32 +95,28 @@ namespace MList.Forms.TableForm
 
         protected void updateGrid()
         {
-            System.Diagnostics.Debug.WriteLine("enter TableFormOrders::updateGrid");
-            List<SqLiteStorage.Order> list = new List<SqLiteStorage.Order>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
-            }
-
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
-            foreach (SqLiteStorage.Order order in list)
+            try
             {
-                this.items.Add(new Tuple<SqLiteStorage.Order, int>(order, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = order.number;
-                this.dataGridView1.Rows[i].Cells[1].Value = order.date;
-                this.dataGridView1.Rows[i].Cells[2].Value = order.employeeFullName;
-                i++;
+                foreach (Order order in Order.Get())
+                {
+                    this.items.Add(new Tuple<Order, int>(order, i));
+                    if (i >= dataGridView1.Rows.Count)
+                        this.dataGridView1.Rows.Add();
+                    this.dataGridView1.Rows[i].Cells[0].Value = order.number;
+                    this.dataGridView1.Rows[i].Cells[1].Value = order.date;
+                    this.dataGridView1.Rows[i].Cells[2].Value = order.employeeFullName;
+                    i++;
+                }
+            }
+            catch(QueryExeption)
+            {
+                MessageBox.Show(
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
             }
         }
 
@@ -125,35 +126,30 @@ namespace MList.Forms.TableForm
             this.dataGridView2.Rows.Clear();
 
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<SqLiteStorage.Order, int> item in this.items)
+            foreach (Tuple<Order, int> item in this.items)
             {
                 if (item.Item2 == rowIndex)
                 {
-                    List<SqLiteStorage.Gun> list = new List<SqLiteStorage.Gun>();
-                    SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-                    if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(
-                        out list, 
-                        item.Item1)))
+                    int i = 0x00;
+                    try
                     {
-                        if (status != SqLiteStorage.Status.NO_ROWS)
+                        foreach (Gun gun in Gun.Get())
                         {
-                            MessageBox.Show(
-                                "Чтение из базы данных",
-                                "Ошибка",
-                                MessageBoxButtons.OK);
+                            if (i >= dataGridView1.Rows.Count)
+                                this.dataGridView1.Rows.Add();
+                            this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
+                            this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
+                            this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
+                            this.dataGridView1.Rows[i].Cells[3].Value = gun.ammo;
+                            i++;
                         }
                     }
-
-                    int i = 0x00;
-                    foreach (SqLiteStorage.Gun gun in list)
+                    catch (QueryExeption)
                     {
-                        if (i >= dataGridView1.Rows.Count)
-                            this.dataGridView1.Rows.Add();
-                        this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
-                        this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
-                        this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
-                        this.dataGridView1.Rows[i].Cells[3].Value = gun.ammo;
-                        i++;
+                        MessageBox.Show(
+                            "Чтение из базы данных",
+                            "Ошибка",
+                            MessageBoxButtons.OK);
                     }
                 }
             }            

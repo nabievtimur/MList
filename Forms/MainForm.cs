@@ -9,12 +9,12 @@ namespace MList
 {
     public partial class MainForm : Form
     {
-        private List<Tuple<SqLiteStorage.MList, int>> items;
+        private List<Tuple<Storage.Container.MList, int>> items;
         public MainForm()
         {
             InitializeComponent();
 
-            this.items = new List<Tuple<SqLiteStorage.MList, int>>();
+            this.items = new List<Tuple<Storage.Container.MList, int>>();
 
             this.dataGridView1.Columns.Add("number", "Номер");
             this.dataGridView1.Columns.Add("employee", "Сотрудник");
@@ -45,41 +45,37 @@ namespace MList
 
         public void updateDataGrid1()
         {
-            System.Diagnostics.Debug.WriteLine("enter MainForm::updateGrid");
-            List<SqLiteStorage.MList> list = new List<SqLiteStorage.MList>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
-            }
-
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
-            foreach (SqLiteStorage.MList mlist in list)
+            try
             {
-                this.items.Add(new Tuple<SqLiteStorage.MList, int>(mlist, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = mlist.numberMlist;
-                this.dataGridView1.Rows[i].Cells[1].Value = mlist.employeeFullName;
-                this.dataGridView1.Rows[i].Cells[2].Value = new DateTime(mlist.dateCreate).Date.ToString();
-                this.dataGridView1.Rows[i].Cells[3].Value = new DateTime(mlist.dateBegin).Date.ToString();
-                this.dataGridView1.Rows[i].Cells[4].Value = new DateTime(mlist.dateCreate).ToLocalTime().ToString();
-                this.dataGridView1.Rows[i].Cells[5].Value = new DateTime(mlist.dateEnd).Date.ToString();
-                this.dataGridView1.Rows[i].Cells[6].Value = new DateTime(mlist.dateEnd).ToLocalTime().ToString();
-                this.dataGridView1.Rows[i].Cells[7].Value = new DateTime(mlist.dateCoach).ToLocalTime().ToString();
-                this.dataGridView1.Rows[i].Cells[8].Value = new DateTime(mlist.datePassGun).Date.ToString();
-                this.dataGridView1.Rows[i].Cells[9].Value = new DateTime(mlist.datePassGun).ToLocalTime().ToString();
-                this.dataGridView1.Rows[i].Cells[10].Value = new DateTime(mlist.datePrint).Date.ToString();
-                this.dataGridView1.Rows[i].Cells[11].Value = mlist.notes;
-                i++;
+                foreach (Storage.Container.MList mlist in Storage.Container.MList.Get())
+                {
+                    this.items.Add(new Tuple<Storage.Container.MList, int>(mlist, i));
+                    if (i >= dataGridView1.Rows.Count)
+                        this.dataGridView1.Rows.Add();
+                    this.dataGridView1.Rows[i].Cells[0].Value = mlist.numberMlist;
+                    this.dataGridView1.Rows[i].Cells[1].Value = mlist.employeeFullName;
+                    this.dataGridView1.Rows[i].Cells[2].Value = new DateTime(mlist.dateCreate).Date.ToString();
+                    this.dataGridView1.Rows[i].Cells[3].Value = new DateTime(mlist.dateBegin).Date.ToString();
+                    this.dataGridView1.Rows[i].Cells[4].Value = new DateTime(mlist.dateCreate).ToLocalTime().ToString();
+                    this.dataGridView1.Rows[i].Cells[5].Value = new DateTime(mlist.dateEnd).Date.ToString();
+                    this.dataGridView1.Rows[i].Cells[6].Value = new DateTime(mlist.dateEnd).ToLocalTime().ToString();
+                    this.dataGridView1.Rows[i].Cells[7].Value = new DateTime(mlist.dateCoach).ToLocalTime().ToString();
+                    this.dataGridView1.Rows[i].Cells[8].Value = new DateTime(mlist.datePassGun).Date.ToString();
+                    this.dataGridView1.Rows[i].Cells[9].Value = new DateTime(mlist.datePassGun).ToLocalTime().ToString();
+                    this.dataGridView1.Rows[i].Cells[10].Value = new DateTime(mlist.datePrint).Date.ToString();
+                    this.dataGridView1.Rows[i].Cells[11].Value = mlist.notes;
+                    i++;
+                }
+            }
+            catch(QueryExeption)
+            {
+                MessageBox.Show(
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
             }
         }
         public void updateDataGrid2()
@@ -195,6 +191,11 @@ namespace MList
 
         }
         private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

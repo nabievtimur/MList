@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,10 +26,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -159,7 +159,13 @@
     <Compile Include="src\CreateDbSql.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\SqLiteStorage.cs" />
+    <Compile Include="src\SqlLite\Adress.cs" />
+    <Compile Include="src\SqlLite\Car.cs" />
+    <Compile Include="src\SqlLite\Employee.cs" />
+    <Compile Include="src\SqlLite\Gun.cs" />
+    <Compile Include="src\SqlLite\MList.cs" />
+    <Compile Include="src\SqlLite\Order.cs" />
+    <Compile Include="src\SqlLite\SqLite.cs" />
     <EmbeddedResource Include="Forms\CustomizeForms\CustomizeInputForm.resx">
       <DependentUpon>CustomizeInputForm.cs</DependentUpon>
     </EmbeddedResource>

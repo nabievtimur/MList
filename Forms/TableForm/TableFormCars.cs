@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using MList.Forms.CustomizeForms;
+using MList.Storage.Container;
 using MList.Storage;
 
 namespace MList.Forms.TableForm
@@ -16,8 +17,8 @@ namespace MList.Forms.TableForm
         public class CustomizeInputFormContainerCar :
             CustomizeInputFormContainer
         {
-            SqLiteStorage.Car car;
-            public CustomizeInputFormContainerCar(SqLiteStorage.Car car) :
+            Car car;
+            public CustomizeInputFormContainerCar(Car car) :
                 base(car.id == -1 ? "Добавить" : "Изменить")
             {
                 this.car = car;
@@ -48,13 +49,14 @@ namespace MList.Forms.TableForm
             {
                 if (this.car.id == -1)
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                        new SqLiteStorage.Car
-                        {
+                    try
+                    {
+                        Car.Add(new Car {
                             id = -1,
                             brand = lItems[0].Item2.Text,
-                            number = lItems[1].Item2.Text
-                        }))
+                            number = lItems[1].Item2.Text } );
+                    }
+                    catch(QueryExeption e)
                     {
                         MessageBox.Show(
                             "Добавления в базу данных",
@@ -64,13 +66,16 @@ namespace MList.Forms.TableForm
                 }
                 else
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Update(
-                        new SqLiteStorage.Car
+                    try
+                    {
+                        Car.Update(new Car
                         {
                             id = this.car.id,
                             brand = lItems[0].Item2.Text,
                             number = lItems[1].Item2.Text
-                        }))
+                        });
+                    }
+                    catch (QueryExeption e)
                     {
                         MessageBox.Show(
                             "Обновления базы данных",
@@ -83,7 +88,7 @@ namespace MList.Forms.TableForm
             }
         }
 
-        private List<Tuple<SqLiteStorage.Car, int>> items;
+        private List<Tuple<Car, int>> items;
         public TableFormCars()
         {
             InitializeComponent();
@@ -92,13 +97,13 @@ namespace MList.Forms.TableForm
             this.dataGridView1.Columns.Add("number", "Номер");
 
             this.Text = "Машины";
-            this.items = new List<Tuple<SqLiteStorage.Car, int>>();
+            this.items = new List<Tuple<Car, int>>();
         }
         protected override CustomizeInputForm getAddForm()
         {
             return new CustomizeInputForm(
                 new CustomizeInputFormContainerCar(
-                    new SqLiteStorage.Car
+                    new Car
                     {
                         id = -1,
                         brand = "",
@@ -109,13 +114,13 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<SqLiteStorage.Car, int> item in this.items)
+            foreach (Tuple<Car, int> item in this.items)
             {
                 if (item.Item2 == rowIndex)
                 {
                     return new CustomizeInputForm(
                         new CustomizeInputFormContainerCar(
-                            new SqLiteStorage.Car
+                            new Car
                             {
                                 id = item.Item1.id,
                                 brand = item.Item1.brand,
@@ -129,11 +134,15 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<SqLiteStorage.Car, int> item in this.items)
+                foreach (Tuple<Car, int> item in this.items)
                 {
                     if (item.Item2 == row.Index)
                     {
-                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        try
+                        {
+                            Car.Delete(item.Item1);
+                        }
+                        catch(QueryExeption e)
                         {
                             MessageBox.Show(
                                 "Удаление элемента не удалось",
@@ -146,30 +155,27 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
-            List<SqLiteStorage.Car> list = new List<SqLiteStorage.Car>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
-            }
-
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
-            foreach (SqLiteStorage.Car car in list)
+            try
             {
-                this.items.Add(new Tuple<SqLiteStorage.Car, int>(car, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = car.brand;
-                this.dataGridView1.Rows[i].Cells[1].Value = car.number;
-                i++;
+                foreach (Car car in Car.Get())
+                {
+                    this.items.Add(new Tuple<Car, int>(car, i));
+                    if (i >= dataGridView1.Rows.Count)
+                        this.dataGridView1.Rows.Add();
+                    this.dataGridView1.Rows[i].Cells[0].Value = car.brand;
+                    this.dataGridView1.Rows[i].Cells[1].Value = car.number;
+                    i++;
+                }
+            }
+            catch(QueryExeption e)
+            {
+                MessageBox.Show(
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
             }
         }
     }

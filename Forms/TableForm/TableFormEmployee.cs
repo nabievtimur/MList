@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 using MList.Forms.CustomizeForms;
 using MList.Storage;
+using MList.Storage.Container;
 
 namespace MList.Forms.TableForm
 {
@@ -16,8 +17,8 @@ namespace MList.Forms.TableForm
         public class CustomizeInputFormContainerEmployee :
             CustomizeInputFormContainer
         {
-            SqLiteStorage.Employee employee;
-            public CustomizeInputFormContainerEmployee(SqLiteStorage.Employee employee) :
+            Employee employee;
+            public CustomizeInputFormContainerEmployee(Employee employee) :
                 base(employee.id == -1 ? "Добавить" : "Изменить")
             {
                 this.employee = employee;
@@ -56,14 +57,15 @@ namespace MList.Forms.TableForm
             {
                 if (this.employee.id == -1)
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                        new SqLiteStorage.Employee
-                        {
+                    try
+                    {
+                        Employee.Add(new Employee {
                             id = 0,
                             firstName = lItems[1].Item2.Text,
                             lastName = lItems[0].Item2.Text,
-                            middleName = lItems[2].Item2.Text
-                        }))
+                            middleName = lItems[2].Item2.Text } );
+                    }
+                    catch(QueryExeption e)
                     {
                         MessageBox.Show(
                             "Добавления в базу данных",
@@ -73,14 +75,15 @@ namespace MList.Forms.TableForm
                 }
                 else
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Update(
-                        new SqLiteStorage.Employee
-                        {
+                    try
+                    {
+                        Employee.Add(new Employee {
                             id = this.employee.id,
                             firstName = lItems[1].Item2.Text,
                             lastName = lItems[0].Item2.Text,
-                            middleName = lItems[2].Item2.Text
-                        }))
+                            middleName = lItems[2].Item2.Text } );
+                    }
+                    catch (QueryExeption e)
                     {
                         MessageBox.Show(
                             "Обновления базы данных",
@@ -93,7 +96,7 @@ namespace MList.Forms.TableForm
             }
         }
 
-        private List<Tuple<SqLiteStorage.Employee, int>> items;
+        private List<Tuple<Employee, int>> items;
 
         public TableFormEmployee()
         {
@@ -104,13 +107,13 @@ namespace MList.Forms.TableForm
             this.dataGridView1.Columns.Add("middleName", "Отчество");
 
             this.Text = "Сотрудники";
-            this.items = new List<Tuple<SqLiteStorage.Employee, int>>();
+            this.items = new List<Tuple<Employee, int>>();
         }
         protected override CustomizeInputForm getAddForm()
         {
             return new CustomizeInputForm(
                 new CustomizeInputFormContainerEmployee(
-                    new SqLiteStorage.Employee
+                    new Employee
                     {
                         id = -1,
                         firstName = "",
@@ -122,13 +125,13 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<SqLiteStorage.Employee, int> item in this.items)
+            foreach (Tuple<Employee, int> item in this.items)
             {
                 if (item.Item2 == rowIndex)
                 {
                     return new CustomizeInputForm(
                         new CustomizeInputFormContainerEmployee(
-                            new SqLiteStorage.Employee
+                            new Employee
                             {
                                 id = item.Item1.id,
                                 firstName = item.Item1.firstName,
@@ -143,11 +146,15 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<SqLiteStorage.Employee, int> item in this.items)
+                foreach (Tuple<Employee, int> item in this.items)
                 {
                     if (item.Item2 == row.Index)
                     {
-                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        try
+                        {
+                            Employee.Delete(item.Item1);
+                        }
+                        catch (QueryExeption e)
                         {
                             MessageBox.Show(
                                 "Удаление элемента не удалось",
@@ -160,31 +167,28 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
-            List<SqLiteStorage.Employee> list = new List<SqLiteStorage.Employee>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                    "Чтение из базы данных",
-                    "Ошибка",
-                    MessageBoxButtons.OK);
-                }
-            }
-
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0;
-            foreach (SqLiteStorage.Employee employee in list)
+            try
             {
-                this.items.Add(new Tuple<SqLiteStorage.Employee, int>(employee, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
-                this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
-                this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
-                i++;
+                foreach (Employee employee in Employee.Get())
+                {
+                    this.items.Add(new Tuple<Employee, int>(employee, i));
+                    if (i >= dataGridView1.Rows.Count)
+                        this.dataGridView1.Rows.Add();
+                    this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
+                    this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
+                    this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
+                    i++;
+                }
+            }
+            catch(QueryExeption e)
+            {
+                MessageBox.Show(
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
             }
         }
     }

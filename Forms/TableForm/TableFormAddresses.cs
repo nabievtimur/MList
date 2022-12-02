@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using MList.Storage;
+using MList.Storage.Container;
 using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
@@ -16,11 +17,11 @@ namespace MList.Forms.TableForm
         public class CustomizeInputFormContainerAddress : 
             CustomizeInputFormContainer
         {
-            SqLiteStorage.Address addr;
-            public CustomizeInputFormContainerAddress(SqLiteStorage.Address arrd) : 
+            Storage.Container.Address address ;
+            public CustomizeInputFormContainerAddress(Storage.Container.Address arrd) : 
                 base(arrd.id == -1 ? "Добавить" : "Изменить")
             {
-                this.addr = arrd;
+                this.address = arrd;
             }
             public override bool check(ref List<Tuple<Label, TextBox>> lItems)
             {
@@ -31,19 +32,22 @@ namespace MList.Forms.TableForm
                 Label label = new Label();
                 label.Text = "Адрес";
                 TextBox textBox = new TextBox();
-                textBox.Text = this.addr.address;
+                textBox.Text = this.address.address;
                 lItems.Add(new Tuple<Label, TextBox>(label, textBox));
             }
             public override DialogResult operation(List<Tuple<Label, TextBox>> lItems)
             {
-                if (this.addr.id == -1)
+                if (this.address.id == -1)
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Add(
-                        new SqLiteStorage.Address
+                    try
+                    {
+                        Storage.Container.Address.Add(new Storage.Container.Address
                         {
                             id = 0,
                             address = lItems[0].Item2.Text
-                        }))
+                        });
+                    }
+                    catch (QueryExeption e)
                     {
                         MessageBox.Show(
                             "Добавления в базу данных",
@@ -53,15 +57,18 @@ namespace MList.Forms.TableForm
                 }
                 else
                 {
-                    if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Update(
-                        new SqLiteStorage.Address
+                    try
+                    {
+                        Storage.Container.Address.Update(new Storage.Container.Address
                         {
-                            id = this.addr.id,
+                            id = 0,
                             address = lItems[0].Item2.Text
-                        } ))
+                        });
+                    }
+                    catch (QueryExeption e)
                     {
                         MessageBox.Show(
-                            "Обновления базы данных",   
+                            "Обновления базы данных",
                             "Ошибка",
                             MessageBoxButtons.OK);
                     }
@@ -71,7 +78,7 @@ namespace MList.Forms.TableForm
             }
         }
 
-        private List<Tuple<SqLiteStorage.Address, int>> items;
+        private List<Tuple<Storage.Container.Address, int>> items;
         public TableFormAddresses()
         {
             InitializeComponent();
@@ -79,13 +86,13 @@ namespace MList.Forms.TableForm
             this.dataGridView1.Columns.Add("address", "Адрес");
 
             this.Text = "Адреса";
-            this.items = new List<Tuple<SqLiteStorage.Address, int>>();
+            this.items = new List<Tuple<Storage.Container.Address, int>>();
         }
         protected override CustomizeInputForm getAddForm()
         {
             return new CustomizeInputForm(
                 new CustomizeInputFormContainerAddress(
-                    new SqLiteStorage.Address
+                    new Storage.Container.Address
                     {
                         id = -1,
                         address = ""
@@ -95,13 +102,13 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<SqLiteStorage.Address, int> item in this.items)
+            foreach (Tuple<Storage.Container.Address, int> item in this.items)
             {
                 if (item.Item2 == rowIndex)
                 {
                     return new CustomizeInputForm(
                         new CustomizeInputFormContainerAddress(
-                            new SqLiteStorage.Address
+                            new Storage.Container.Address
                             {
                                 id = item.Item1.id,
                                 address = item.Item1.address
@@ -114,11 +121,15 @@ namespace MList.Forms.TableForm
         { 
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<SqLiteStorage.Address, int> item in this.items)
+                foreach (Tuple<Storage.Container.Address, int> item in this.items)
                 {
                     if (item.Item2 == row.Index)
                     {
-                        if (SqLiteStorage.Status.OK != SqLiteStorage.getInstance().Delete(item.Item1))
+                        try
+                        {
+                            Storage.Container.Address.Delete(item.Item1);
+                        }
+                        catch(QueryExeption e)
                         {
                             MessageBox.Show(
                                 "Удаление элемента не удалось",
@@ -131,30 +142,29 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
-            List<SqLiteStorage.Address> list = new List<SqLiteStorage.Address>();
-            SqLiteStorage.Status status = SqLiteStorage.Status.OK;
-            if (SqLiteStorage.Status.OK != (status = SqLiteStorage.getInstance().Get(out list)))
-            {
-                if (status != SqLiteStorage.Status.NO_ROWS)
-                {
-                    MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                }
-            }
-
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
-            foreach (SqLiteStorage.Address addr in list)
+            try
             {
-                this.items.Add(new Tuple<SqLiteStorage.Address, int>(addr, i));
-                if (i >= dataGridView1.Rows.Count)
+                foreach (Storage.Container.Address addr in Storage.Container.Address.Get())
+                {
+                    this.items.Add(new Tuple<Storage.Container.Address, int>(addr, i));
                     this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = addr.address;
-                i++;
+                    this.dataGridView1.Rows[i++].Cells[0].Value = addr.address;
+                    i++;
+                }
             }
+            catch(QueryExeption e)
+            {
+                MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+            }
+
+            
+            
         }
     }
 }

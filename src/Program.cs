@@ -26,12 +26,16 @@ namespace MList
                 }
             }
 
-            if (SqLiteStorage.getInstance().InitConnection() != SqLiteStorage.Status.OK)
+            try
+            {
+                SqLite.getInstance();
+            }
+            catch(Exception)
             {
                 MessageBox.Show(
-                        "Ошибка подключения к базе данных обратитесь к разработчикам.",
-                        "Ошибка БД",
-                        MessageBoxButtons.OK);
+                    "Ошибка подключения к базе данных обратитесь к разработчикам.",
+                    "Ошибка БД",
+                    MessageBoxButtons.OK);
             }
 
             Application.Run(new MainForm());
