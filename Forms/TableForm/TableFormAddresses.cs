@@ -12,13 +12,13 @@ using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
 {
-    public partial class TableFormAddresses : MList.Forms.TableFormTemplate
+    public partial class TableFormAddresses : TableFormTemplate
     {
         public class CustomizeInputFormContainerAddress : 
             CustomizeInputFormContainer
         {
-            Storage.Container.Address address ;
-            public CustomizeInputFormContainerAddress(Storage.Container.Address arrd) : 
+            Address address ;
+            public CustomizeInputFormContainerAddress(Address arrd) : 
                 base(arrd.id == -1 ? "Добавить" : "Изменить")
             {
                 this.address = arrd;
@@ -41,13 +41,13 @@ namespace MList.Forms.TableForm
                 {
                     try
                     {
-                        Storage.Container.Address.Add(new Storage.Container.Address
+                        Address.Add(new Address
                         {
                             id = 0,
                             address = lItems[0].Item2.Text
                         });
                     }
-                    catch (QueryExeption e)
+                    catch (QueryExeption)
                     {
                         MessageBox.Show(
                             "Добавления в базу данных",
@@ -59,13 +59,13 @@ namespace MList.Forms.TableForm
                 {
                     try
                     {
-                        Storage.Container.Address.Update(new Storage.Container.Address
+                        Address.Update(new Address
                         {
-                            id = 0,
+                            id = this.address.id,
                             address = lItems[0].Item2.Text
                         });
                     }
-                    catch (QueryExeption e)
+                    catch (QueryExeption)
                     {
                         MessageBox.Show(
                             "Обновления базы данных",
@@ -78,7 +78,7 @@ namespace MList.Forms.TableForm
             }
         }
 
-        private List<Tuple<Storage.Container.Address, int>> items;
+        private List<Tuple<Address, int>> items;
         public TableFormAddresses()
         {
             InitializeComponent();
@@ -86,13 +86,13 @@ namespace MList.Forms.TableForm
             this.dataGridView1.Columns.Add("address", "Адрес");
 
             this.Text = "Адреса";
-            this.items = new List<Tuple<Storage.Container.Address, int>>();
+            this.items = new List<Tuple<Address, int>>();
         }
         protected override CustomizeInputForm getAddForm()
         {
             return new CustomizeInputForm(
                 new CustomizeInputFormContainerAddress(
-                    new Storage.Container.Address
+                    new Address
                     {
                         id = -1,
                         address = ""
@@ -102,13 +102,13 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<Storage.Container.Address, int> item in this.items)
+            foreach (Tuple<Address, int> item in this.items)
             {
                 if (item.Item2 == rowIndex)
                 {
                     return new CustomizeInputForm(
                         new CustomizeInputFormContainerAddress(
-                            new Storage.Container.Address
+                            new Address
                             {
                                 id = item.Item1.id,
                                 address = item.Item1.address
@@ -121,15 +121,15 @@ namespace MList.Forms.TableForm
         { 
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<Storage.Container.Address, int> item in this.items)
+                foreach (Tuple<Address, int> item in this.items)
                 {
                     if (item.Item2 == row.Index)
                     {
                         try
                         {
-                            Storage.Container.Address.Delete(item.Item1);
+                            Address.Delete(item.Item1);
                         }
-                        catch(QueryExeption e)
+                        catch(QueryExeption)
                         {
                             MessageBox.Show(
                                 "Удаление элемента не удалось",
@@ -142,20 +142,17 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
+            List<Address> list = new List<Address>();
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
+
             try
             {
-                foreach (Storage.Container.Address addr in Storage.Container.Address.Get())
-                {
-                    this.items.Add(new Tuple<Storage.Container.Address, int>(addr, i));
-                    this.dataGridView1.Rows.Add();
-                    this.dataGridView1.Rows[i++].Cells[0].Value = addr.address;
-                    i++;
-                }
+                list = this.textBox1.Text.Length > 0 ?
+                    Address.Get(this.textBox1.Text) : Address.Get();
             }
-            catch(QueryExeption e)
+            catch(QueryExeption)
             {
                 MessageBox.Show(
                         "Чтение из базы данных",
@@ -163,8 +160,13 @@ namespace MList.Forms.TableForm
                         MessageBoxButtons.OK);
             }
 
-            
-            
+            foreach (Address addr in list)
+            {
+                this.items.Add(new Tuple<Address, int>(addr, i));
+                this.dataGridView1.Rows.Add();
+                this.dataGridView1.Rows[i].Cells[0].Value = addr.address;
+                i++;
+            }
         }
     }
 }

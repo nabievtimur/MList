@@ -11,18 +11,18 @@ namespace MList.Storage.Container
         public string series;
         public long number;
         public string ammo;
-        public List<Tuple<String, object>> getByParametrList()
+        public List<SqliteParameter> getByParametrList()
         {
-            return new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@brand", this.brand),
-                    new Tuple<String, object>("@series", this.series),
-                    new Tuple<String, object>("@numder", this.number),
-                    new Tuple<String, object>("@ammo", this.ammo) };
+            return new List<SqliteParameter> {
+                    new SqliteParameter("@brand", this.brand),
+                    new SqliteParameter("@series", this.series),
+                    new SqliteParameter("@number", this.number),
+                    new SqliteParameter("@ammo", this.ammo) };
         }
-        public List<Tuple<String, object>> getByParametrListWithId()
+        public List<SqliteParameter> getByParametrListWithId()
         {
-            List<Tuple<String, object>> l = getByParametrList();
-            l.Add(new Tuple<String, object>("@id", this.id));
+            List<SqliteParameter> l = getByParametrList();
+            l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
         static public List<Gun> Get()
@@ -30,7 +30,7 @@ namespace MList.Storage.Container
             List<Gun> guns = new List<Gun>();
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT id, brand, series, number, ammo FROM guns",
-                null,
+                new List<SqliteParameter>(),
                 "Read guns.");
 
             while (reader.Read()) // построчно считываем данные
@@ -47,15 +47,15 @@ namespace MList.Storage.Container
 
             return guns;
         }
-        public List<Gun> Get(string search)
+        static public List<Gun> Get(string search)
         {
             List<Gun> guns = new List<Gun>();
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT g.id, g.brand, g.series, g.number, g.ammo FROM guns g " +
                     "WHERE g.brand LIKE '%@like%' OR g.series LIKE '%@like%' OR g.\"number\" LIKE '%@like%' or g.ammo LIKE '%@like%' " +
                     "ORDER BY g.brand;",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@like", search)},
+                new List<SqliteParameter> {
+                    new SqliteParameter("@like", search)},
                 "Read guns.");
 
             while (reader.Read()) // построчно считываем данные
@@ -72,7 +72,7 @@ namespace MList.Storage.Container
 
             return guns;
         }
-        public List<Gun> Get(Employee employee)
+        public List<Gun> Get(Gun gun)
         {
             List<Gun> guns = new List<Gun>();
             SqliteDataReader reader = SqLite.execGet(
@@ -81,8 +81,8 @@ namespace MList.Storage.Container
                     "JOIN orders o ON o.id = og.order_id" +
                     "JOIN employees e ON e.id = o.employee_id" +
                     "WHERE e.id = @emp_id",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@emp_id", employee.id )},
+                new List<SqliteParameter> {
+                    new SqliteParameter("@emp_id", gun.id )},
                 "Read guns by order.");
 
             while (reader.Read()) // построчно считываем данные
@@ -105,8 +105,8 @@ namespace MList.Storage.Container
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT gn.id, gn.number, gn.ammo, gn.series, gn.brand FROM guns AS gn " +
                     "JOIN order_gun og ON gn.id = og.gun_id WHERE og.order_id = @order_id",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@order_id", order.id)},
+                new List<SqliteParameter> {
+                    new SqliteParameter("@order_id", order.id)},
                 "Read guns by order.");
 
             while (reader.Read()) // построчно считываем данные
@@ -139,9 +139,9 @@ namespace MList.Storage.Container
                 gun.getByParametrListWithId(),
                 "Update gun.");
         }
-        static public void Delete(Gun address)
+        static public void Delete(Gun gun)
         {
-            SqLite.Delete("addresses", address.id);
+            SqLite.Delete("guns", gun.id);
         }
         public List<Gun> GetCurrent(MList mlist)
         {
@@ -149,8 +149,8 @@ namespace MList.Storage.Container
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT gn.id, gn.number, gn.brand, gn.series, gn.ammo FROM guns AS gn " +
                     "JOIN mlist_gun mg ON gn.id = mg.gun_id WHERE mg.mlist_id = @mlist_id",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@mlist_id", mlist.id) },
+                new List<SqliteParameter> {
+                    new SqliteParameter("@mlist_id", mlist.id) },
                 "Get guns by mlist.");
 
             while (reader.Read()) // построчно считываем данные

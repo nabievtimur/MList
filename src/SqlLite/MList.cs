@@ -20,25 +20,25 @@ namespace MList.Storage.Container
         public long numberMlist;
         public long employeeID;
         public string employeeFullName;
-        public List<Tuple<String, object>> getByParametrList()
+        public List<SqliteParameter> getByParametrList()
         {
-            return new List<Tuple<String, object>> {
-                new Tuple<String, object>("@date_create", this.dateCreate),
-                new Tuple<String, object>("@date_begin", this.dateBegin),
-                new Tuple<String, object>("@end_date", this.dateEnd),
-                new Tuple<String, object>("@coach_date", this.dateCoach),
-                new Tuple<String, object>("@pass_gun_date", this.datePassGun),
-                new Tuple<String, object>("@print_date", this.datePrint),
-                new Tuple<String, object>("@notes", this.notes),
-                new Tuple<String, object>("@deep_time", this.timeDeep),
-                new Tuple<String, object>("@arrive_time", this.timeArrive),
-                new Tuple<String, object>("@pass_gun_time", this.timePassGun),
-                new Tuple<String, object>("@num_mlist", this.numberMlist) };
+            return new List<SqliteParameter> {
+                new SqliteParameter("@date_create", this.dateCreate),
+                new SqliteParameter("@date_begin", this.dateBegin),
+                new SqliteParameter("@end_date", this.dateEnd),
+                new SqliteParameter("@coach_date", this.dateCoach),
+                new SqliteParameter("@pass_gun_date", this.datePassGun),
+                new SqliteParameter("@print_date", this.datePrint),
+                new SqliteParameter("@notes", this.notes),
+                new SqliteParameter("@deep_time", this.timeDeep),
+                new SqliteParameter("@arrive_time", this.timeArrive),
+                new SqliteParameter("@pass_gun_time", this.timePassGun),
+                new SqliteParameter("@num_mlist", this.numberMlist) };
         }
-        public List<Tuple<String, object>> getByParametrListWithId()
+        public List<SqliteParameter> getByParametrListWithId()
         {
-            List<Tuple<String, object>> l = getByParametrList();
-            l.Add(new Tuple<String, object>("@id", this.id));
+            List<SqliteParameter> l = getByParametrList();
+            l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
         static public List<MList> Get()
@@ -64,7 +64,7 @@ namespace MList.Storage.Container
                     "FROM mlist AS ml " +
                     "JOIN mlist_employees me ON ml.id = me.mlist_id " +
                     "JOIN employees e ON e.id = me.employee_id",
-                null,
+                new List<SqliteParameter>(),
                 "Reads MList.");
             while (reader.Read()) // построчно считываем данные
             {

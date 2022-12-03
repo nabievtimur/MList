@@ -85,5 +85,10 @@ namespace MList.Forms
         {
             this.updateGrid();
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            this.updateGrid();
+        }
     }
 }

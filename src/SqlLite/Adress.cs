@@ -8,21 +8,24 @@ namespace MList.Storage.Container
     {
         public long id;
         public string address;
-        public List<Tuple<String, object>> getByParametrList()
+        public List<SqliteParameter> getByParametrList()
         {
-            return new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@first_name", this.address) };
+            return new List<SqliteParameter> {
+                    new SqliteParameter("@address", this.address) };
         }
-        public List<Tuple<String, object>> getByParametrListWithId()
+        public List<SqliteParameter> getByParametrListWithId()
         {
-            List<Tuple<String, object>> l = getByParametrList();
-            l.Add(new Tuple<String, object>("@id", this.id));
+            List<SqliteParameter> l = getByParametrList();
+            l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
         static public List<Address> Get()
         {
             List<Address> employees = new List<Address>();
-            SqliteDataReader reader = SqLite.execGet("SELECT id, address FROM addresses", null, "Read addresses.");
+            SqliteDataReader reader = SqLite.execGet(
+                "SELECT id, address FROM addresses", 
+                new List<SqliteParameter>(), 
+                "Read addresses.");
 
             while (reader.Read()) // построчно считываем данные
             {
@@ -35,13 +38,13 @@ namespace MList.Storage.Container
 
             return employees;
         }
-        public List<Address> Get(string search)
+        static public List<Address> Get(string search) // NOT WORK
         {
             List<Address> adresses = new List<Address>();
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT id, address FROM addresses as ad WHERE ad.address LIKE '%@like%'",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@like", search) },
+                new List<SqliteParameter> {
+                    new SqliteParameter("@like", search) },
                 "Search address.");
             while (reader.Read()) // построчно считываем данные
             {
@@ -65,7 +68,7 @@ namespace MList.Storage.Container
         {
             SqLite.exec(
                 "UPDATE addresses SET address = @address WHERE id = @id",
-                address.getByParametrList(),
+                address.getByParametrListWithId(),
                 "Update address.");
         }
         static public void Delete(Address address)
@@ -78,8 +81,8 @@ namespace MList.Storage.Container
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT ad.id, ad.address FROM addresses AS ad " +
                     "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id WHERE maa.mlist_id = @mlist_id",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@mlist_id", mlist.id) },
+                new List<SqliteParameter> {
+                    new SqliteParameter("@mlist_id", mlist.id) },
                 "Read MList addresses arrive");
             while (reader.Read()) // построчно считываем данные
             {
@@ -95,8 +98,8 @@ namespace MList.Storage.Container
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT ad.id, ad.address FROM addresses AS ad " +
                     "JOIN mlist_deep_address maa ON ad.id = maa.deep_address_id WHERE maa.mlist_id = @mlist_id",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@mlist_id", mlist.id) },
+                new List<SqliteParameter> {
+                    new SqliteParameter("@mlist_id", mlist.id) },
                 "Read MList addresses deep");
             while (reader.Read()) // построчно считываем данные
             {

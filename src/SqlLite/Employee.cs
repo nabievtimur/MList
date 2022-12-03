@@ -10,24 +10,26 @@ namespace MList.Storage.Container
         public string firstName;
         public string lastName;
         public string middleName;
-        public List<Tuple<String, object>> getByParametrList()
+        public List<SqliteParameter> getByParametrList()
         {
-            return new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@first_name", this.firstName),
-                    new Tuple<String, object>("@last_name", this.lastName),
-                    new Tuple<String, object>("@middle_name", this.middleName) };
+            return new List<SqliteParameter> {
+                    new SqliteParameter("@first_name", this.firstName),
+                    new SqliteParameter("@last_name", this.lastName),
+                    new SqliteParameter("@middle_name", this.middleName) };
         }
-        public List<Tuple<String, object>> getByParametrListWithId()
+        public List<SqliteParameter> getByParametrListWithId()
         {
-            List<Tuple<String, object>> l = getByParametrList();
-            l.Add(new Tuple<String, object>("@id", this.id));
+            List<SqliteParameter> l = getByParametrList();
+            l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
         static public List<Employee> Get()
         {
             List<Employee> employees = new List<Employee>();
             SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, first_name, last_name, middle_name FROM employees", null, "Search employees.");
+                "SELECT id, first_name, last_name, middle_name FROM employees",
+                new List<SqliteParameter>(), 
+                "Search employees.");
 
             while (reader.Read()) // построчно считываем данные
             {
@@ -39,7 +41,31 @@ namespace MList.Storage.Container
             }
 
             return employees;
-        }        
+        }
+        static public List<Employee> Get(String search) // NOT WORK
+        {
+            List<Employee> employees = new List<Employee>();
+            SqliteDataReader reader = SqLite.execGet(
+                "SELECT id, first_name, last_name, middle_name FROM employees " +
+                    "WHERE first_name LIKE '%@like%' OR last_name LIKE '%@like%' OR middle_name LIKE '%@like%' " +
+                    "ORDER BY id;",
+                new List<SqliteParameter> {
+                    new SqliteParameter("@like", search)},
+                "Search employee.");
+
+            while (reader.Read()) // построчно считываем данные
+            {
+                employees.Add(new Employee()
+                {
+                    id = reader.GetInt64(0),
+                    firstName = reader.GetString(1),
+                    lastName = reader.GetString(2),
+                    middleName = reader.GetString(3)
+                });
+            }
+
+            return employees;
+        }
         static public void Add(Employee employee)
         {
             SqLite.exec(
@@ -51,7 +77,7 @@ namespace MList.Storage.Container
         {
             SqLite.exec(
                 "UPDATE employees SET first_name = @first_name, last_name = @last_name, middle_name = @middle_name WHERE id = @id",
-                employee.getByParametrList(),
+                employee.getByParametrListWithId(),
                 "Update Employee.");
         }
         static public void Delete(Employee employee)

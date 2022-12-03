@@ -11,17 +11,17 @@ namespace MList.Storage.Container
         public long employeeID;
         public long date;
         public string employeeFullName;
-        public List<Tuple<String, object>> getByParametrList()
+        public List<SqliteParameter> getByParametrList()
         {
-            return new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@number", this.number),
-                    new Tuple<String, object>("@employee_id", this.employeeID),
-                    new Tuple<String, object>("@date", this.date) };
+            return new List<SqliteParameter> {
+                    new SqliteParameter("@number", this.number),
+                    new SqliteParameter("@employee_id", this.employeeID),
+                    new SqliteParameter("@date", this.date) };
         }
-        public List<Tuple<String, object>> getByParametrListWithId()
+        public List<SqliteParameter> getByParametrListWithId()
         {
-            List<Tuple<String, object>> l = getByParametrList();
-            l.Add(new Tuple<String, object>("@id", this.id));
+            List<SqliteParameter> l = getByParametrList();
+            l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
         static public List<Order> Get()
@@ -31,8 +31,8 @@ namespace MList.Storage.Container
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT od.id, od.number, od.date, e.id, e.last_name, e.first_name, e.middle_name " +
                     "FROM orders AS od JOIN orders_employees oe ON od.id = oe.order_id " +
-                    "JOIN employees e ON e.id = oe.employee_id", 
-                null, 
+                    "JOIN employees e ON e.id = oe.employee_id",
+                new List<SqliteParameter>(), 
                 "Read orders.");
 
             while (reader.Read()) // построчно считываем данные

@@ -12,7 +12,7 @@ using MList.Storage;
 
 namespace MList.Forms.TableForm
 {
-    public partial class TableFormCars : MList.Forms.TableFormTemplate
+    public partial class TableFormCars : TableFormTemplate
     {
         public class CustomizeInputFormContainerCar :
             CustomizeInputFormContainer
@@ -155,27 +155,32 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
+            List<Car> list = new List<Car>();
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
-            int i = 0x00;
+            int i = 0;
+
             try
             {
-                foreach (Car car in Car.Get())
-                {
-                    this.items.Add(new Tuple<Car, int>(car, i));
-                    if (i >= dataGridView1.Rows.Count)
-                        this.dataGridView1.Rows.Add();
-                    this.dataGridView1.Rows[i].Cells[0].Value = car.brand;
-                    this.dataGridView1.Rows[i].Cells[1].Value = car.number;
-                    i++;
-                }
+                list = this.textBox1.Text.Length > 0 ?
+                    Car.Get(this.textBox1.Text) : Car.Get();
             }
-            catch(QueryExeption e)
+            catch (QueryExeption)
             {
                 MessageBox.Show(
                     "Чтение из базы данных",
                     "Ошибка",
                     MessageBoxButtons.OK);
+            }
+
+            foreach (Car car in list)
+            {
+                this.items.Add(new Tuple<Car, int>(car, i));
+                if (i >= dataGridView1.Rows.Count)
+                    this.dataGridView1.Rows.Add();
+                this.dataGridView1.Rows[i].Cells[0].Value = car.brand;
+                this.dataGridView1.Rows[i].Cells[1].Value = car.number;
+                i++;
             }
         }
     }

@@ -194,19 +194,12 @@ namespace MList.Forms.TableForm
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
+            List<Gun> list = new List<Gun>();
+
             try 
             {
-                foreach (Gun gun in Gun.Get())
-                {
-                    this.items.Add(new Tuple<Gun, int>(gun, i));
-                    if (i >= dataGridView1.Rows.Count)
-                        this.dataGridView1.Rows.Add();
-                    this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
-                    this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
-                    this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
-                    this.dataGridView1.Rows[i].Cells[3].Value = gun.ammo;
-                    i++;
-                }
+                list = this.textBox1.Text.Length > 0 ?
+                    Gun.Get(this.textBox1.Text) : Gun.Get();
             }
             catch(QueryExeption)
             {
@@ -214,6 +207,18 @@ namespace MList.Forms.TableForm
                         "Чтение из базы данных",
                         "Ошибка",
                         MessageBoxButtons.OK);
+            }
+
+            foreach (Gun gun in list)
+            {
+                this.items.Add(new Tuple<Gun, int>(gun, i));
+                if (i >= dataGridView1.Rows.Count)
+                    this.dataGridView1.Rows.Add();
+                this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
+                this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
+                this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
+                this.dataGridView1.Rows[i].Cells[3].Value = gun.ammo;
+                i++;
             }
         }
     }

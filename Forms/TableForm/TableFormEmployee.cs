@@ -65,7 +65,7 @@ namespace MList.Forms.TableForm
                             lastName = lItems[0].Item2.Text,
                             middleName = lItems[2].Item2.Text } );
                     }
-                    catch(QueryExeption e)
+                    catch(QueryExeption)
                     {
                         MessageBox.Show(
                             "Добавления в базу данных",
@@ -77,7 +77,7 @@ namespace MList.Forms.TableForm
                 {
                     try
                     {
-                        Employee.Add(new Employee {
+                        Employee.Update(new Employee {
                             id = this.employee.id,
                             firstName = lItems[1].Item2.Text,
                             lastName = lItems[0].Item2.Text,
@@ -167,28 +167,32 @@ namespace MList.Forms.TableForm
         }
         protected override void updateGrid()
         {
+            List<Employee> list = new List<Employee>();
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0;
+
             try
             {
-                foreach (Employee employee in Employee.Get())
-                {
-                    this.items.Add(new Tuple<Employee, int>(employee, i));
-                    if (i >= dataGridView1.Rows.Count)
-                        this.dataGridView1.Rows.Add();
-                    this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
-                    this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
-                    this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
-                    i++;
-                }
+                list = this.textBox1.Text.Length > 0 ?
+                    Employee.Get(this.textBox1.Text) : Employee.Get();
             }
-            catch(QueryExeption e)
+            catch(QueryExeption)
             {
                 MessageBox.Show(
                     "Чтение из базы данных",
                     "Ошибка",
                     MessageBoxButtons.OK);
+            }
+
+            foreach (Employee employee in list)
+            {
+                this.items.Add(new Tuple<Employee, int>(employee, i));
+                this.dataGridView1.Rows.Add();
+                this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
+                this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
+                this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
+                i++;
             }
         }
     }

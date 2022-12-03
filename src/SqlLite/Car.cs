@@ -4,30 +4,30 @@ using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public class Car
+    public class Car // NOT WORK
     {
         public long id;
         public string brand;
         public string number;
-        public List<Tuple<String, object>> getByParametrList()
+        public List<SqliteParameter> getByParametrList()
         {
-            return new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@brand", this.brand),
-                    new Tuple<String, object>("@number", this.number) };
+            return new List<SqliteParameter> {
+                    new SqliteParameter("@brand", this.brand),
+                    new SqliteParameter("@number", this.number) };
         }
-        public List<Tuple<String, object>> getByParametrListWithId()
+        public List<SqliteParameter> getByParametrListWithId()
         {
-            List<Tuple<String, object>> l = getByParametrList();
-            l.Add(new Tuple<String, object>("@id", this.id));
+            List<SqliteParameter> l = getByParametrList();
+            l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
         static public List<Car> Get()
         {
             List<Car> cars = new List<Car>();
             SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, brand, numder FROM cars", 
-                null, 
-                "Read cars from Database.");
+                "SELECT id, brand, numder FROM cars",
+                new List<SqliteParameter>(), 
+                "Read cars.");
 
             while (reader.Read()) // построчно считываем данные
             {
@@ -41,12 +41,12 @@ namespace MList.Storage.Container
 
             return cars;
         }
-        public List<Car> Get(string search)
+        static public List<Car> Get(string search)
         {
             List<Car> cars = new List<Car>();
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT id, brand, number FROM cars as cr WHERE cr.brand LIKE '%@like%' cr.number LIKE '%@like%'",
-                new List<Tuple<String, object>> { new Tuple<String, object>("@like", search) },
+                new List<SqliteParameter> { new SqliteParameter("@like", search) },
                 "Search cars.");
             while (reader.Read()) // построчно считываем данные
             {
@@ -81,8 +81,8 @@ namespace MList.Storage.Container
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT cr.id, cr.brand, cr.number FROM cars AS cr " +
                 "JOIN mlist_cars mc ON cr.id = mc.car_id WHERE mc.mlist_id = @mlist_id",
-                new List<Tuple<String, object>> {
-                    new Tuple<String, object>("@mlist_id", mlist.id) },
+                new List<SqliteParameter> {
+                    new SqliteParameter("@mlist_id", mlist.id) },
                 "Read MList cars");
             while (reader.Read()) // построчно считываем данные
             {

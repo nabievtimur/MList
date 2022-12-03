@@ -43,7 +43,9 @@ namespace MList.Storage
         {
             SqliteConnection connection = null;
 
-            string dbFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MList\\DataBase");
+            string dbFolderPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                "MList\\DataBase");
             string dbFilePath = Path.Combine(dbFolderPath, "mlist.db");
 
             // Проверяем существования БД
@@ -103,30 +105,23 @@ namespace MList.Storage
 
             return connection;
         }
-        static public void exec(String query, List<Tuple<String, object>> parametrs, String description)
+        static public void exec(String query, List<SqliteParameter> parametrs, String description)
         {
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
-                SqliteCommand command = new SqliteCommand(
-                    query,
-                    SqLite.getInstance().getConnection());
+                SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
 
                 if (parametrs != null)
                 {
-                    foreach (Tuple<String, object> a in parametrs)
+                    foreach (SqliteParameter a in parametrs)
                     {
-                        command.Parameters.Add(new SqliteParameter(a.Item1, a.Item2));
+                        command.Parameters.Add(a);
                     }
                 }
 
                 try
                 {
-                    if (command.ExecuteNonQuery() == 0)
-                    {
-                        System.Diagnostics.Debug.WriteLine(command.ToString() + " ExecuteNonQuery 0");
-                        transaction.Rollback();
-                        throw new QueryExeption(description);
-                    }
+                    command.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -137,24 +132,21 @@ namespace MList.Storage
                 transaction.Commit();
             }
         }
-        static public SqliteDataReader execGet(String query, List<Tuple<String, object>> parametrs, String description)
+        static public SqliteDataReader execGet(String query, List<SqliteParameter> parametrs, String description)
         {
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
                 SqliteDataReader reader = null;
-                SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection());
+                SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
 
-                if (parametrs != null)
+                foreach (SqliteParameter a in parametrs)
                 {
-                    foreach (Tuple<String, object> a in parametrs)
-                    {
-                        command.Parameters.Add(new SqliteParameter(a.Item1, a.Item2));
-                    }
+                    command.Parameters.Add(a);
                 }
 
                 try
                 {
-                    reader = new SqliteCommand(query, SqLite.getInstance().getConnection()).ExecuteReader();
+                    reader = command.ExecuteReader();
                 }
                 catch (Exception e)
                 {
@@ -170,7 +162,7 @@ namespace MList.Storage
         {
             SqLite.exec(
                 "DELETE FROM " + DataBase + " WHERE id = @id",
-                new List<Tuple<String, object>> { new Tuple<String, object>("@id", id) },
+                new List<SqliteParameter> { new SqliteParameter("@id", id) },
                 "DELETE FROM " + DataBase);
         }
 
