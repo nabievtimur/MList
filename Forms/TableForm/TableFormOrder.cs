@@ -41,9 +41,13 @@ namespace MList.Forms.TableForm
             this.itemsGun = new List<Tuple<Gun, int>>();
             this.itemsPickedGun = new List<Gun>();
             this.order = new Order { 
-                id = -1
-            };
-
+                id = -1 };
+            try
+            {
+                this.textBox1.Text = Order.GetNextOrderNum().ToString();
+            }
+            catch (QueryExeption) { };
+            
             this.Text = "Добавить";
         }
 

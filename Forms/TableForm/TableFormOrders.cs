@@ -95,28 +95,33 @@ namespace MList.Forms.TableForm
 
         protected void updateGrid()
         {
+            List<Order> list = new List<Order>();
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
             int i = 0x00;
+
             try
             {
-                foreach (Order order in Order.Get())
-                {
-                    this.items.Add(new Tuple<Order, int>(order, i));
-                    if (i >= dataGridView1.Rows.Count)
-                        this.dataGridView1.Rows.Add();
-                    this.dataGridView1.Rows[i].Cells[0].Value = order.number;
-                    this.dataGridView1.Rows[i].Cells[1].Value = order.date;
-                    this.dataGridView1.Rows[i].Cells[2].Value = order.employeeFullName;
-                    i++;
-                }
+                list = this.textBox1.Text.Length > 0 ?
+                    Order.Get(this.textBox1.Text) : Order.Get();
             }
-            catch(QueryExeption)
+            catch (QueryExeption)
             {
                 MessageBox.Show(
-                    "Чтение из базы данных",
-                    "Ошибка",
-                    MessageBoxButtons.OK);
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+            }
+
+            foreach (Order order in list)
+            {
+                this.items.Add(new Tuple<Order, int>(order, i));
+                if (i >= dataGridView1.Rows.Count)
+                    this.dataGridView1.Rows.Add();
+                this.dataGridView1.Rows[i].Cells[0].Value = order.number;
+                this.dataGridView1.Rows[i].Cells[1].Value = order.date;
+                this.dataGridView1.Rows[i].Cells[2].Value = order.employeeFullName;
+                i++;
             }
         }
 

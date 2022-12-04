@@ -21,41 +21,41 @@ namespace MList.Storage.Container
             l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
-        static public List<Car> Get()
+        static private List<Car> Read(SqliteDataReader reader)
         {
             List<Car> cars = new List<Car>();
-            SqliteDataReader reader = SqLite.execGet(
-                "SELECT c.id, c.brand, c.\"number\"  FROM cars c ",
-                new List<SqliteParameter>(), 
-                "Read cars.");
 
-            while (reader.Read()) // построчно считываем данные
+            try
             {
-                cars.Add(new Car()
+                while (reader.Read()) // построчно считываем данные
                 {
-                    id = reader.GetInt64(0),
-                    brand = reader.GetString(1),
-                    number = reader.GetString(2)
-                });
+                    cars.Add(new Car()
+                    {
+                        id = reader.GetInt64(0),
+                        brand = reader.GetString(1),
+                        number = reader.GetString(2)
+                    });
+                }
             }
-
+            catch (Exception)
+            {
+                throw new QueryExeption();
+            }
             return cars;
+        }
+        static public List<Car> Get()
+        {
+            return Car.Read(SqLite.execGet(
+                "SELECT c.id, c.brand, c.\"number\"  FROM cars c ",
+                new List<SqliteParameter>(),
+                "Read cars."));
         }
         static public List<Car> Get(string search)
         {
-            List<Car> cars = new List<Car>();
-            SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, brand, number FROM cars as cr WHERE cr.brand LIKE '%@like%' OR cr.number LIKE '%@like%'",
-                new List<SqliteParameter> { new SqliteParameter("@like", search) },
-                "Search cars.");
-            while (reader.Read()) // построчно считываем данные
-            {
-                cars.Add(new Car() {
-                    id = reader.GetInt64(0),
-                    brand = reader.GetString(1),
-                    number = reader.GetString(2) } );
-            }
-            return cars;
+            return Car.Read(SqLite.execGet(
+                "SELECT id, brand, number FROM cars as cr WHERE cr.brand LIKE @like OR cr.number LIKE @like",
+                new List<SqliteParameter> { new SqliteParameter("@like", "%" + search + "%") },
+                "Search cars."));
         }
         static public void Add(Car car)
         {
@@ -77,21 +77,12 @@ namespace MList.Storage.Container
         }
         public List<Car> GetCurrent(MList mlist)
         {
-            List<Car> cars = new List<Car>();
-            SqliteDataReader reader = SqLite.execGet(
+            return Car.Read(SqLite.execGet(
                 "SELECT cr.id, cr.brand, cr.number FROM cars AS cr " +
-                "JOIN mlist_cars mc ON cr.id = mc.car_id WHERE mc.mlist_id = @mlist_id",
+                    "JOIN mlist_cars mc ON cr.id = mc.car_id WHERE mc.mlist_id = @mlist_id",
                 new List<SqliteParameter> {
                     new SqliteParameter("@mlist_id", mlist.id) },
-                "Read MList cars");
-            while (reader.Read()) // построчно считываем данные
-            {
-                cars.Add(new Car {
-                    id = reader.GetInt64(0),
-                    brand = reader.GetString(1),
-                    number = reader.GetString(2) } );
-            }
-            return cars;
+                "Read MList cars"));
         }
     }
 }

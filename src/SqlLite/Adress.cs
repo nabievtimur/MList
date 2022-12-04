@@ -19,43 +19,40 @@ namespace MList.Storage.Container
             l.Add(new SqliteParameter("@id", this.id));
             return l;
         }
+        static private List<Address> Read(SqliteDataReader reader)
+        {
+            List<Address> list = new List<Address>();
+
+            try
+            {
+                while (reader.Read()) // построчно считываем данные
+                {
+                    list.Add(new Address {
+                        id = reader.GetInt64(0),
+                        address = reader.GetString(1) } );
+                }
+            }
+            catch (Exception)
+            {
+                throw new QueryExeption();
+            }
+
+            return list;
+        }
         static public List<Address> Get()
         {
-            List<Address> employees = new List<Address>();
-            SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, address FROM addresses", 
-                new List<SqliteParameter>(), 
-                "Read addresses.");
-
-            while (reader.Read()) // построчно считываем данные
-            {
-                employees.Add(new Address()
-                {
-                    id = reader.GetInt64(0),
-                    address = reader.GetString(1)
-                });
-            }
-
-            return employees;
+            return Address.Read(SqLite.execGet(
+                "SELECT id, address FROM addresses",
+                new List<SqliteParameter>(),
+                "Read addresses."));
         }
-        static public List<Address> Get(string search) // NOT WORK
+        static public List<Address> Get(string search)
         {
-            List<Address> adresses = new List<Address>();
-            SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, address FROM addresses as ad WHERE ad.address LIKE '%@like%'",
+            return Address.Read(SqLite.execGet(
+                "SELECT id, address FROM addresses as ad WHERE ad.address LIKE @like",
                 new List<SqliteParameter> {
-                    new SqliteParameter("@like", search) },
-                "Search address.");
-            while (reader.Read()) // построчно считываем данные
-            {
-                Address address = new Address()
-                {
-                    id = reader.GetInt64(0),
-                    address = reader.GetString(1),
-                };
-                adresses.Add(address);
-            }
-            return adresses;
+                    new SqliteParameter("@like", "%" + search + "%") },
+                "Search address."));
         }
         static public void Add(Address adress)
         {
@@ -77,37 +74,21 @@ namespace MList.Storage.Container
         }
         public List<Address> GetCurrentArrive(MList mlist)
         {
-            List<Address> arriveAddresses = new List<Address>();
-            SqliteDataReader reader = SqLite.execGet(
+            return Address.Read(SqLite.execGet(
                 "SELECT ad.id, ad.address FROM addresses AS ad " +
                     "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id WHERE maa.mlist_id = @mlist_id",
                 new List<SqliteParameter> {
                     new SqliteParameter("@mlist_id", mlist.id) },
-                "Read MList addresses arrive");
-            while (reader.Read()) // построчно считываем данные
-            {
-                arriveAddresses.Add(new Address {
-                    id = reader.GetInt64(0),
-                    address = reader.GetString(1) } );
-            }
-            return arriveAddresses;
+                "Read MList addresses arrive"));
         }
         public List<Address> GetCurrentDeep(MList mlist)
         {
-            List<Address> deepAddresses = new List<Address>();
-            SqliteDataReader reader = SqLite.execGet(
+            return Address.Read(SqLite.execGet(
                 "SELECT ad.id, ad.address FROM addresses AS ad " +
                     "JOIN mlist_deep_address maa ON ad.id = maa.deep_address_id WHERE maa.mlist_id = @mlist_id",
                 new List<SqliteParameter> {
                     new SqliteParameter("@mlist_id", mlist.id) },
-                "Read MList addresses deep");
-            while (reader.Read()) // построчно считываем данные
-            {
-                deepAddresses.Add(new Address {
-                    id = reader.GetInt64(0),
-                    address = reader.GetString(1) } );
-            }
-            return deepAddresses;
+                "Read MList addresses deep"));
         }
     }
 }
