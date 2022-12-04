@@ -25,7 +25,7 @@ namespace MList.Storage.Container
         {
             List<Car> cars = new List<Car>();
             SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, brand, numder FROM cars",
+                "SELECT c.id, c.brand, c.\"number\"  FROM cars c ",
                 new List<SqliteParameter>(), 
                 "Read cars.");
 
@@ -71,9 +71,9 @@ namespace MList.Storage.Container
                 car.getByParametrListWithId(),
                 "Update address.");
         }
-        static public void Delete(Car address)
+        static public void Delete(Car car)
         {
-            SqLite.Delete("addresses", address.id);
+            SqLite.Delete("cars", car.id);
         }
         public List<Car> GetCurrent(MList mlist)
         {
