@@ -42,15 +42,20 @@ namespace MList.Storage.Container
 
             return employees;
         }
+
         static public List<Employee> Get(String search) // NOT WORK
         {
+            search = "%" + search + "%";
+
             List<Employee> employees = new List<Employee>();
             SqliteDataReader reader = SqLite.execGet(
                 "SELECT id, first_name, last_name, middle_name FROM employees " +
-                    "WHERE first_name LIKE '%@like%' OR last_name LIKE '%@like%' OR middle_name LIKE '%@like%' " +
+                    "WHERE first_name LIKE @like OR last_name LIKE @like OR middle_name LIKE @like " +
                     "ORDER BY id;",
                 new List<SqliteParameter> {
-                    new SqliteParameter("@like", search)},
+                    new SqliteParameter("@like", search),
+                },
+                // new List<SqliteParameter> {},
                 "Search employee.");
 
             while (reader.Read()) // построчно считываем данные
