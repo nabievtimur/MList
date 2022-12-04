@@ -45,7 +45,7 @@ namespace MList.Storage.Container
         {
             List<Car> cars = new List<Car>();
             SqliteDataReader reader = SqLite.execGet(
-                "SELECT id, brand, number FROM cars as cr WHERE cr.brand LIKE '%@like%' cr.number LIKE '%@like%'",
+                "SELECT id, brand, number FROM cars as cr WHERE cr.brand LIKE '%@like%' OR cr.number LIKE '%@like%'",
                 new List<SqliteParameter> { new SqliteParameter("@like", search) },
                 "Search cars.");
             while (reader.Read()) // построчно считываем данные
@@ -67,7 +67,7 @@ namespace MList.Storage.Container
         static public void Update(Car car)
         {
             SqLite.exec(
-                "UPDATE cars SET brand = @brand, number = @number where WHERE id = @id",
+                "UPDATE cars SET brand = @brand, number = @number WHERE id = @id",
                 car.getByParametrListWithId(),
                 "Update address.");
         }
