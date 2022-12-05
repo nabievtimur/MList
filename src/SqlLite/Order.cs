@@ -73,7 +73,7 @@ namespace MList.Storage.Container
         static public long GetNextOrderNum()
         {
             SqliteDataReader reader = SqLite.execGet(
-                "SELECT max(o.number) FROM orders as o", 
+                "SELECT coalesce(max(o.number), 0) last_order_num FROM orders as o;", 
                 new List<SqliteParameter>(), 
                 "Read max number.");
             long maxOrderNum = 0;
@@ -81,7 +81,9 @@ namespace MList.Storage.Container
             {
                 try
                 {
+                    reader.Read();
                     maxOrderNum = reader.GetInt64(0);
+                    reader.Close();
                 }
                 catch (Exception) 
                 {
