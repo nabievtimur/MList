@@ -109,53 +109,60 @@ namespace MList.Storage
         {
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
-                SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
-
-                if (parametrs != null)
-                {
-                    foreach (SqliteParameter a in parametrs)
-                    {
-                        command.Parameters.Add(a);
-                    }
-                }
-
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e.ToString());
-                    transaction.Rollback();
-                    throw new QueryExeption(description);
-                }
+                SqLite.exec(query, parametrs, description, transaction);
                 transaction.Commit();
+            }
+        }
+        static public void exec(String query, List<SqliteParameter> parametrs, String description, SqliteTransaction transaction)
+        {
+            SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
+
+            if (parametrs != null)
+            {
+                foreach (SqliteParameter a in parametrs)
+                {
+                    command.Parameters.Add(a);
+                }
+            }
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                transaction.Rollback();
+                throw new QueryExeption(description);
             }
         }
         static public SqliteDataReader execGet(String query, List<SqliteParameter> parametrs, String description)
         {
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
-                SqliteDataReader reader = null;
-                SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
-
-                foreach (SqliteParameter a in parametrs)
-                {
-                    command.Parameters.Add(a);
-                }
-
-                try
-                {
-                    reader = command.ExecuteReader();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    System.Diagnostics.Debug.WriteLine(e.ToString());
-                    throw new QueryExeption(description);
-                }
+                SqliteDataReader reader = SqLite.execGet(query, parametrs, description, transaction);
                 transaction.Commit();
                 return reader;
+            }
+        }
+        static public SqliteDataReader execGet(String query, List<SqliteParameter> parametrs, String description, SqliteTransaction transaction)
+        {
+            SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
+
+            foreach (SqliteParameter a in parametrs)
+            {
+                command.Parameters.Add(a);
+            }
+
+            try
+            {
+                return command.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                throw new QueryExeption(description);
             }
         }
         static public void Delete(string DataBase, long id)
