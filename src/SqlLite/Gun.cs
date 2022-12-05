@@ -69,7 +69,7 @@ namespace MList.Storage.Container
                     new SqliteParameter("@like", "%" + search + "%")},
                 "Read guns."));
         }
-        public List<Gun> Get(Gun gun)
+        static public List<Gun> Get(Gun gun)
         {
             return Gun.Read(SqLite.execGet(
                 "SELECT gn.id, gn.brand, gn.series, gn.number, gn.ammo FROM guns AS gn" +
@@ -81,7 +81,7 @@ namespace MList.Storage.Container
                     new SqliteParameter("@emp_id", gun.id )},
                 "Read guns by order."));
         }
-        public List<Gun> GetCurrent(Order order)
+        static public List<Gun> GetCurrent(Order order)
         {
             return Gun.Read(SqLite.execGet(
                 "SELECT gn.id, gn.number, gn.ammo, gn.series, gn.brand FROM guns AS gn " +

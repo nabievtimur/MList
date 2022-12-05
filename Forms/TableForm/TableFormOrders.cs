@@ -15,12 +15,12 @@ namespace MList.Forms.TableForm
 {
     public partial class TableFormOrders : Form
     {
-        private List<Tuple<Order, int>> items;
+        private Dictionary<int, Order> items;
         public TableFormOrders()
         {
             InitializeComponent();
 
-            this.items = new List<Tuple<Order, int>>();
+            this.items = new Dictionary<int, Order>();
 
             this.Text = "Приказы о закреплении оружия";
             this.dataGridView1.Columns.Add("number", "Номер");
@@ -37,6 +37,7 @@ namespace MList.Forms.TableForm
         {
             TableFormOrder form = new TableFormOrder();
             form.ShowDialog();
+            this.updateGrid();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -49,43 +50,34 @@ namespace MList.Forms.TableForm
                         MessageBoxButtons.OK);
                 return;
             }
-            foreach(var item in this.items)
-            {
-                if (item.Item2 == this.dataGridView1.SelectedRows[0].Index)
-                {
-                    TableFormOrder form = new TableFormOrder(item.Item1);
-                    form.ShowDialog();
-                }
-            }            
+
+            TableFormOrder form = new TableFormOrder(this.items[this.dataGridView1.SelectedRows[0].Index]);
+            form.ShowDialog();
+            this.updateGrid();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<Order, int> item in this.items)
+                try
                 {
-                    if (item.Item2 == row.Index)
-                    {
-                        try
-                        {
-                            Order.Delete(item.Item1);
-                        }
-                        catch (QueryExeption)
-                        {
-                            MessageBox.Show(
-                                "Удаление элемента не удалось",
-                                "Ошибка",
-                                MessageBoxButtons.OK);
-                        }
-                    }
+                    Order.Delete(this.items[row.Index]);
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
+            this.updateGrid();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            this.updateSubGrid();
+            this.updateGrid();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -115,49 +107,44 @@ namespace MList.Forms.TableForm
 
             foreach (Order order in list)
             {
-                this.items.Add(new Tuple<Order, int>(order, i));
+                this.items.Add(i, order);
                 if (i >= dataGridView1.Rows.Count)
                     this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i].Cells[0].Value = order.number;
-                this.dataGridView1.Rows[i].Cells[1].Value = order.date;
+                this.dataGridView1.Rows[i].Cells[1].Value = new DateTime(order.date).ToString();
                 this.dataGridView1.Rows[i].Cells[2].Value = order.employeeFullName;
                 i++;
             }
+            this.updateSubGrid();
         }
 
         protected void updateSubGrid()
         {
-            System.Diagnostics.Debug.WriteLine("enter TableFormOrders::updateSubGrid");
             this.dataGridView2.Rows.Clear();
 
-            int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<Order, int> item in this.items)
+            if (this.dataGridView1.SelectedRows.Count > 0)
             {
-                if (item.Item2 == rowIndex)
+                int i = 0x00;
+                try
                 {
-                    int i = 0x00;
-                    try
+                    foreach (Gun gun in Gun.GetCurrent(this.items[this.dataGridView1.SelectedRows[0].Index]))
                     {
-                        foreach (Gun gun in Gun.Get())
-                        {
-                            if (i >= dataGridView1.Rows.Count)
-                                this.dataGridView1.Rows.Add();
-                            this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
-                            this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
-                            this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
-                            this.dataGridView1.Rows[i].Cells[3].Value = gun.ammo;
-                            i++;
-                        }
-                    }
-                    catch (QueryExeption)
-                    {
-                        MessageBox.Show(
-                            "Чтение из базы данных",
-                            "Ошибка",
-                            MessageBoxButtons.OK);
+                        this.dataGridView2.Rows.Add();
+                        this.dataGridView2.Rows[i].Cells[0].Value = gun.brand;
+                        this.dataGridView2.Rows[i].Cells[1].Value = gun.series;
+                        this.dataGridView2.Rows[i].Cells[2].Value = gun.number;
+                        this.dataGridView2.Rows[i].Cells[3].Value = gun.ammo;
+                        i++;
                     }
                 }
-            }            
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
         }
 
         private void TableFormOrders_Load(object sender, EventArgs e)
