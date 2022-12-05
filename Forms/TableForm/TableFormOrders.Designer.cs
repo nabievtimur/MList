@@ -132,6 +132,7 @@
             this.Name = "TableFormOrders";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TableFormOrders";
+            this.Load += new System.EventHandler(this.TableFormOrders_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);

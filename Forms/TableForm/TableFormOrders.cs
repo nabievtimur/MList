@@ -85,7 +85,7 @@ namespace MList.Forms.TableForm
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            this.updateSubGrid();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -158,6 +158,11 @@ namespace MList.Forms.TableForm
                     }
                 }
             }            
+        }
+
+        private void TableFormOrders_Load(object sender, EventArgs e)
+        {
+            this.updateGrid();
         }
     }
 }
