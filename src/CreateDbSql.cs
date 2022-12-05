@@ -71,11 +71,20 @@ create table guns
     ammo   text
 );
 
+create index guns_ammo_IDX
+    on guns (ammo);
+
+create index guns_brand_IDX
+    on guns (brand);
+
 create unique index guns_id_uindex
     on guns (id);
 
 create unique index guns_number_uindex
     on guns (number);
+
+create index guns_series_IDX
+    on guns (series);
 
 create table mlist
 (
@@ -95,11 +104,35 @@ create table mlist
     num_mlist     integer not null
 );
 
+create index mlist_arrive_time_IDX
+    on mlist (arrive_time);
+
+create index mlist_coach_date_IDX
+    on mlist (coach_date);
+
+create index mlist_date_begin_IDX
+    on mlist (date_begin);
+
+create index mlist_date_create_IDX
+    on mlist (date_create);
+
+create index mlist_deep_time_IDX
+    on mlist (deep_time);
+
+create index mlist_end_date_IDX
+    on mlist (end_date);
+
 create unique index mlist_id_uindex
     on mlist (id);
 
 create unique index mlist_num_mlist_uindex
     on mlist (num_mlist);
+
+create index mlist_pass_gun_date_IDX
+    on mlist (pass_gun_date);
+
+create index mlist_pass_gun_time_IDX
+    on mlist (pass_gun_time);
 
 create table mlist_arrive_address
 (
@@ -110,6 +143,12 @@ create table mlist_arrive_address
         references addresses
             on update cascade
 );
+
+create index mlist_arrive_address_arrive_address_id_IDX
+    on mlist_arrive_address (arrive_address_id);
+
+create index mlist_arrive_address_mlist_id_IDX
+    on mlist_arrive_address (mlist_id);
 
 create table mlist_cars
 (
@@ -142,6 +181,18 @@ create index mlist_deep_address_deep_address_id_index
 create index mlist_deep_address_mlist_id_index
     on mlist_deep_address (mlist_id);
 
+create table mlist_employees
+(
+    mlist_id    INTEGER
+        constraint mlist_employees_FK
+            references mlist
+            on update cascade on delete cascade,
+    employee_id INTEGER
+        constraint mlist_employees_FK_1
+            references employees
+            on update cascade on delete cascade
+);
+
 create table mlist_gun
 (
     mlist_id integer not null
@@ -170,19 +221,15 @@ create table orders
 
 create table order_gun
 (
-    order_id integer not null
-        references orders
-            on update cascade,
-    gun_id   integer not null
-        references guns
-            on update cascade
+    order_id INTEGER
+        constraint order_gun_FK
+            references orders
+            on update cascade on delete cascade,
+    gun_id   INTEGER
+        constraint order_gun_FK_1
+            references guns
+            on update cascade on delete cascade
 );
-
-create index order_gun_gun_id_index
-    on order_gun (gun_id);
-
-create index order_gun_order_id_index
-    on order_gun (order_id);
 
 create unique index orders_id_uindex
     on orders (id);
