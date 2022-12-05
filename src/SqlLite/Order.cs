@@ -55,8 +55,7 @@ namespace MList.Storage.Container
         {
             return Order.Read(SqLite.execGet(
                 "SELECT od.id, od.number, od.date, e.id, e.last_name, e.first_name, e.middle_name " +
-                    "FROM orders AS od JOIN orders_employees oe ON od.id = oe.order_id " +
-                    "JOIN employees e ON e.id = oe.employee_id",
+                    "FROM orders AS od JOIN employees e ON od.employee_id = e.id ",
                 new List<SqliteParameter>(),
                 "Read orders."));
         }
@@ -64,8 +63,7 @@ namespace MList.Storage.Container
         {
             return Order.Read(SqLite.execGet(
                 "SELECT od.id, od.number, od.date, e.id, e.last_name, e.first_name, e.middle_name " +
-                    "FROM orders AS od JOIN orders_employees oe ON od.id = oe.order_id " +
-                    "JOIN employees e ON e.id = oe.employee_id " +
+                    "FROM orders AS od JOIN employees e ON od.employee_id = e.id " +
                     "WHERE od.number LIKE @like OR od.date LIKE @like OR e.first_name LIKE @like OR " +
                     "e.last_name LIKE @like OR e.middle_name LIKE @like ",
                 new List<SqliteParameter> {
@@ -75,7 +73,7 @@ namespace MList.Storage.Container
         static public long GetNextOrderNum()
         {
             SqliteDataReader reader = SqLite.execGet(
-                "SELECT max(number) FROM orders", 
+                "SELECT max(o.number) FROM orders as o", 
                 new List<SqliteParameter>(), 
                 "Read max number.");
             long maxOrderNum = 0;
@@ -97,6 +95,7 @@ namespace MList.Storage.Container
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
                 SqliteCommand createOrderCommand = SqLite.getInstance().getConnection().CreateCommand();
+                createOrderCommand.Transaction = transaction;
                 createOrderCommand.CommandText =
                     "INSERT INTO orders (number, employee_id, date)" +
                     "VALUES (@number, @employee_id, @date);" +
@@ -120,6 +119,7 @@ namespace MList.Storage.Container
                 foreach (var gun in guns)
                 {
                     SqliteCommand orderGunCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    orderGunCommand.Transaction = transaction;
 
                     orderGunCommand.CommandText =
                         "INSERT INTO order_gun (order_id, gun_id)" +
