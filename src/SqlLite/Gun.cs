@@ -42,9 +42,11 @@ namespace MList.Storage.Container
                         ammo = reader.GetString(4)
                     });
                 }
+                reader.Close();
             }
             catch (Exception)
             {
+                reader.Close();
                 throw new QueryExeption();
             }
 

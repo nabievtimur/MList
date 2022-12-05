@@ -49,7 +49,7 @@ namespace MList.Storage.Container
                     "ml.num_mlist, " +
                     "ml.date_create, " +
                     "ml.date_begin, " +
-                    "ml.date_end, " +
+                    "ml.end_date, " +
                     "ml.coach_date, " +
                     "ml.pass_gun_date, " +
                     "ml.pass_gun_time, " +
@@ -88,6 +88,7 @@ namespace MList.Storage.Container
                         reader.GetString(14),
                         reader.GetString(15)) } );
             }
+            reader.Close();
 
             return mlists;
         }

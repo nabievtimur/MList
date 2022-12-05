@@ -36,9 +36,11 @@ namespace MList.Storage.Container
                         number = reader.GetString(2)
                     });
                 }
+                reader.Close();
             }
             catch (Exception)
             {
+                reader.Close();
                 throw new QueryExeption();
             }
             return cars;

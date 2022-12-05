@@ -31,9 +31,11 @@ namespace MList.Storage.Container
                         id = reader.GetInt64(0),
                         address = reader.GetString(1) } );
                 }
+                reader.Close();
             }
             catch (Exception)
             {
+                reader.Close();
                 throw new QueryExeption();
             }
 

@@ -39,9 +39,11 @@ namespace MList.Storage.Container
                         middleName = reader.GetString(3)
                     });
                 }
+                reader.Close();
             }
             catch (Exception)
             {
+                reader.Close();
                 throw new QueryExeption();
             }
 
