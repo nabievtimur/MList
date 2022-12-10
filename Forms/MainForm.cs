@@ -9,12 +9,12 @@ namespace MList
 {
     public partial class MainForm : Form
     {
-        private List<Tuple<Storage.Container.MList, int>> items;
+        private Dictionary<int, Storage.Container.MList> items; 
         public MainForm()
         {
             InitializeComponent();
 
-            this.items = new List<Tuple<Storage.Container.MList, int>>();
+            this.items = new Dictionary<int, Storage.Container.MList>();
 
             this.dataGridView1.Columns.Add("number", "Номер");
             this.dataGridView1.Columns.Add("employee", "Сотрудник");
@@ -42,8 +42,7 @@ namespace MList
 
             this.dataGridView5.Columns.Add("address", "Адрес прибытия");
         }
-
-        public void updateDataGrid1()
+        public void updateGrid()
         {
             this.dataGridView1.Rows.Clear();
             this.items.Clear();
@@ -52,7 +51,7 @@ namespace MList
             {
                 foreach (Storage.Container.MList mlist in Storage.Container.MList.Get())
                 {
-                    this.items.Add(new Tuple<Storage.Container.MList, int>(mlist, i));
+                    this.items.Add(i, mlist);
                     if (i >= dataGridView1.Rows.Count)
                         this.dataGridView1.Rows.Add();
                     this.dataGridView1.Rows[i].Cells[0].Value = mlist.numberMlist;
@@ -78,33 +77,112 @@ namespace MList
                     MessageBoxButtons.OK);
             }
         }
-        public void updateDataGrid2()
+        public void updateSubGrids()
         {
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                return;
+            }
 
+            Storage.Container.MList mlist = this.items[this.dataGridView1.SelectedRows[0].Index];
+
+            {
+                this.dataGridView2.Rows.Clear();
+                int i = 0x00;
+                try
+                {
+                    foreach (Storage.Container.Gun gun in Storage.Container.Gun.GetCurrent(mlist))
+                    {
+                        this.dataGridView2.Rows.Add();
+                        this.dataGridView2.Rows[i].Cells[0].Value = gun.brand;
+                        this.dataGridView2.Rows[i].Cells[1].Value = gun.series;
+                        this.dataGridView2.Rows[i].Cells[2].Value = gun.number;
+                        this.dataGridView2.Rows[i].Cells[3].Value = gun.ammo;
+                        i++;
+                    }
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
+
+            {
+                this.dataGridView3.Rows.Clear();
+                int i = 0x00;
+                try
+                {
+                    foreach (Storage.Container.Car car in Storage.Container.Car.GetCurrent(mlist))
+                    {
+                        this.dataGridView3.Rows.Add();
+                        this.dataGridView3.Rows[i].Cells[0].Value = car.brand;
+                        this.dataGridView3.Rows[i].Cells[1].Value = car.number;
+                        i++;
+                    }
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
+
+            {
+                this.dataGridView4.Rows.Clear();
+                int i = 0x00;
+                try
+                {
+                    foreach (Storage.Container.Address addr in Storage.Container.Address.GetCurrentArrive(mlist))
+                    {
+                        this.dataGridView4.Rows.Add();
+                        this.dataGridView4.Rows[i].Cells[0].Value = addr.address;
+                        i++;
+                    }
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
+
+            {
+                this.dataGridView5.Rows.Clear();
+                int i = 0x00;
+                try 
+                {
+                    foreach (Storage.Container.Address addr in Storage.Container.Address.GetCurrentDeep(mlist))
+                    {
+                        this.dataGridView5.Rows.Add();
+                        this.dataGridView5.Rows[i].Cells[0].Value = addr.address;
+                        i++;
+                    }
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
         }
-        public void updateDataGrid3()
-        {
-
-        }
-        public void updateDataGrid4()
-        {
-
-        }
-        public void updateDataGrid5()
-        {
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.updateGrid();
+            this.updateSubGrids();
         }
-
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }
-
         private void авторизацияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InputBox inputBox = new InputBox("Аунтентификация", "Введите пароль");
@@ -123,12 +201,10 @@ namespace MList
                 }
             }
         }
-
         private void задатьПарольToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Authorization.passwordCreate();
         }
-
         private void авторизацияToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             InputBox inputBox = new InputBox("Аунтентификация", "Введите пароль");
@@ -147,36 +223,30 @@ namespace MList
                 }
             }
         }
-
         private void сменитьПарольToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Authorization.passwordCreate();
         }
-
         private void открытьБДToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TableFormEmployee form = new TableFormEmployee();
             form.ShowDialog();
         }
-
         private void импортToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TableFormGuns form = new TableFormGuns();
             form.ShowDialog();
         }
-
         private void экспортToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TableFormAddresses form = new TableFormAddresses();
             form.ShowDialog();
         }
-
         private void очиститьБДToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TableFormCars form = new TableFormCars();
             form.ShowDialog();
         }
-
         private void приказыОЗакрепленияОружияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TableFormOrders form = new TableFormOrders();
@@ -194,7 +264,6 @@ namespace MList
         {
 
         }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 

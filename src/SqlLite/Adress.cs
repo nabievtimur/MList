@@ -74,7 +74,7 @@ namespace MList.Storage.Container
         {
             SqLite.Delete("addresses", address.id);
         }
-        public List<Address> GetCurrentArrive(MList mlist)
+        static public List<Address> GetCurrentArrive(MList mlist)
         {
             return Address.Read(SqLite.execGet(
                 "SELECT ad.id, ad.address FROM addresses AS ad " +
@@ -83,7 +83,7 @@ namespace MList.Storage.Container
                     new SqliteParameter("@mlist_id", mlist.id) },
                 "Read MList addresses arrive"));
         }
-        public List<Address> GetCurrentDeep(MList mlist)
+        static public List<Address> GetCurrentDeep(MList mlist)
         {
             return Address.Read(SqLite.execGet(
                 "SELECT ad.id, ad.address FROM addresses AS ad " +

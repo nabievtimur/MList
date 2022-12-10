@@ -77,7 +77,7 @@ namespace MList.Storage.Container
         {
             SqLite.Delete("cars", car.id);
         }
-        public List<Car> GetCurrent(MList mlist)
+        static public List<Car> GetCurrent(MList mlist)
         {
             return Car.Read(SqLite.execGet(
                 "SELECT cr.id, cr.brand, cr.number FROM cars AS cr " +
