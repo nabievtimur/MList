@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public class Gun
+    public class Gun : iConteiner
     {
-        public long id;
         public string brand;
         public string series;
         public long number;
         public string ammo;
-        public List<SqliteParameter> getByParametrList()
+        public override List<SqliteParameter> getByParametrList()
         {
             return new List<SqliteParameter> {
                     new SqliteParameter("@brand", this.brand),
@@ -19,11 +19,53 @@ namespace MList.Storage.Container
                     new SqliteParameter("@number", this.number),
                     new SqliteParameter("@ammo", this.ammo) };
         }
-        public List<SqliteParameter> getByParametrListWithId()
+        public override List<SqliteParameter> getByParametrListWithId()
         {
             List<SqliteParameter> l = getByParametrList();
             l.Add(new SqliteParameter("@id", this.id));
             return l;
+        }
+        public override DataGridViewRow fillRow(DataGridViewRow row)
+        {
+            row.Cells[0].Value = this.brand;
+            row.Cells[1].Value = this.series;
+            row.Cells[2].Value = this.number;
+            row.Cells[3].Value = this.ammo;
+            return row;
+        }
+        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            {
+                Label label = new Label();
+                label.Text = "Брэнд";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.brand;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
+
+            {
+                Label label = new Label();
+                label.Text = "Серия";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.series;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
+
+            {
+                Label label = new Label();
+                label.Text = "Номер";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.number.ToString();
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
+
+            {
+                Label label = new Label();
+                label.Text = "Патроны";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.ammo;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
         }
         static private List<Gun> Read(SqliteDataReader reader)
         {
@@ -118,6 +160,13 @@ namespace MList.Storage.Container
                 new List<SqliteParameter> {
                     new SqliteParameter("@mlist_id", mlist.id) },
                 "Get guns by mlist."));
+        }
+        static public void initTable(DataGridView table)
+        {
+            table.Columns.Add("brand", "Брэнд");
+            table.Columns.Add("series", "Серия");
+            table.Columns.Add("number", "Номер");
+            table.Columns.Add("ammo", "Патроны");
         }
     }
 }

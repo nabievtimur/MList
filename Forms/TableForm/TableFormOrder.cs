@@ -23,19 +23,9 @@ namespace MList.Forms.TableForm
         {
             InitializeComponent();
 
-            this.dataGridView1.Columns.Add("lastName", "Фамилия");
-            this.dataGridView1.Columns.Add("firstName", "Имя");
-            this.dataGridView1.Columns.Add("middleName", "Отчество");
-
-            this.dataGridView2.Columns.Add("brand", "Брэнд");
-            this.dataGridView2.Columns.Add("series", "Серия");
-            this.dataGridView2.Columns.Add("number", "Номер");
-            this.dataGridView2.Columns.Add("ammo", "Патроны");
-
-            this.dataGridView3.Columns.Add("brand", "Брэнд");
-            this.dataGridView3.Columns.Add("series", "Серия");
-            this.dataGridView3.Columns.Add("number", "Номер");
-            this.dataGridView3.Columns.Add("ammo", "Патроны");
+            Employee.initTable(this.dataGridView1);
+            Gun.initTable(this.dataGridView2);
+            Gun.initTable(this.dataGridView3);
 
             this.itemsEmployee = new List<Tuple<Employee, int>>();
             this.itemsGun = new List<Tuple<Gun, int>>();

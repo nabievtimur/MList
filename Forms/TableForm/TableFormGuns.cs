@@ -5,14 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
-using MList.Forms.CustomizeForms;
 using MList.Storage;
 using MList.Storage.Container;
+using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
 {
-    public partial class TableFormGuns : MList.Forms.TableFormTemplate
+    public partial class TableFormGuns : TableFormTemplate
     {
         public class CustomizeInputFormContainerGun :
             CustomizeInputFormContainer
@@ -121,19 +122,14 @@ namespace MList.Forms.TableForm
                 return DialogResult.OK;
             }
         }
-
-        private List<Tuple<Gun, int>> items;
         public TableFormGuns()
         {
             InitializeComponent();
 
-            this.dataGridView1.Columns.Add("brand", "Брэнд");
-            this.dataGridView1.Columns.Add("series", "Серия");
-            this.dataGridView1.Columns.Add("number", "Номер");
-            this.dataGridView1.Columns.Add("ammo", "Патроны");
+            Gun.initTable(this.dataGridView1);
 
             this.Text = "Оружие";
-            this.items = new List<Tuple<Gun, int>>();
+            this.items = new Dictionary<int, iConteiner>();
         }
         protected override CustomizeInputForm getAddForm()
         {
@@ -150,75 +146,42 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<Gun, int> item in this.items)
-            {
-                if (item.Item2 == rowIndex)
-                {
-                    return new CustomizeInputForm(
-                        new CustomizeInputFormContainerGun(
-                            new Gun {
-                                id = item.Item1.id,
-                                brand = item.Item1.brand,
-                                series = item.Item1.series,
-                                number = item.Item1.number,
-                                ammo = item.Item1.ammo } ) );
-                }
-            }
+            return new CustomizeInputForm(
+                        new CustomizeInputFormContainerGun(this.items[rowIndex] as Gun));
             throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
         protected override void delete()
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<Gun, int> item in this.items)
+                try
                 {
-                    if (item.Item2 == row.Index)
-                    {
-                        try
-                        {
-                            Gun.Delete(item.Item1);
-                        }
-                        catch(QueryExeption)
-                        {
-                            MessageBox.Show(
-                                "Удаление элемента не удалось",
-                                "Ошибка",
-                                MessageBoxButtons.OK);
-                        }
-                    }
+                    Gun.Delete(this.items[row.Index] as Gun);
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
         }
         protected override void updateGrid()
         {
-            this.dataGridView1.Rows.Clear();
-            this.items.Clear();
-            int i = 0x00;
-            List<Gun> list = new List<Gun>();
-
-            try 
+            try
             {
-                list = this.textBox1.Text.Length > 0 ?
-                    Gun.Get(this.textBox1.Text) : Gun.Get();
+                this.items = Gun.fillTable(
+                    this.dataGridView1,
+                    this.textBox1.Text.Length > 0 ?
+                        Gun.Get(this.textBox1.Text).Cast<iConteiner>().ToList() : Gun.Get().Cast<iConteiner>().ToList());
             }
-            catch(QueryExeption)
+            catch (QueryExeption)
             {
                 MessageBox.Show(
                         "Чтение из базы данных",
                         "Ошибка",
                         MessageBoxButtons.OK);
-            }
-
-            foreach (Gun gun in list)
-            {
-                this.items.Add(new Tuple<Gun, int>(gun, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = gun.brand;
-                this.dataGridView1.Rows[i].Cells[1].Value = gun.series;
-                this.dataGridView1.Rows[i].Cells[2].Value = gun.number;
-                this.dataGridView1.Rows[i].Cells[3].Value = gun.ammo;
-                i++;
             }
         }
     }

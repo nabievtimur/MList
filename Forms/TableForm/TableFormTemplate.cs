@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
+using MList.Storage;
+using MList.Storage.Container;
 using MList.Forms.CustomizeForms;
 
 namespace MList.Forms
 {
     public partial class TableFormTemplate : Form
     {
+        protected Dictionary<int, iConteiner> items;
         private class CustomizeInputFormContainerEmpty :
             CustomizeInputFormContainer
         {

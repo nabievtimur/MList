@@ -1,27 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public class Employee
+    public class Employee : iConteiner
     {
-        public long id;
         public string firstName;
         public string lastName;
         public string middleName;
-        public List<SqliteParameter> getByParametrList()
+        public override List<SqliteParameter> getByParametrList()
         {
             return new List<SqliteParameter> {
                     new SqliteParameter("@first_name", this.firstName),
                     new SqliteParameter("@last_name", this.lastName),
                     new SqliteParameter("@middle_name", this.middleName) };
         }
-        public List<SqliteParameter> getByParametrListWithId()
+        public override List<SqliteParameter> getByParametrListWithId()
         {
             List<SqliteParameter> l = getByParametrList();
             l.Add(new SqliteParameter("@id", this.id));
             return l;
+        }
+        public override DataGridViewRow fillRow(DataGridViewRow row)
+        {
+            row.Cells[0].Value = this.lastName;
+            row.Cells[1].Value = this.firstName;
+            row.Cells[2].Value = this.middleName;
+            return row;
+        }
+        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            {
+                Label label = new Label();
+                label.Text = "Фамилия";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.lastName;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
+
+            {
+                Label label = new Label();
+                label.Text = "Имя";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.firstName;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
+
+            {
+                Label label = new Label();
+                label.Text = "Отчество";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.middleName;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
         }
         static private List<Employee> Read(SqliteDataReader reader)
         {
@@ -84,6 +117,12 @@ namespace MList.Storage.Container
         static public void Delete(Employee employee)
         {
             SqLite.Delete("employees", employee.id);
+        }
+        static public void initTable(DataGridView table)
+        {
+            table.Columns.Add("lastName", "Фамилия");
+            table.Columns.Add("firstName", "Имя");
+            table.Columns.Add("middleName", "Отчество");
         }
     }
 }

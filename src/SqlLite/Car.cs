@@ -1,25 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public class Car // NOT WORK
+    public class Car : iConteiner
     {
-        public long id;
         public string brand;
         public string number;
-        public List<SqliteParameter> getByParametrList()
+        public override List<SqliteParameter> getByParametrList()
         {
             return new List<SqliteParameter> {
                     new SqliteParameter("@brand", this.brand),
                     new SqliteParameter("@number", this.number) };
         }
-        public List<SqliteParameter> getByParametrListWithId()
+        public override List<SqliteParameter> getByParametrListWithId()
         {
             List<SqliteParameter> l = getByParametrList();
             l.Add(new SqliteParameter("@id", this.id));
             return l;
+        }
+        public override DataGridViewRow fillRow(DataGridViewRow row)
+        {
+            row.Cells[0].Value = this.brand;
+            row.Cells[1].Value = this.number;
+            return row;
+        }
+        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            {
+                Label label = new Label();
+                label.Text = "Брэнд";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.brand;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
+
+            {
+                Label label = new Label();
+                label.Text = "Номер";
+                TextBox textBox = new TextBox();
+                textBox.Text = this.number;
+                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+            }
         }
         static private List<Car> Read(SqliteDataReader reader)
         {
@@ -85,6 +109,11 @@ namespace MList.Storage.Container
                 new List<SqliteParameter> {
                     new SqliteParameter("@mlist_id", mlist.id) },
                 "Read MList cars"));
+        }
+        static public void initTable(DataGridView table)
+        {
+            table.Columns.Add("brand", "Брэнд");
+            table.Columns.Add("number", "Номер");
         }
     }
 }

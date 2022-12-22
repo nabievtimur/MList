@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public class Order
+    public class Order : iConteiner
     {
-        public long id;
         public long number;
         public long employeeID;
         public long date;
         public string employeeFullName;
-        public List<SqliteParameter> getByParametrList()
+        public override List<SqliteParameter> getByParametrList()
         {
             return new List<SqliteParameter> {
                     new SqliteParameter("@number", this.number),
                     new SqliteParameter("@employee_id", this.employeeID),
                     new SqliteParameter("@date", this.date) };
         }
-        public List<SqliteParameter> getByParametrListWithId()
+        public override List<SqliteParameter> getByParametrListWithId()
         {
             List<SqliteParameter> l = getByParametrList();
             l.Add(new SqliteParameter("@id", this.id));
             return l;
+        }
+        public override DataGridViewRow fillRow(DataGridViewRow row)
+        {
+            row.Cells[0].Value = this.number;
+            row.Cells[1].Value = this.date;
+            row.Cells[2].Value = this.employeeFullName;
+            return row;
+        }
+        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            throw new NotImplementedException();
         }
         static private List<Order> Read(SqliteDataReader reader)
         {
@@ -157,6 +168,12 @@ namespace MList.Storage.Container
         static public void Delete(Order order)
         {
             SqLite.Delete("orders", order.id);
+        }
+        static public void initTable(DataGridView table)
+        {
+            table.Columns.Add("number", "Номер");
+            table.Columns.Add("date", "Дата");
+            table.Columns.Add("employeeFullName", "Сотрудник");
         }
     }
 }

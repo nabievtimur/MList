@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 
 using MList.Storage;
 using MList.Storage.Container;
+using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
 {
@@ -20,17 +20,11 @@ namespace MList.Forms.TableForm
         {
             InitializeComponent();
 
-            this.items = new Dictionary<int, Order>();
+            Order.initTable(this.dataGridView1);
+            Gun.initTable(this.dataGridView2);
 
             this.Text = "Приказы о закреплении оружия";
-            this.dataGridView1.Columns.Add("number", "Номер");
-            this.dataGridView1.Columns.Add("date", "Дата");
-            this.dataGridView1.Columns.Add("employeeFullName", "Сотрудник");
-
-            this.dataGridView2.Columns.Add("brand", "Брэнд");
-            this.dataGridView2.Columns.Add("series", "Серия");
-            this.dataGridView2.Columns.Add("number", "Номер");
-            this.dataGridView2.Columns.Add("ammo", "Патроны");
+            this.items = new Dictionary<int, Order>();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -120,29 +114,20 @@ namespace MList.Forms.TableForm
 
         protected void updateSubGrid()
         {
-            this.dataGridView2.Rows.Clear();
-
             if (this.dataGridView1.SelectedRows.Count > 0)
             {
-                int i = 0x00;
                 try
                 {
-                    foreach (Gun gun in Gun.GetCurrent(this.items[this.dataGridView1.SelectedRows[0].Index]))
-                    {
-                        this.dataGridView2.Rows.Add();
-                        this.dataGridView2.Rows[i].Cells[0].Value = gun.brand;
-                        this.dataGridView2.Rows[i].Cells[1].Value = gun.series;
-                        this.dataGridView2.Rows[i].Cells[2].Value = gun.number;
-                        this.dataGridView2.Rows[i].Cells[3].Value = gun.ammo;
-                        i++;
-                    }
+                    Gun.fillTable(
+                        this.dataGridView2,
+                        Gun.GetCurrent(this.items[this.dataGridView1.SelectedRows[0].Index]).Cast<iConteiner>().ToList());
                 }
                 catch (QueryExeption)
                 {
                     MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
+                            "Чтение из базы данных",
+                            "Ошибка",
+                            MessageBoxButtons.OK);
                 }
             }
         }

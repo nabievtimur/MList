@@ -1,23 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public partial class Address
+    public partial class Address : iConteiner
     {
-        public long id;
         public string address;
-        public List<SqliteParameter> getByParametrList()
+        public override List<SqliteParameter> getByParametrList()
         {
             return new List<SqliteParameter> {
                     new SqliteParameter("@address", this.address) };
         }
-        public List<SqliteParameter> getByParametrListWithId()
+        public override List<SqliteParameter> getByParametrListWithId()
         {
             List<SqliteParameter> l = getByParametrList();
             l.Add(new SqliteParameter("@id", this.id));
             return l;
+        }
+        public override DataGridViewRow fillRow(DataGridViewRow row)
+        {
+            row.Cells[0].Value = this.id;
+            row.Cells[1].Value = this.address;
+            return row;
+        }
+        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            Label label = new Label();
+            label.Text = "Адрес";
+            TextBox textBox = new TextBox();
+            textBox.Text = this.address;
+            lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+        }
+        static public void initTable(DataGridView table)
+        {
+            table.Columns.Add("id", "id");
+            table.Columns.Add("address", "Адрес");
         }
         static private List<Address> Read(SqliteDataReader reader)
         {

@@ -590,6 +590,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TableFormMList";
             this.Text = "TableFormMList";
+            this.Load += new System.EventHandler(this.TableFormMList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();

@@ -254,19 +254,33 @@ namespace MList
         }
         private void button1_Click(object sender, EventArgs e)
         {
-
+            TableFormMList form = new TableFormMList();
+            form.ShowDialog();
+            this.updateGrid();
         }
         private void button2_Click(object sender, EventArgs e)
         {
-
+            TableFormMList form = new TableFormMList();
+            form.ShowDialog();
+            this.updateGrid();
         }
         private void button3_Click(object sender, EventArgs e)
         {
-
-        }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            {
+                try
+                {
+                    Storage.Container.MList.Delete(this.items[row.Index]);
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
+            this.updateGrid();
         }
     }
 }

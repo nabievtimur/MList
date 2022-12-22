@@ -5,10 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
-using MList.Forms.CustomizeForms;
-using MList.Storage.Container;
 using MList.Storage;
+using MList.Storage.Container;
+using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
 {
@@ -56,7 +57,7 @@ namespace MList.Forms.TableForm
                             brand = lItems[0].Item2.Text,
                             number = lItems[1].Item2.Text } );
                     }
-                    catch(QueryExeption e)
+                    catch(QueryExeption)
                     {
                         MessageBox.Show(
                             "Добавления в базу данных",
@@ -75,7 +76,7 @@ namespace MList.Forms.TableForm
                             number = lItems[1].Item2.Text
                         });
                     }
-                    catch (QueryExeption e)
+                    catch (QueryExeption)
                     {
                         MessageBox.Show(
                             "Обновления базы данных",
@@ -88,16 +89,14 @@ namespace MList.Forms.TableForm
             }
         }
 
-        private List<Tuple<Car, int>> items;
         public TableFormCars()
         {
             InitializeComponent();
 
-            this.dataGridView1.Columns.Add("brand", "Брэнд");
-            this.dataGridView1.Columns.Add("number", "Номер");
+            Car.initTable(this.dataGridView1);
 
             this.Text = "Машины";
-            this.items = new List<Tuple<Car, int>>();
+            this.items = new Dictionary<int, iConteiner>();
         }
         protected override CustomizeInputForm getAddForm()
         {
@@ -114,73 +113,42 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<Car, int> item in this.items)
-            {
-                if (item.Item2 == rowIndex)
-                {
-                    return new CustomizeInputForm(
-                        new CustomizeInputFormContainerCar(
-                            new Car
-                            {
-                                id = item.Item1.id,
-                                brand = item.Item1.brand,
-                                number = item.Item1.number
-                            }));
-                }
-            }
+            return new CustomizeInputForm(
+                        new CustomizeInputFormContainerCar(this.items[rowIndex] as Car));
             throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
         protected override void delete()
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<Car, int> item in this.items)
+                try
                 {
-                    if (item.Item2 == row.Index)
-                    {
-                        try
-                        {
-                            Car.Delete(item.Item1);
-                        }
-                        catch(QueryExeption e)
-                        {
-                            MessageBox.Show(
-                                "Удаление элемента не удалось",
-                                "Ошибка",
-                                MessageBoxButtons.OK);
-                        }
-                    }
+                    Car.Delete(this.items[row.Index] as Car);
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
         }
         protected override void updateGrid()
         {
-            List<Car> list = new List<Car>();
-            this.dataGridView1.Rows.Clear();
-            this.items.Clear();
-            int i = 0;
-
             try
             {
-                list = this.textBox1.Text.Length > 0 ?
-                    Car.Get(this.textBox1.Text) : Car.Get();
+                this.items = Car.fillTable(
+                    this.dataGridView1,
+                    this.textBox1.Text.Length > 0 ?
+                        Car.Get(this.textBox1.Text).Cast<iConteiner>().ToList() : Car.Get().Cast<iConteiner>().ToList());
             }
             catch (QueryExeption)
             {
                 MessageBox.Show(
-                    "Чтение из базы данных",
-                    "Ошибка",
-                    MessageBoxButtons.OK);
-            }
-
-            foreach (Car car in list)
-            {
-                this.items.Add(new Tuple<Car, int>(car, i));
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = car.brand;
-                this.dataGridView1.Rows[i].Cells[1].Value = car.number;
-                i++;
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
             }
         }
     }

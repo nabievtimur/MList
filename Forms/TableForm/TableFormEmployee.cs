@@ -5,14 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
-using MList.Forms.CustomizeForms;
 using MList.Storage;
 using MList.Storage.Container;
+using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
 {
-    public partial class TableFormEmployee : MList.Forms.TableFormTemplate
+    public partial class TableFormEmployee : TableFormTemplate
     {
         public class CustomizeInputFormContainerEmployee :
             CustomizeInputFormContainer
@@ -96,18 +97,14 @@ namespace MList.Forms.TableForm
             }
         }
 
-        private List<Tuple<Employee, int>> items;
-
         public TableFormEmployee()
         {
             InitializeComponent();
 
-            this.dataGridView1.Columns.Add("lastName", "Фамилия");
-            this.dataGridView1.Columns.Add("firstName", "Имя");
-            this.dataGridView1.Columns.Add("middleName", "Отчество");
+            Employee.initTable(this.dataGridView1);
 
             this.Text = "Сотрудники";
-            this.items = new List<Tuple<Employee, int>>();
+            this.items = new Dictionary<int, iConteiner>();
         }
         protected override CustomizeInputForm getAddForm()
         {
@@ -125,74 +122,42 @@ namespace MList.Forms.TableForm
         protected override CustomizeInputForm getUpdateForm()
         {
             int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            foreach (Tuple<Employee, int> item in this.items)
-            {
-                if (item.Item2 == rowIndex)
-                {
-                    return new CustomizeInputForm(
-                        new CustomizeInputFormContainerEmployee(
-                            new Employee
-                            {
-                                id = item.Item1.id,
-                                firstName = item.Item1.firstName,
-                                middleName = item.Item1.middleName,
-                                lastName = item.Item1.lastName
-                            }));
-                }
-            }
+            return new CustomizeInputForm(
+                        new CustomizeInputFormContainerEmployee(this.items[rowIndex] as Employee));
             throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
         protected override void delete()
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                foreach (Tuple<Employee, int> item in this.items)
+                try
                 {
-                    if (item.Item2 == row.Index)
-                    {
-                        try
-                        {
-                            Employee.Delete(item.Item1);
-                        }
-                        catch (QueryExeption e)
-                        {
-                            MessageBox.Show(
-                                "Удаление элемента не удалось",
-                                "Ошибка",
-                                MessageBoxButtons.OK);
-                        }
-                    }
+                    Employee.Delete(this.items[row.Index] as Employee);
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
         }
         protected override void updateGrid()
         {
-            List<Employee> list = new List<Employee>();
-            this.dataGridView1.Rows.Clear();
-            this.items.Clear();
-            int i = 0;
-
             try
             {
-                list = this.textBox1.Text.Length > 0 ?
-                    Employee.Get(this.textBox1.Text) : Employee.Get();
+                this.items = Employee.fillTable(
+                    this.dataGridView1,
+                    this.textBox1.Text.Length > 0 ?
+                        Employee.Get(this.textBox1.Text).Cast<iConteiner>().ToList() : Employee.Get().Cast<iConteiner>().ToList());
             }
-            catch(QueryExeption)
+            catch (QueryExeption)
             {
                 MessageBox.Show(
-                    "Чтение из базы данных",
-                    "Ошибка",
-                    MessageBoxButtons.OK);
-            }
-
-            foreach (Employee employee in list)
-            {
-                this.items.Add(new Tuple<Employee, int>(employee, i));
-                this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
-                this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
-                this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
-                i++;
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
             }
         }
     }

@@ -13,16 +13,16 @@ using MList.Forms.CustomizeForms;
 
 namespace MList.Forms.TableForm
 {
-    public partial class TableFormAddresses : TableFormTemplate
+    public partial class TableFormUniverse : TableFormTemplate
     {
-        public class CustomizeInputFormContainerAddress : 
+        /*public class CustomizeInputFormContainerUniverse :
             CustomizeInputFormContainer
         {
-            Address address ;
-            public CustomizeInputFormContainerAddress(Address arrd) : 
-                base(arrd.id == -1 ? "Добавить" : "Изменить")
+            iConteiner container;
+            public CustomizeInputFormContainerUniverse(iConteiner container) :
+                base(container.id == -1 ? "Добавить" : "Изменить")
             {
-                this.address = arrd;
+                this.container = container;
             }
             public override bool check(ref List<Tuple<Label, TextBox>> lItems)
             {
@@ -30,19 +30,15 @@ namespace MList.Forms.TableForm
             }
             public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
             {
-                Label label = new Label();
-                label.Text = "Адрес";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.address.address;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
+                this.container.fillItemList(ref lItems);
             }
             public override DialogResult operation(List<Tuple<Label, TextBox>> lItems)
             {
-                if (this.address.id == -1)
+                if (this.container.id == -1)
                 {
                     try
                     {
-                        Address.Add(new Address
+                        container.Add(new Address
                         {
                             id = 0,
                             address = lItems[0].Item2.Text
@@ -77,35 +73,37 @@ namespace MList.Forms.TableForm
 
                 return DialogResult.OK;
             }
-        }
-        public TableFormAddresses()
+        }*/
+        public TableFormUniverse(IContainer con)
         {
             InitializeComponent();
 
-            Address.initTable(this.dataGridView1);
+            //con.initTable(this.dataGridView1);
 
             this.Text = "Адреса";
             this.items = new Dictionary<int, iConteiner>();
         }
         protected override CustomizeInputForm getAddForm()
         {
-            return new CustomizeInputForm(
-                new CustomizeInputFormContainerAddress(
-                    new Address
-                    {
-                        id = -1,
-                        address = ""
-                    }));
+            throw new NotImplementedException();
+            //return new CustomizeInputForm(
+            //    new CustomizeInputFormContainerUniverse(
+            //        new Address
+            //        {
+            //            id = -1,
+            //            address = ""
+            //        }));
         }
 
         protected override CustomizeInputForm getUpdateForm()
         {
-            int rowIndex = this.dataGridView1.SelectedRows[0].Index;
-            return new CustomizeInputForm(
-                        new CustomizeInputFormContainerAddress(this.items[rowIndex] as Address));
-            throw new InvalidOperationException("Ошибка обработки выбранной строки.");
+            throw new NotImplementedException();
+            //int rowIndex = this.dataGridView1.SelectedRows[0].Index;
+            //return new CustomizeInputForm(
+            //            new CustomizeInputFormContainerAddress(this.items[rowIndex] as Address));
+            //throw new InvalidOperationException("Ошибка обработки выбранной строки.");
         }
-        protected override void delete() 
+        protected override void delete()
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
@@ -131,7 +129,7 @@ namespace MList.Forms.TableForm
                     this.textBox1.Text.Length > 0 ?
                         Address.Get(this.textBox1.Text).Cast<iConteiner>().ToList() : Address.Get().Cast<iConteiner>().ToList());
             }
-            catch(QueryExeption)
+            catch (QueryExeption)
             {
                 MessageBox.Show(
                         "Чтение из базы данных",

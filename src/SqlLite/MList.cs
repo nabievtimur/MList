@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace MList.Storage.Container
 {
-    public class MList
+    public class MList : iConteiner
     {
-        public long id;
         public long dateCreate;
         public long dateBegin;
         public long dateEnd;
@@ -20,7 +20,7 @@ namespace MList.Storage.Container
         public long numberMlist;
         public long employeeID;
         public string employeeFullName;
-        public List<SqliteParameter> getByParametrList()
+        public override List<SqliteParameter> getByParametrList()
         {
             return new List<SqliteParameter> {
                 new SqliteParameter("@date_create", this.dateCreate),
@@ -35,11 +35,31 @@ namespace MList.Storage.Container
                 new SqliteParameter("@pass_gun_time", this.timePassGun),
                 new SqliteParameter("@num_mlist", this.numberMlist) };
         }
-        public List<SqliteParameter> getByParametrListWithId()
+        public override List<SqliteParameter> getByParametrListWithId()
         {
             List<SqliteParameter> l = getByParametrList();
             l.Add(new SqliteParameter("@id", this.id));
             return l;
+        }
+        public override DataGridViewRow fillRow(DataGridViewRow row)
+        {
+            row.Cells[0].Value = this.numberMlist;
+            row.Cells[1].Value = this.employeeFullName;
+            row.Cells[2].Value = new DateTime(this.dateCreate).Date.ToString();
+            row.Cells[3].Value = new DateTime(this.dateBegin).Date.ToString();
+            row.Cells[4].Value = new DateTime(this.dateCreate).ToLocalTime().ToString();
+            row.Cells[5].Value = new DateTime(this.dateEnd).Date.ToString();
+            row.Cells[6].Value = new DateTime(this.dateEnd).ToLocalTime().ToString();
+            row.Cells[7].Value = new DateTime(this.dateCoach).ToLocalTime().ToString();
+            row.Cells[8].Value = new DateTime(this.datePassGun).Date.ToString();
+            row.Cells[9].Value = new DateTime(this.datePassGun).ToLocalTime().ToString();
+            row.Cells[10].Value = new DateTime(this.datePrint).Date.ToString();
+
+            return row;
+        }
+        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            throw new NotImplementedException();
         }
         static public List<MList> Get()
         {
@@ -122,6 +142,21 @@ namespace MList.Storage.Container
         static public void Delete(MList mlist)
         {
             SqLite.Delete("mlist", mlist.id);
+        }
+        static public void initTable(DataGridView table)
+        {
+            table.Columns.Add("number", "Номер");
+            table.Columns.Add("employee", "Сотрудник");
+            table.Columns.Add("createDate", "Дата создания");
+            table.Columns.Add("createStart", "Дата начала");
+            table.Columns.Add("startTime", "Время начала");
+            table.Columns.Add("endDate", "Дата окончания");
+            table.Columns.Add("endTime", "Время окончания");
+            table.Columns.Add("instractionTime", "Время инструктажа");
+            table.Columns.Add("returnGunDate", "Дата сдачи оружия");
+            table.Columns.Add("returnGunTime", "Время сдачи оружия");
+            table.Columns.Add("printDate", "Дата печати");
+            table.Columns.Add("description", "Примечание");
         }
     }
 }
