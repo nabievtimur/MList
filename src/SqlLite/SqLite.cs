@@ -30,30 +30,6 @@ namespace MList.Storage
         public QueryExeption(string message)
             : base(message) { }
     }
-    public abstract class iConteiner
-    {
-        public long id;
-        abstract public List<SqliteParameter> getByParametrList();
-        abstract public List<SqliteParameter> getByParametrListWithId();
-        abstract public DataGridViewRow fillRow(DataGridViewRow row);
-        abstract public void fillItemList(ref List<Tuple<Label, TextBox>> lItems);
-        static public Dictionary<int, iConteiner> fillTable(DataGridView table, List<iConteiner> containerList)
-        {
-            Dictionary<int, iConteiner> result = new Dictionary<int, iConteiner>();
-            table.Rows.Clear();
-            int i = 0;
-
-            foreach (iConteiner cont in containerList)
-            {
-                table.Rows.Add();
-                cont.fillRow(table.Rows[i]);
-                result.Add(i++, cont);
-            }
-            table.Columns[0].Visible = false;
-
-            return result;
-        }
-    }
 
     public class SqLite
     {

@@ -8,17 +8,6 @@ namespace MList.Storage.Container
     public partial class Address : iConteiner
     {
         public string address;
-        public override List<SqliteParameter> getByParametrList()
-        {
-            return new List<SqliteParameter> {
-                    new SqliteParameter("@address", this.address) };
-        }
-        public override List<SqliteParameter> getByParametrListWithId()
-        {
-            List<SqliteParameter> l = getByParametrList();
-            l.Add(new SqliteParameter("@id", this.id));
-            return l;
-        }
         public override DataGridViewRow fillRow(DataGridViewRow row)
         {
             row.Cells[0].Value = this.id;

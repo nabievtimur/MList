@@ -15,7 +15,6 @@ namespace MList.Forms
 {
     public partial class TableFormTemplate : Form
     {
-        protected Dictionary<int, iConteiner> items;
         private class CustomizeInputFormContainerEmpty :
             CustomizeInputFormContainer
         {

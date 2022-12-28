@@ -9,24 +9,6 @@ namespace MList.Storage.Container
     {
         public string brand;
         public string number;
-        public override List<SqliteParameter> getByParametrList()
-        {
-            return new List<SqliteParameter> {
-                    new SqliteParameter("@brand", this.brand),
-                    new SqliteParameter("@number", this.number) };
-        }
-        public override List<SqliteParameter> getByParametrListWithId()
-        {
-            List<SqliteParameter> l = getByParametrList();
-            l.Add(new SqliteParameter("@id", this.id));
-            return l;
-        }
-        public override DataGridViewRow fillRow(DataGridViewRow row)
-        {
-            row.Cells[0].Value = this.brand;
-            row.Cells[1].Value = this.number;
-            return row;
-        }
         public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
         {
             {
@@ -56,8 +38,6 @@ namespace MList.Storage.Container
                     cars.Add(new Car()
                     {
                         id = reader.GetInt64(0),
-                        brand = reader.GetString(1),
-                        number = reader.GetString(2)
                     });
                 }
                 reader.Close();

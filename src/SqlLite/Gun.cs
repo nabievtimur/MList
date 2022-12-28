@@ -27,10 +27,6 @@ namespace MList.Storage.Container
         }
         public override DataGridViewRow fillRow(DataGridViewRow row)
         {
-            row.Cells[0].Value = this.brand;
-            row.Cells[1].Value = this.series;
-            row.Cells[2].Value = this.number;
-            row.Cells[3].Value = this.ammo;
             return row;
         }
         public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)

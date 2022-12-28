@@ -163,6 +163,14 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\CreateDbSql.cs" />
+    <Compile Include="src\iContainer\ContainerCollection.cs" />
+    <Compile Include="src\iTable\iTable.cs" />
+    <Compile Include="src\iTable\TableAddress.cs" />
+    <Compile Include="src\iTable\TableCar.cs" />
+    <Compile Include="src\iTable\TableEmployee.cs" />
+    <Compile Include="src\iTable\TableGun.cs" />
+    <Compile Include="src\iTable\TableMList.cs" />
+    <Compile Include="src\iTable\TableOrder.cs" />
     <Compile Include="src\Printer\MsWord.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,6 +178,13 @@
     <Compile Include="src\SqlLite\Car.cs" />
     <Compile Include="src\SqlLite\Employee.cs" />
     <Compile Include="src\SqlLite\Gun.cs" />
+    <Compile Include="src\iContainer\ContainerAddress.cs" />
+    <Compile Include="src\iContainer\ContainerCar.cs" />
+    <Compile Include="src\iContainer\ContainerEmployee.cs" />
+    <Compile Include="src\iContainer\ContainerGun.cs" />
+    <Compile Include="src\iContainer\ContainerMList.cs" />
+    <Compile Include="src\iContainer\ContainerOrder.cs" />
+    <Compile Include="src\iContainer\iContainer.cs" />
     <Compile Include="src\SqlLite\MList.cs" />
     <Compile Include="src\SqlLite\Order.cs" />
     <Compile Include="src\SqlLite\SqLite.cs" />

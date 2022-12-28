@@ -85,7 +85,6 @@ namespace MList.Forms.TableForm
             Address.initTable(this.dataGridView1);
 
             this.Text = "Адреса";
-            this.items = new Dictionary<int, iConteiner>();
         }
         protected override CustomizeInputForm getAddForm()
         {

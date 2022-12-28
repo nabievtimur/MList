@@ -20,40 +20,8 @@ namespace MList.Storage.Container
         public long numberMlist;
         public long employeeID;
         public string employeeFullName;
-        public override List<SqliteParameter> getByParametrList()
-        {
-            return new List<SqliteParameter> {
-                new SqliteParameter("@date_create", this.dateCreate),
-                new SqliteParameter("@date_begin", this.dateBegin),
-                new SqliteParameter("@end_date", this.dateEnd),
-                new SqliteParameter("@coach_date", this.dateCoach),
-                new SqliteParameter("@pass_gun_date", this.datePassGun),
-                new SqliteParameter("@print_date", this.datePrint),
-                new SqliteParameter("@notes", this.notes),
-                new SqliteParameter("@deep_time", this.timeDeep),
-                new SqliteParameter("@arrive_time", this.timeArrive),
-                new SqliteParameter("@pass_gun_time", this.timePassGun),
-                new SqliteParameter("@num_mlist", this.numberMlist) };
-        }
-        public override List<SqliteParameter> getByParametrListWithId()
-        {
-            List<SqliteParameter> l = getByParametrList();
-            l.Add(new SqliteParameter("@id", this.id));
-            return l;
-        }
         public override DataGridViewRow fillRow(DataGridViewRow row)
         {
-            row.Cells[0].Value = this.numberMlist;
-            row.Cells[1].Value = this.employeeFullName;
-            row.Cells[2].Value = new DateTime(this.dateCreate).Date.ToString();
-            row.Cells[3].Value = new DateTime(this.dateBegin).Date.ToString();
-            row.Cells[4].Value = new DateTime(this.dateCreate).ToLocalTime().ToString();
-            row.Cells[5].Value = new DateTime(this.dateEnd).Date.ToString();
-            row.Cells[6].Value = new DateTime(this.dateEnd).ToLocalTime().ToString();
-            row.Cells[7].Value = new DateTime(this.dateCoach).ToLocalTime().ToString();
-            row.Cells[8].Value = new DateTime(this.datePassGun).Date.ToString();
-            row.Cells[9].Value = new DateTime(this.datePassGun).ToLocalTime().ToString();
-            row.Cells[10].Value = new DateTime(this.datePrint).Date.ToString();
 
             return row;
         }

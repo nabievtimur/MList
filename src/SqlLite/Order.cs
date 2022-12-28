@@ -11,24 +11,8 @@ namespace MList.Storage.Container
         public long employeeID;
         public long date;
         public string employeeFullName;
-        public override List<SqliteParameter> getByParametrList()
-        {
-            return new List<SqliteParameter> {
-                    new SqliteParameter("@number", this.number),
-                    new SqliteParameter("@employee_id", this.employeeID),
-                    new SqliteParameter("@date", this.date) };
-        }
-        public override List<SqliteParameter> getByParametrListWithId()
-        {
-            List<SqliteParameter> l = getByParametrList();
-            l.Add(new SqliteParameter("@id", this.id));
-            return l;
-        }
         public override DataGridViewRow fillRow(DataGridViewRow row)
         {
-            row.Cells[0].Value = this.number;
-            row.Cells[1].Value = this.date;
-            row.Cells[2].Value = this.employeeFullName;
             return row;
         }
         public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)

@@ -10,24 +10,8 @@ namespace MList.Storage.Container
         public string firstName;
         public string lastName;
         public string middleName;
-        public override List<SqliteParameter> getByParametrList()
-        {
-            return new List<SqliteParameter> {
-                    new SqliteParameter("@first_name", this.firstName),
-                    new SqliteParameter("@last_name", this.lastName),
-                    new SqliteParameter("@middle_name", this.middleName) };
-        }
-        public override List<SqliteParameter> getByParametrListWithId()
-        {
-            List<SqliteParameter> l = getByParametrList();
-            l.Add(new SqliteParameter("@id", this.id));
-            return l;
-        }
         public override DataGridViewRow fillRow(DataGridViewRow row)
         {
-            row.Cells[0].Value = this.lastName;
-            row.Cells[1].Value = this.firstName;
-            row.Cells[2].Value = this.middleName;
             return row;
         }
         public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
@@ -67,9 +51,6 @@ namespace MList.Storage.Container
                     employees.Add(new Employee()
                     {
                         id = reader.GetInt64(0),
-                        firstName = reader.GetString(1),
-                        lastName = reader.GetString(2),
-                        middleName = reader.GetString(3)
                     });
                 }
                 reader.Close();
