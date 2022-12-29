@@ -10,19 +10,26 @@ using MList.Storage.Container;
 
 namespace MList.Storage.Table
 {
-    public abstract class iTable
+    public class iTable<T> where T : iConteiner, new()
     {
-        const string name = "table";
-        public abstract ContainerCollection get();
-        public abstract ContainerCollection get(string search);
-        public abstract void add(iConteiner search);
-        public abstract void update(iConteiner search);
-        public void delete(long id)
+        string name = "table";
+        public ContainerCollection<T> storageGet()
+        {
+            T t = new T();
+            return ContainerCollection<T>(SqLite.execGet(
+                "SELECT id, address FROM addresses",
+                t.storageFillParameterCollectionWithId(),
+                "Read addresses."))
+        }
+        public abstract ContainerCollection<iConteiner> storageGet(string search);
+        public abstract void storageAdd(iConteiner container);
+        public abstract void storageUpdate(iConteiner container);
+        public void storageDelete(long id)
         {
             SqLite.Delete(name, id);
         }
         public abstract void gridInit(DataGridView table);
-        public void gridFill(DataGridView table, ContainerCollection collection)
+        public void gridFill(DataGridView table, ContainerCollection<iConteiner> collection)
         {
             table.Rows.Clear();
             foreach (var it in collection)

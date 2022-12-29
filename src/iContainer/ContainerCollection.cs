@@ -1,53 +1,36 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MList.Storage.Container
 {
-    public class ContainerCollection : ICollection<iConteiner>, IEnumerable<iConteiner>
+    public class ContainerCollection<T> where T :
+        iConteiner, ICollection<T>, IEnumerable<T>, new()
     {
-        List<iConteiner> containers;
-
+        private List<T> containers;
         public int Count => this.containers.Count;
-
         public bool IsReadOnly => false;
-
-        public void Add(iConteiner item)
+        public void Add(T item)
         {
             this.containers.Add(item);
         }
-
         public void Clear()
         {
             this.containers.Clear();
         }
-
-        public bool Contains(iConteiner item)
+        public bool Contains(T item)
         {
             return this.containers.Contains(item);
         }
-
-        public void CopyTo(iConteiner[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             this.containers.CopyTo(array, arrayIndex);
         }
-
-        public IEnumerator<iConteiner> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             return this.containers.GetEnumerator();
         }
-
-        public bool Remove(iConteiner item)
+        public bool Remove(T item)
         {
             return containers.Remove(item);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.containers.GetEnumerator();
         }
     }
 }

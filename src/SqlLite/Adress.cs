@@ -24,8 +24,6 @@ namespace MList.Storage.Container
         }
         static public void initTable(DataGridView table)
         {
-            table.Columns.Add("id", "id");
-            table.Columns.Add("address", "Адрес");
         }
         static private List<Address> Read(SqliteDataReader reader)
         {

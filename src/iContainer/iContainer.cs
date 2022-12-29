@@ -16,7 +16,7 @@ namespace MList.Storage.Container
     /* brief
      *      Базовый класс хранения элемента базы данных.
      */
-    public abstract class iConteiner
+    public class iConteiner
     {
         protected long id;
         public iConteiner()
@@ -49,36 +49,25 @@ namespace MList.Storage.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        abstract public void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection);
-        public void storageFillParameterCollectionWithId(ref SqliteParameterCollection parameterCollection)
+        public virtual void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        {
+            parameterCollection.Clear();
+        }
+        public virtual void storageFillParameterCollectionWithId(ref SqliteParameterCollection parameterCollection)
         {
             parameterCollection.Add(new SqliteParameter("@id", this.id));
             this.storageFillParameterCollection(ref parameterCollection);
         }
 
         // работа с стркой таблицы 
-        virtual public void gridRowFill(ref DataGridViewRow row)
+        public virtual void gridRowFill(ref DataGridViewRow row)
         {
             row.Cells[0].Value = this.id;
         }
-        abstract public void fillItemList(ref List<Tuple<Label, TextBox>> lItems);
-
-        //static public Dictionary<int, iConteiner> fillTable(DataGridView table, List<iConteiner> containerList)
-        //{
-        //    Dictionary<int, iConteiner> result = new Dictionary<int, iConteiner>();
-        //    table.Rows.Clear();
-        //    int i = 0;
-        //
-        //    foreach (iConteiner cont in containerList)
-        //    {
-        //        table.Rows.Add();
-        //        cont.fillRow(table.Rows[i]);
-        //        result.Add(i++, cont);
-        //    }
-        //    table.Columns[0].Visible = false;
-        //
-        //    return result;
-        //}
+        public virtual void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        {
+            lItems.Clear();
+        }
 
         protected string getStringFromCell(DataGridViewCell cell)
         {
