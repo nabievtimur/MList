@@ -95,27 +95,19 @@
     <Compile Include="Forms\CustomizeForms\CustomizeInputForm.Designer.cs">
       <DependentUpon>CustomizeInputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormAddresses.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TableForm\TableFormAddresses.cs" />
     <Compile Include="Forms\TableForm\TableFormAddresses.Designer.cs">
       <DependentUpon>TableFormAddresses.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormCars.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TableForm\TableFormCars.cs" />
     <Compile Include="Forms\TableForm\TableFormCars.Designer.cs">
       <DependentUpon>TableFormCars.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormEmployee.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TableForm\TableFormEmployee.cs" />
     <Compile Include="Forms\TableForm\TableFormEmployee.Designer.cs">
       <DependentUpon>TableFormEmployee.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormGuns.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TableForm\TableFormGuns.cs" />
     <Compile Include="Forms\TableForm\TableFormGuns.Designer.cs">
       <DependentUpon>TableFormGuns.cs</DependentUpon>
     </Compile>
@@ -137,15 +129,11 @@
     <Compile Include="Forms\TableForm\TableFormOrders.Designer.cs">
       <DependentUpon>TableFormOrders.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormTemplate.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TableForm\TableFormTemplate.cs" />
     <Compile Include="Forms\TableForm\TableFormTemplate.Designer.cs">
       <DependentUpon>TableFormTemplate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormUniverse.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Forms\TableForm\TableFormUniverse.cs" />
     <Compile Include="Forms\TableForm\TableFormUniverse.Designer.cs">
       <DependentUpon>TableFormUniverse.cs</DependentUpon>
     </Compile>

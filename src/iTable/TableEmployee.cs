@@ -12,27 +12,29 @@ namespace MList.Storage.Table
 {
     public class TableEmployee : iTable
     {
-        public override void add(iConteiner search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override ContainerCollection get()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override ContainerCollection get(string search)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void gridInit(DataGridView table)
         {
+            table.Columns.Add("lastName", "Фамилия");
+            table.Columns.Add("firstName", "Имя");
+            table.Columns.Add("middleName", "Отчество");
+        }
+
+        public override void storageAdd(iContainer container)
+        {
             throw new NotImplementedException();
         }
 
-        public override void update(iConteiner search)
+        public override ContainerCollection<iContainer> storageGet()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ContainerCollection<iContainer> storageGet(string search)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void storageUpdate(iContainer container)
         {
             throw new NotImplementedException();
         }

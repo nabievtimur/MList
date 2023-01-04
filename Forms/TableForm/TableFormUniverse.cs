@@ -15,12 +15,12 @@ namespace MList.Forms.TableForm
 {
     public partial class TableFormUniverse : TableFormTemplate
     {
-        /*public class CustomizeInputFormContainerUniverse :
+        public class CustomizeInputFormContainerUniverse :
             CustomizeInputFormContainer
         {
-            iConteiner container;
-            public CustomizeInputFormContainerUniverse(iConteiner container) :
-                base(container.id == -1 ? "Добавить" : "Изменить")
+            iContainer container;
+            public CustomizeInputFormContainerUniverse(iContainer container) :
+                base(container.getId() == -1 ? "Добавить" : "Изменить")
             {
                 this.container = container;
             }
@@ -34,7 +34,7 @@ namespace MList.Forms.TableForm
             }
             public override DialogResult operation(List<Tuple<Label, TextBox>> lItems)
             {
-                if (this.container.id == -1)
+                if (this.container.getId() == -1)
                 {
                     try
                     {
@@ -73,7 +73,7 @@ namespace MList.Forms.TableForm
 
                 return DialogResult.OK;
             }
-        }*/
+        }
         public TableFormUniverse(IContainer con)
         {
             InitializeComponent();
@@ -81,7 +81,7 @@ namespace MList.Forms.TableForm
             //con.initTable(this.dataGridView1);
 
             this.Text = "Адреса";
-            this.items = new Dictionary<int, iConteiner>();
+            this.items = new Dictionary<int, iContainer>();
         }
         protected override CustomizeInputForm getAddForm()
         {
@@ -127,7 +127,7 @@ namespace MList.Forms.TableForm
                 this.items = Address.fillTable(
                     this.dataGridView1,
                     this.textBox1.Text.Length > 0 ?
-                        Address.Get(this.textBox1.Text).Cast<iConteiner>().ToList() : Address.Get().Cast<iConteiner>().ToList());
+                        Address.Get(this.textBox1.Text).Cast<iContainer>().ToList() : Address.Get().Cast<iContainer>().ToList());
             }
             catch (QueryExeption)
             {

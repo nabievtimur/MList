@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MList.Storage.Container
 {
-    internal class ContainerEmployee : iConteiner
+    internal class ContainerEmployee : iContainer
     {
         public string firstName;
         public string lastName;

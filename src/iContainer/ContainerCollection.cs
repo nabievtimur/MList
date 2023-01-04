@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace MList.Storage.Container
 {
-    public class ContainerCollection<T> where T :
-        iConteiner, ICollection<T>, IEnumerable<T>, new()
+    public class ContainerCollection<T> : 
+        ICollection<T>, IEnumerable<T>
+        where T : iContainer, new()
     {
         private List<T> containers;
         public int Count => this.containers.Count;
@@ -30,7 +32,11 @@ namespace MList.Storage.Container
         }
         public bool Remove(T item)
         {
-            return containers.Remove(item);
+            return this.containers.Remove(item);
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.containers.GetEnumerator();
         }
     }
 }

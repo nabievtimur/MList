@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MList.Storage.Container
 {
-    internal class ContainerMList : iConteiner
+    internal class ContainerMList : iContainer
     {
         // Поля
         public long dateCreate;

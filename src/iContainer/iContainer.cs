@@ -16,18 +16,19 @@ namespace MList.Storage.Container
     /* brief
      *      Базовый класс хранения элемента базы данных.
      */
-    public class iConteiner
+    public class iContainer
     {
         protected long id;
-        public iConteiner()
+        public long getId() { return this.id; }
+        public iContainer()
         {
             this.id = -1;
         }
-        public iConteiner(long id)
+        public iContainer(long id)
         {
             this.id = id;
         }
-        public iConteiner(DataGridViewRow row) : this()
+        public iContainer(DataGridViewRow row) : this()
         {
             try
             {
@@ -38,7 +39,7 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow"); 
             }
         }
-        public iConteiner(SqliteDataReader reader) : this()
+        public iContainer(SqliteDataReader reader) : this()
         {
             try
             {

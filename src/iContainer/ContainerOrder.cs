@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MList.Storage.Container
 {
-    internal class ContainerOrder : iConteiner
+    internal class ContainerOrder : iContainer
     {
         public long number;
         public long employeeID;
@@ -19,7 +19,8 @@ namespace MList.Storage.Container
             this.date = 0;
             this.employeeFullName = "";
         }
-        public ContainerOrder(long id,
+        public ContainerOrder(
+            long id,
             long number,
             long employeeID,
             long date,

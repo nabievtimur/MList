@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MList.Storage.Container
 {
-    internal class ContainerAddress : iConteiner
+    internal class ContainerAddress : iContainer
     {
         public string address;
 
@@ -49,14 +49,6 @@ namespace MList.Storage.Container
             row.Cells[1].Value = this.address;
         }
         public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
-        {
-            throw new NotImplementedException();
-        }
-        public override List<SqliteParameter> getByParametrList()
-        {
-            throw new NotImplementedException();
-        }
-        public override List<SqliteParameter> getByParametrListWithId()
         {
             throw new NotImplementedException();
         }

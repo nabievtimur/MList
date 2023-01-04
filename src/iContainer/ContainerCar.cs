@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MList.Storage.Container
 {
-    internal class ContainerCar : iConteiner
+    internal class ContainerCar : iContainer
     {
         public string brand;
         public string number;

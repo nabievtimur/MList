@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MList.Storage.Container
 {
-    internal class ContainerGun : iConteiner
+    internal class ContainerGun : iContainer
     {
         public string brand;
         public string series;

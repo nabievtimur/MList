@@ -13,7 +13,7 @@ using MList.Forms.CustomizeForms;
 
 namespace MList.Forms
 {
-    public partial class TableFormTemplate : Form
+    public partial class TableFormTemplate<T> where T : iContainer, Form
     {
         private class CustomizeInputFormContainerEmpty :
             CustomizeInputFormContainer
