@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
-    internal class ContainerGun : iContainer
+    public class ContainerGun : iContainer
     {
-        public string brand;
-        public string series;
-        public long number;
-        public string ammo;
+        private string brand { get; set; }
+        private string series { get; set; }
+        private long number { get; set; }
+        private string ammo { get; set; }
 
         public ContainerGun() : base()
         {
@@ -40,8 +40,9 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        public ContainerGun(SqliteDataReader reader) : base(reader)
+        public override void storageFill(SqliteDataReader reader)
         {
+            base.storageFill(reader);
             try
             {
                 this.brand = reader.GetString(1);
@@ -54,12 +55,12 @@ namespace MList.Storage.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public override void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        public override void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@brand", this.brand));
-            parameterCollection.Add(new SqliteParameter("@series", this.series));
-            parameterCollection.Add(new SqliteParameter("@number", this.number));
-            parameterCollection.Add(new SqliteParameter("@ammo", this.ammo));
+            command.Parameters.Add(new SqliteParameter("@brand", this.brand));
+            command.Parameters.Add(new SqliteParameter("@series", this.series));
+            command.Parameters.Add(new SqliteParameter("@number", this.number));
+            command.Parameters.Add(new SqliteParameter("@ammo", this.ammo));
         }
         override public void gridRowFill(ref DataGridViewRow row)
         {

@@ -4,51 +4,43 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using MList.Storage;
-using MList.Storage.Container;
+using MList.Storage.Table;
+using MList.Storage.Table.Container;
 
 namespace MList.Forms.TableForm
 {
     public partial class TableFormOrder : Form
     {
-        private Order order;
-        private List<Tuple<Employee, int>> itemsEmployee;
-        private List<Tuple<Gun, int>> itemsGun;
-        private List<Gun> itemsPickedGun;
+        private ContainerCollection<ContainerGun> guns;
+
         public TableFormOrder() 
         {
             InitializeComponent();
 
-            Employee.initTable(this.dataGridView1);
-            Gun.initTable(this.dataGridView2);
-            Gun.initTable(this.dataGridView3);
-
-            this.itemsEmployee = new List<Tuple<Employee, int>>();
-            this.itemsGun = new List<Tuple<Gun, int>>();
-            this.itemsPickedGun = new List<Gun>();
-            this.order = new Order { 
-                id = -1 };
-            try
-            {
-                this.textBox1.Text = Order.GetNextOrderNum().ToString();
-            }
-            catch (QueryExeption) { };
+            new TableEmployee().gridInit(this.dataGridView1);
+            new TableGun().gridInit(this.dataGridView2);
+            new TableGun().gridInit(this.dataGridView3);
+            this.guns = new ContainerCollection<ContainerGun>();
             
             this.Text = "Добавить";
         }
 
-        public TableFormOrder(Order order) :
+        public TableFormOrder(ContainerOrder order) :
             this()
         {
-            this.textBox1.Text = order.number.ToString();
-            this.dateTimePicker1.Value = new DateTime(order.date);
+            this.textBox1.Text = order.getNumber().ToString();
+            this.dateTimePicker1.Value = new DateTime(order.getDate());
+
             try
             {
-                this.itemsPickedGun = Gun.Get();
+                new TableGun().gridFill(this.dataGridView1,
+                    new TableGun().storageGet());
             }
             catch (QueryExeption)
             {
@@ -59,14 +51,14 @@ namespace MList.Forms.TableForm
             }
             this.UpdatePickedGunGrid();
 
-            this.dataGridView1.SelectedRows.Clear();
-            foreach (var item in this.itemsEmployee)
-            {
-                if (item.Item1.id == order.employeeID)
-                {
-                    this.dataGridView1.Rows[item.Item2].Selected = true;
-                }
-            }
+            //this.dataGridView1.SelectedRows.Clear();
+            //foreach (var item in this.itemsEmployee)
+            //{
+            //    if (item.Item1.id == order.employeeID)
+            //    {
+            //        this.dataGridView1.Rows[item.Item2].Selected = true;
+            //    }
+            //}
 
             this.Text = "Изменить";
         }
@@ -79,21 +71,10 @@ namespace MList.Forms.TableForm
 
         private void UpdateEmloyeeGrid() 
         {
-            this.dataGridView1.Rows.Clear();
-            this.itemsEmployee.Clear();
-            int i = 0;
             try
             {
-                foreach (Employee employee in Employee.Get())
-                {
-                    this.itemsEmployee.Add(new Tuple<Employee, int>(employee, i));
-                    if (i >= dataGridView1.Rows.Count)
-                        this.dataGridView1.Rows.Add();
-                    this.dataGridView1.Rows[i].Cells[0].Value = employee.lastName;
-                    this.dataGridView1.Rows[i].Cells[1].Value = employee.firstName;
-                    this.dataGridView1.Rows[i].Cells[2].Value = employee.middleName;
-                    i++;
-                }
+                new TableEmployee().gridFill(this.dataGridView1,
+                    new TableEmployee().storageGet());
             }
             catch (QueryExeption)
             {
@@ -106,21 +87,10 @@ namespace MList.Forms.TableForm
 
         private void UpdateGunGrid()
         {
-            this.dataGridView2.Rows.Clear();
-            this.itemsGun.Clear();
-            int i = 0x00;
             try
             {
-                foreach (Gun gun in Gun.Get())
-                {
-                    this.itemsGun.Add(new Tuple<Gun, int>(gun, i));
-                    this.dataGridView2.Rows.Add();
-                    this.dataGridView2.Rows[i].Cells[0].Value = gun.brand;
-                    this.dataGridView2.Rows[i].Cells[1].Value = gun.series;
-                    this.dataGridView2.Rows[i].Cells[2].Value = gun.number;
-                    this.dataGridView2.Rows[i].Cells[3].Value = gun.ammo;
-                    i++;
-                }
+                new TableGun().gridFill(this.dataGridView2,
+                    new TableGun().storageGet());
             }
             catch (QueryExeption)
             {
@@ -133,18 +103,7 @@ namespace MList.Forms.TableForm
 
         private void UpdatePickedGunGrid()
         {
-            this.dataGridView3.Rows.Clear();
-            int i = 0x00;
-            foreach (Gun gun in this.itemsPickedGun)
-            {
-                if (i >= dataGridView3.Rows.Count)
-                    this.dataGridView3.Rows.Add();
-                this.dataGridView3.Rows[i].Cells[0].Value = gun.brand;
-                this.dataGridView3.Rows[i].Cells[1].Value = gun.series;
-                this.dataGridView3.Rows[i].Cells[2].Value = gun.number;
-                this.dataGridView3.Rows[i].Cells[3].Value = gun.ammo;
-                i++;
-            }
+            new TableGun().gridFill(this.dataGridView3, this.guns.downCast());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -153,15 +112,9 @@ namespace MList.Forms.TableForm
             {
                 return;
             }
-            foreach (Tuple<Gun, int> item in this.itemsGun)
+            foreach (DataGridViewRow row in this.dataGridView2.SelectedRows)
             {
-                foreach (DataGridViewRow row in this.dataGridView2.SelectedRows)
-                {
-                    if (item.Item2 == row.Index)
-                    {
-                        this.itemsPickedGun.Add(item.Item1);
-                    }
-                }
+                this.guns.Add(new ContainerGun(row));
             }
             this.UpdatePickedGunGrid();
         }
@@ -174,7 +127,7 @@ namespace MList.Forms.TableForm
             }
             foreach (DataGridViewRow row in this.dataGridView3.SelectedRows)
             {
-                this.itemsPickedGun.RemoveAt(row.Index);
+                this.guns.Remove(new ContainerGun(row));
             }
             this.UpdatePickedGunGrid();
         }
@@ -190,16 +143,6 @@ namespace MList.Forms.TableForm
                 this.DialogResult = DialogResult.Cancel;
             }
 
-            int index = this.dataGridView1.SelectedRows[0].Index;
-            if (index == -1)
-            {
-                MessageBox.Show(
-                    "Не выбран сотрудник",
-                    "Добавления в базу данных",
-                    MessageBoxButtons.OK);
-                return;
-            }
-
             if (this.dataGridView3.Rows.Count == 0)
             {
                 MessageBox.Show(
@@ -211,14 +154,14 @@ namespace MList.Forms.TableForm
 
             try
             {
-                Order.Add(
-                    new Order {
-                        id = 0,
-                        number = int.Parse(this.textBox1.Text),
-                        employeeID = this.itemsEmployee[index].Item1.id,
-                        date = this.dateTimePicker1.Value.Ticks,
-                        employeeFullName = "" },
-                    this.itemsPickedGun);
+                new TableOrder().storageAdd(
+                    new ContainerOrder(
+                        0,
+                        int.Parse(this.textBox1.Text),
+                        new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
+                        this.dateTimePicker1.Value.Ticks,
+                        ""),
+                    this.guns);
             }
             catch(FormatException)
             {

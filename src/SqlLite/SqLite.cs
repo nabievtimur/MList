@@ -31,6 +31,8 @@ namespace MList.Storage
             : base(message) { }
     }
 
+    public delegate void dQueryFiller(SqliteCommand command);
+
     public class SqLite
     {
         // static
@@ -107,25 +109,19 @@ namespace MList.Storage
 
             return connection;
         }
-        static public void exec(String query, List<SqliteParameter> parametrs, String description)
+        static public void exec(String query, dQueryFiller filler, String description = "")
         {
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
-                SqLite.exec(query, parametrs, description, transaction);
+                SqLite.exec(query, filler, description, transaction);
                 transaction.Commit();
             }
         }
-        static public void exec(String query, List<SqliteParameter> parametrs, String description, SqliteTransaction transaction)
+        static public void exec(String query, dQueryFiller filler, String description, SqliteTransaction transaction)
         {
             SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
 
-            if (parametrs != null)
-            {
-                foreach (SqliteParameter a in parametrs)
-                {
-                    command.Parameters.Add(a);
-                }
-            }
+            filler(command);
 
             try
             {
@@ -138,23 +134,19 @@ namespace MList.Storage
                 throw new QueryExeption(description);
             }
         }
-        static public SqliteDataReader execGet(String query, List<SqliteParameter> parametrs, String description)
+        static public SqliteDataReader execGet(String query, dQueryFiller filler, String description)
         {
             using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
             {
-                SqliteDataReader reader = SqLite.execGet(query, parametrs, description, transaction);
+                SqliteDataReader reader = SqLite.execGet(query, filler, description, transaction);
                 transaction.Commit();
                 return reader;
             }
         }
-        static public SqliteDataReader execGet(String query, List<SqliteParameter> parametrs, String description, SqliteTransaction transaction)
+        static public SqliteDataReader execGet(String query, dQueryFiller filler, String description, SqliteTransaction transaction)
         {
             SqliteCommand command = new SqliteCommand(query, SqLite.getInstance().getConnection(), transaction);
-
-            foreach (SqliteParameter a in parametrs)
-            {
-                command.Parameters.Add(a);
-            }
+            filler(command);
 
             try
             {
@@ -173,7 +165,7 @@ namespace MList.Storage
             {
                 SqLite.exec(
                     "DELETE FROM " + DataBase + " WHERE id = @id",
-                    new List<SqliteParameter> { new SqliteParameter("@id", id) },
+                    delegate (SqliteCommand command) { command.Parameters.Add(new SqliteParameter("@id", id)); },
                     "DELETE FROM " + DataBase);
             }
             catch(Exception)

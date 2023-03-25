@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
-    internal class ContainerOrder : iContainer
+    public class ContainerOrder : iContainer
     {
-        public long number;
-        public long employeeID;
-        public long date;
-        public string employeeFullName;
+        private long number { get; set; }
+        private long employeeID { get; set; }
+        private long date { get; set; }
+        private string employeeFullName { get; set; }
+        public long getNumber() { return this.number; }
+        public long getEmployeeID() { return this.employeeID; }
+        public long getDate() { return this.date; }
 
         public ContainerOrder() : base()
         {
@@ -45,22 +48,23 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        public ContainerOrder(SqliteDataReader reader) : base(reader)
+        public override void storageFill(SqliteDataReader reader)
         {
+            base.storageFill(reader);
             try
             {
-                this.address = reader.GetString(1);
+                this.number = reader.GetInt64(3);
             }
             catch (Exception)
             {
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public override void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        public override void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@number", this.number));
-            parameterCollection.Add(new SqliteParameter("@employee_id", this.employeeID));
-            parameterCollection.Add(new SqliteParameter("@date", this.date));
+            command.Parameters.Add(new SqliteParameter("@number", this.number));
+            command.Parameters.Add(new SqliteParameter("@employee_id", this.employeeID));
+            command.Parameters.Add(new SqliteParameter("@date", this.date));
         }
         override public void gridRowFill(ref DataGridViewRow row)
         {

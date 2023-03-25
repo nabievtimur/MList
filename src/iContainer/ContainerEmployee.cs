@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
-    internal class ContainerEmployee : iContainer
+    public class ContainerEmployee : iContainer
     {
-        public string firstName;
-        public string lastName;
-        public string middleName;
+        private string firstName { get; set; }
+        private string lastName { get; set; }
+        private string middleName { get; set; }
 
         public ContainerEmployee() : base()
         {
@@ -36,8 +36,9 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        public ContainerEmployee(SqliteDataReader reader) : base(reader)
+        public override void storageFill(SqliteDataReader reader)
         {
+            base.storageFill(reader);
             try
             {
                 this.firstName = reader.GetString(1);
@@ -49,11 +50,11 @@ namespace MList.Storage.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public override void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        public override void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@first_name", this.firstName));
-            parameterCollection.Add(new SqliteParameter("@last_name", this.lastName));
-            parameterCollection.Add(new SqliteParameter("@middle_name", this.middleName));
+            command.Parameters.Add(new SqliteParameter("@first_name", this.firstName));
+            command.Parameters.Add(new SqliteParameter("@last_name", this.lastName));
+            command.Parameters.Add(new SqliteParameter("@middle_name", this.middleName));
         }
         override public void gridRowFill(ref DataGridViewRow row)
         {

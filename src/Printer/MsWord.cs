@@ -13,14 +13,14 @@ namespace MList.Printer
             public ConnectionExeption(string message)
                 : base(message) { }
         }
-        static void print(
-            Storage.Container.MList mlist, 
-            List<Storage.Container.Address> deepAddresses,
-            List<Storage.Container.Address> arriveAddresses,
-            List<Storage.Container.Car> cars,
-            List<Storage.Container.Gun> guns)
-        {
-            throw new NotImplementedException();
-        }
+        //static void print(
+        //    Storage.Container.MList mlist, 
+        //    List<Storage.Container.Address> deepAddresses,
+        //    List<Storage.Container.Address> arriveAddresses,
+        //    List<Storage.Container.Car> cars,
+        //    List<Storage.Container.Gun> guns)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

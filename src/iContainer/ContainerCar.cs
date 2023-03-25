@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
-    internal class ContainerCar : iContainer
+    public class ContainerCar : iContainer
     {
-        public string brand;
-        public string number;
+        private string brand { get; set; }
+        private string number { get; set; }
 
         public ContainerCar() : base()
         {
@@ -32,8 +32,9 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        public ContainerCar(SqliteDataReader reader) : base(reader)
+        public override void storageFill(SqliteDataReader reader)
         {
+            base.storageFill(reader);
             try
             {
                 this.brand = reader.GetString(1);
@@ -44,10 +45,10 @@ namespace MList.Storage.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public override void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        public override void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@brand", this.brand));
-            parameterCollection.Add(new SqliteParameter("@number", this.number));
+            command.Parameters.Add(new SqliteParameter("@brand", this.brand));
+            command.Parameters.Add(new SqliteParameter("@number", this.number));
         }
         override public void gridRowFill(ref DataGridViewRow row)
         {

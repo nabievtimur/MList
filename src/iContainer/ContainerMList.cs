@@ -3,24 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
-    internal class ContainerMList : iContainer
+    public class ContainerMList : iContainer
     {
         // Поля
-        public long dateCreate;
-        public long dateBegin;
-        public long dateEnd;
-        public long dateCoach;
-        public long datePassGun;
-        public long datePrint;
-        public string notes;
-        public long timeDeep;
-        public long timeArrive;
-        public long timePassGun;
-        public long numberMlist;
-        public long employeeID;
-        public string employeeFullName;
+        private long dateCreate { get; set; }
+        private long dateBegin { get; set; }
+        private long dateEnd { get; set; }
+        private long dateCoach { get; set; }
+        private long datePassGun { get; set; }
+        private long datePrint { get; set; }
+        private string notes { get; set; }
+        private long timeDeep { get; set; }
+        private long timeArrive { get; set; }
+        private long timePassGun { get; set; }
+        private long numberMlist { get; set; }
+        private long employeeID { get; set; }
+        private string employeeFullName { get; set; }
         // Конструкторы
         public ContainerMList() : base()
         {
@@ -91,8 +91,9 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        public ContainerMList(SqliteDataReader reader) : base(reader)
+        public override void storageFill(SqliteDataReader reader)
         {
+            base.storageFill(reader);
             try
             {
                 this.dateCreate = reader.GetInt64(2);
@@ -112,25 +113,25 @@ namespace MList.Storage.Container
                         reader.GetString(13),
                         reader.GetString(14),
                         reader.GetString(15));
-        }
+            }
             catch (Exception)
             {
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public override void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        public override void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@date_create", this.dateCreate));
-            parameterCollection.Add(new SqliteParameter("@date_begin", this.dateBegin));
-            parameterCollection.Add(new SqliteParameter("@end_date", this.dateEnd));
-            parameterCollection.Add(new SqliteParameter("@coach_date", this.dateCoach));
-            parameterCollection.Add(new SqliteParameter("@pass_gun_date", this.datePassGun));
-            parameterCollection.Add(new SqliteParameter("@print_date", this.datePrint));
-            parameterCollection.Add(new SqliteParameter("@notes", this.notes));
-            parameterCollection.Add(new SqliteParameter("@deep_time", this.timeDeep));
-            parameterCollection.Add(new SqliteParameter("@arrive_time", this.timeArrive));
-            parameterCollection.Add(new SqliteParameter("@pass_gun_time", this.timePassGun));
-            parameterCollection.Add(new SqliteParameter("@num_mlist", this.numberMlist));
+            command.Parameters.Add(new SqliteParameter("@date_create", this.dateCreate));
+            command.Parameters.Add(new SqliteParameter("@date_begin", this.dateBegin));
+            command.Parameters.Add(new SqliteParameter("@end_date", this.dateEnd));
+            command.Parameters.Add(new SqliteParameter("@coach_date", this.dateCoach));
+            command.Parameters.Add(new SqliteParameter("@pass_gun_date", this.datePassGun));
+            command.Parameters.Add(new SqliteParameter("@print_date", this.datePrint));
+            command.Parameters.Add(new SqliteParameter("@notes", this.notes));
+            command.Parameters.Add(new SqliteParameter("@deep_time", this.timeDeep));
+            command.Parameters.Add(new SqliteParameter("@arrive_time", this.timeArrive));
+            command.Parameters.Add(new SqliteParameter("@pass_gun_time", this.timePassGun));
+            command.Parameters.Add(new SqliteParameter("@num_mlist", this.numberMlist));
         }
         override public void gridRowFill(ref DataGridViewRow row)
         {

@@ -8,23 +8,23 @@ using System.Windows.Forms;
 using System.Linq;
 
 using MList.Storage;
-using MList.Storage.Container;
+using MList.Storage.Table;
 using MList.Forms.CustomizeForms;
+using MList.Storage.Table.Container;
 
 namespace MList.Forms.TableForm
 {
     public partial class TableFormOrders : Form
     {
-        private Dictionary<int, Order> items;
+
         public TableFormOrders()
         {
             InitializeComponent();
 
-            Order.initTable(this.dataGridView1);
-            Gun.initTable(this.dataGridView2);
+            new TableOrder().gridInit(this.dataGridView1);
+            new TableGun().gridInit(this.dataGridView2);
 
             this.Text = "Приказы о закреплении оружия";
-            this.items = new Dictionary<int, Order>();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace MList.Forms.TableForm
                 return;
             }
 
-            TableFormOrder form = new TableFormOrder(this.items[this.dataGridView1.SelectedRows[0].Index]);
+            TableFormOrder form = new TableFormOrder(new ContainerOrder(this.dataGridView1.SelectedRows[0]));
             form.ShowDialog();
             this.updateGrid();
         }
@@ -56,7 +56,7 @@ namespace MList.Forms.TableForm
             {
                 try
                 {
-                    Order.Delete(this.items[row.Index]);
+                    new TableOrder().storageDelete(new ContainerOrder(row));
                 }
                 catch (QueryExeption)
                 {
@@ -81,15 +81,11 @@ namespace MList.Forms.TableForm
 
         protected void updateGrid()
         {
-            List<Order> list = new List<Order>();
-            this.dataGridView1.Rows.Clear();
-            this.items.Clear();
-            int i = 0x00;
-
+            TableOrder tableOrder = new TableOrder();
             try
             {
-                list = this.textBox1.Text.Length > 0 ?
-                    Order.Get(this.textBox1.Text) : Order.Get();
+                tableOrder.gridFill(this.dataGridView1, this.textBox1.Text.Length > 0 ?
+                    tableOrder.storageGet(this.textBox1.Text) : tableOrder.storageGet());
             }
             catch (QueryExeption)
             {
@@ -99,16 +95,6 @@ namespace MList.Forms.TableForm
                         MessageBoxButtons.OK);
             }
 
-            foreach (Order order in list)
-            {
-                this.items.Add(i, order);
-                if (i >= dataGridView1.Rows.Count)
-                    this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i].Cells[0].Value = order.number;
-                this.dataGridView1.Rows[i].Cells[1].Value = new DateTime(order.date).ToString();
-                this.dataGridView1.Rows[i].Cells[2].Value = order.employeeFullName;
-                i++;
-            }
             this.updateSubGrid();
         }
 
@@ -118,9 +104,9 @@ namespace MList.Forms.TableForm
             {
                 try
                 {
-                    Gun.fillTable(
-                        this.dataGridView2,
-                        Gun.GetCurrent(this.items[this.dataGridView1.SelectedRows[0].Index]).Cast<iConteiner>().ToList());
+                    TableGun tableGun = new TableGun();
+                    tableGun.gridFill(this.dataGridView2, tableGun.storageGetCurrent(
+                        new ContainerOrder(this.dataGridView1.SelectedRows[0]).getId()));
                 }
                 catch (QueryExeption)
                 {

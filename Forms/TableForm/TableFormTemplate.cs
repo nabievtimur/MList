@@ -8,13 +8,15 @@ using System.Windows.Forms;
 using System.Linq;
 
 using MList.Storage;
-using MList.Storage.Container;
+using MList.Storage.Table;
 using MList.Forms.CustomizeForms;
+using MList.Storage.Table.Container;
 
 namespace MList.Forms
 {
-    public partial class TableFormTemplate<T> where T : iContainer, Form
+    public partial class TableFormTemplate : Form
     {
+        iTable table;
         private class CustomizeInputFormContainerEmpty :
             CustomizeInputFormContainer
         {
@@ -35,9 +37,16 @@ namespace MList.Forms
             }
         }
 
-        public TableFormTemplate()
+        protected TableFormTemplate()
         {
             InitializeComponent();
+        }
+
+        public TableFormTemplate(iTable table) : this()
+        {
+            this.table = table;
+
+            this.table.gridInit(this.dataGridView1);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -86,8 +95,40 @@ namespace MList.Forms
             return new CustomizeInputForm(
                 new CustomizeInputFormContainerEmpty());
         }
-        protected virtual void delete() { }
-        protected virtual void updateGrid() { }
+        protected void delete() 
+        {
+
+            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            {
+                try
+                {
+                    this.table.storageDelete(row);
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
+            this.updateGrid();
+        }
+        protected void updateGrid() 
+        {
+            try
+            {
+                this.table.gridFill(this.dataGridView1, this.textBox1.Text.Length > 0 ?
+                    this.table.storageGet(this.textBox1.Text) : this.table.storageGet());
+            }
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+            }
+        }
         private void TableFormTemplate_Load(object sender, EventArgs e)
         {
             this.updateGrid();

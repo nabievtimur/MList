@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
-    internal class ContainerAddress : iContainer
+    public class ContainerAddress : iContainer
     {
-        public string address;
+        private string address { get; set; }
 
         public ContainerAddress() : base()
         {
@@ -28,8 +28,9 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        public ContainerAddress(SqliteDataReader reader) : base(reader)
+        public override void storageFill(SqliteDataReader reader)
         {
+            base.storageFill(reader);
             try
             {
                 this.address = reader.GetString(1);
@@ -39,9 +40,9 @@ namespace MList.Storage.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public override void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        public override void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@address", this.address));
+            command.Parameters.Add(new SqliteParameter("@address", this.address));
         }
         override public void gridRowFill(ref DataGridViewRow row)
         {

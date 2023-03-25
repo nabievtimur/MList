@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MList.Storage.Container
+namespace MList.Storage.Table.Container
 {
     [Serializable]
     public class ParceException : Exception
@@ -39,7 +39,7 @@ namespace MList.Storage.Container
                 throw new ParceException("DataGridViewRow"); 
             }
         }
-        public iContainer(SqliteDataReader reader) : this()
+        public virtual void storageFill(SqliteDataReader reader)
         {
             try
             {
@@ -50,14 +50,15 @@ namespace MList.Storage.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        public virtual void storageFillParameterCollection(ref SqliteParameterCollection parameterCollection)
+        
+        public virtual void storageFillParameterCollection(SqliteCommand command)
         {
-            parameterCollection.Clear();
+            command.Parameters.Clear();
         }
-        public virtual void storageFillParameterCollectionWithId(ref SqliteParameterCollection parameterCollection)
+        public virtual void storageFillParameterCollectionWithId(SqliteCommand command)
         {
-            parameterCollection.Add(new SqliteParameter("@id", this.id));
-            this.storageFillParameterCollection(ref parameterCollection);
+            command.Parameters.Add(new SqliteParameter("@id", this.id));
+            this.storageFillParameterCollection(command);
         }
 
         // работа с стркой таблицы 
@@ -69,7 +70,6 @@ namespace MList.Storage.Container
         {
             lItems.Clear();
         }
-
         protected string getStringFromCell(DataGridViewCell cell)
         {
             try

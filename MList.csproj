@@ -95,22 +95,6 @@
     <Compile Include="Forms\CustomizeForms\CustomizeInputForm.Designer.cs">
       <DependentUpon>CustomizeInputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormAddresses.cs" />
-    <Compile Include="Forms\TableForm\TableFormAddresses.Designer.cs">
-      <DependentUpon>TableFormAddresses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TableForm\TableFormCars.cs" />
-    <Compile Include="Forms\TableForm\TableFormCars.Designer.cs">
-      <DependentUpon>TableFormCars.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TableForm\TableFormEmployee.cs" />
-    <Compile Include="Forms\TableForm\TableFormEmployee.Designer.cs">
-      <DependentUpon>TableFormEmployee.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TableForm\TableFormGuns.cs" />
-    <Compile Include="Forms\TableForm\TableFormGuns.Designer.cs">
-      <DependentUpon>TableFormGuns.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\TableForm\TableFormMList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,13 +113,11 @@
     <Compile Include="Forms\TableForm\TableFormOrders.Designer.cs">
       <DependentUpon>TableFormOrders.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TableForm\TableFormTemplate.cs" />
+    <Compile Include="Forms\TableForm\TableFormTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\TableForm\TableFormTemplate.Designer.cs">
       <DependentUpon>TableFormTemplate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TableForm\TableFormUniverse.cs" />
-    <Compile Include="Forms\TableForm\TableFormUniverse.Designer.cs">
-      <DependentUpon>TableFormUniverse.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Authorization.cs" />
     <Compile Include="Forms\InputBox.cs">
@@ -162,10 +144,6 @@
     <Compile Include="src\Printer\MsWord.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\SqlLite\Adress.cs" />
-    <Compile Include="src\SqlLite\Car.cs" />
-    <Compile Include="src\SqlLite\Employee.cs" />
-    <Compile Include="src\SqlLite\Gun.cs" />
     <Compile Include="src\iContainer\ContainerAddress.cs" />
     <Compile Include="src\iContainer\ContainerCar.cs" />
     <Compile Include="src\iContainer\ContainerEmployee.cs" />
@@ -173,8 +151,6 @@
     <Compile Include="src\iContainer\ContainerMList.cs" />
     <Compile Include="src\iContainer\ContainerOrder.cs" />
     <Compile Include="src\iContainer\iContainer.cs" />
-    <Compile Include="src\SqlLite\MList.cs" />
-    <Compile Include="src\SqlLite\Order.cs" />
     <Compile Include="src\SqlLite\SqLite.cs" />
     <EmbeddedResource Include="Forms\CustomizeForms\CustomizeInputForm.resx">
       <DependentUpon>CustomizeInputForm.cs</DependentUpon>
