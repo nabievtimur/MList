@@ -66,10 +66,15 @@ namespace MList.Storage.Table.Container
         {
             row.Cells[0].Value = this.id;
         }
-        public virtual void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        public virtual List<Tuple<Label, TextBox>> getItemList()
         {
-            lItems.Clear();
+            return new List<Tuple<Label, TextBox>>();
         }
+        public virtual bool checkItemList(ref List<Tuple<Label, TextBox>> items)
+        {
+            return false;
+        }
+        public virtual iContainer updateFromList(List<Tuple<Label, TextBox>> lItems) { return this; }
         protected string getStringFromCell(DataGridViewCell cell)
         {
             try
@@ -84,6 +89,15 @@ namespace MList.Storage.Table.Container
             try
             {
                 return long.Parse(cell.Value.ToString());
+            }
+            catch (Exception) { throw new ParceException("DataGridViewCell"); }
+        }
+
+        protected long getDateFromCell(DataGridViewCell cell)
+        {
+            try
+            {
+                return DateTime.Parse(cell.Value.ToString()).Ticks;
             }
             catch (Exception) { throw new ParceException("DataGridViewCell"); }
         }

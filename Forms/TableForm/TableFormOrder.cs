@@ -18,49 +18,55 @@ namespace MList.Forms.TableForm
     public partial class TableFormOrder : Form
     {
         private ContainerCollection<ContainerGun> guns;
+        private ContainerOrder order;
 
         public TableFormOrder() 
         {
             InitializeComponent();
 
+            this.Text = "Добавить";
+            this.guns = new ContainerCollection<ContainerGun>();
+            this.order = new ContainerOrder();
+
+            this.textBox1.Text = TableOrder.GetNextOrderNum().ToString();
             new TableEmployee().gridInit(this.dataGridView1);
             new TableGun().gridInit(this.dataGridView2);
             new TableGun().gridInit(this.dataGridView3);
-            this.guns = new ContainerCollection<ContainerGun>();
-            
-            this.Text = "Добавить";
         }
 
         public TableFormOrder(ContainerOrder order) :
             this()
         {
+            this.Text = "Изменить";
+
+            this.order = order;
+
             this.textBox1.Text = order.getNumber().ToString();
             this.dateTimePicker1.Value = new DateTime(order.getDate());
 
             try
             {
-                new TableGun().gridFill(this.dataGridView1,
-                    new TableGun().storageGet());
+                this.guns = new TableGun().storageGetCurrent(order.getId());
             }
-            catch (QueryExeption)
+            catch(QueryExeption)
             {
                 MessageBox.Show(
-                    "Чтение из базы данных",
                     "Ошибка",
+                    "Добавления в базу данных",
                     MessageBoxButtons.OK);
+                this.DialogResult = DialogResult.Cancel;
             }
+
             this.UpdatePickedGunGrid();
 
-            //this.dataGridView1.SelectedRows.Clear();
-            //foreach (var item in this.itemsEmployee)
-            //{
-            //    if (item.Item1.id == order.employeeID)
-            //    {
-            //        this.dataGridView1.Rows[item.Item2].Selected = true;
-            //    }
-            //}
-
-            this.Text = "Изменить";
+            this.dataGridView1.ClearSelection();
+            foreach (DataGridViewRow row in this.dataGridView1.Rows)
+            {
+                if (new ContainerEmployee(row).getId() == this.order.getId())
+                {
+                    row.Selected = true;
+                }
+            }
         }
 
         private void TableFormOrder_Load(object sender, EventArgs e) 
@@ -154,14 +160,28 @@ namespace MList.Forms.TableForm
 
             try
             {
-                new TableOrder().storageAdd(
-                    new ContainerOrder(
-                        0,
-                        int.Parse(this.textBox1.Text),
-                        new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
-                        this.dateTimePicker1.Value.Ticks,
-                        ""),
-                    this.guns);
+                if (this.order.getId() == -1)
+                {
+                    new TableOrder().storageAdd(
+                        new ContainerOrder(
+                            0,
+                            int.Parse(this.textBox1.Text),
+                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
+                            this.dateTimePicker1.Value.Ticks,
+                            ""),
+                        this.guns);
+                }
+                else
+                {
+                    new TableOrder().storageUpdate(
+                        new ContainerOrder(
+                            this.order.getId(),
+                            int.Parse(this.textBox1.Text),
+                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
+                            this.dateTimePicker1.Value.Ticks,
+                            ""),
+                        this.guns);
+                }
             }
             catch(FormatException)
             {

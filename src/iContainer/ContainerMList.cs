@@ -136,19 +136,23 @@ namespace MList.Storage.Table.Container
         override public void gridRowFill(ref DataGridViewRow row)
         {
             base.gridRowFill(ref row);
-            row.Cells[0].Value = this.numberMlist;
-            row.Cells[1].Value = this.employeeFullName;
-            row.Cells[2].Value = new DateTime(this.dateCreate).Date.ToString();
-            row.Cells[3].Value = new DateTime(this.dateBegin).Date.ToString();
-            row.Cells[4].Value = new DateTime(this.dateCreate).ToLocalTime().ToString();
-            row.Cells[5].Value = new DateTime(this.dateEnd).Date.ToString();
-            row.Cells[6].Value = new DateTime(this.dateEnd).ToLocalTime().ToString();
-            row.Cells[7].Value = new DateTime(this.dateCoach).ToLocalTime().ToString();
-            row.Cells[8].Value = new DateTime(this.datePassGun).Date.ToString();
-            row.Cells[9].Value = new DateTime(this.datePassGun).ToLocalTime().ToString();
-            row.Cells[10].Value = new DateTime(this.datePrint).Date.ToString();
+            row.Cells[1].Value = this.numberMlist;
+            row.Cells[2].Value = this.employeeFullName;
+            row.Cells[3].Value = new DateTime(this.dateCreate).Date.ToString();
+            row.Cells[4].Value = new DateTime(this.dateBegin).Date.ToString();
+            row.Cells[5].Value = new DateTime(this.dateCreate).ToLocalTime().ToString();
+            row.Cells[6].Value = new DateTime(this.dateEnd).Date.ToString();
+            row.Cells[7].Value = new DateTime(this.dateEnd).ToLocalTime().ToString();
+            row.Cells[8].Value = new DateTime(this.dateCoach).ToLocalTime().ToString();
+            row.Cells[9].Value = new DateTime(this.datePassGun).Date.ToString();
+            row.Cells[10].Value = new DateTime(this.datePassGun).ToLocalTime().ToString();
+            row.Cells[11].Value = new DateTime(this.datePrint).Date.ToString();
         }
-        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        public override List<Tuple<Label, TextBox>> getItemList()
+        {
+            throw new NotImplementedException();
+        }
+        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
         {
             throw new NotImplementedException();
         }

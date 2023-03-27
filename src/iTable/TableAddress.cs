@@ -7,9 +7,21 @@ namespace MList.Storage.Table
 {
     public class TableAddress : iTable
     {
+        public TableAddress() 
+        {
+            this.StorageTableName = "addresses";
+        }
+        public override iContainer getAssociatedContainer()
+        {
+            return new ContainerAddress();
+        }
+        public override iContainer getAssociatedContainer(DataGridViewRow row)
+        {
+            return new ContainerAddress(row);
+        }
         public override void gridInit(DataGridView table)
         {
-            table.Columns.Add("id", "id");
+            base.gridInit(table);
             table.Columns.Add("address", "Адрес");
         }
         public override void storageAdd(iContainer container)
@@ -17,7 +29,7 @@ namespace MList.Storage.Table
             if (container is ContainerAddress)
             {
                 SqLite.exec(
-                    "INSERT INTO addresses (address) VALUES (@address)",
+                    "INSERT INTO " + this.StorageTableName + " (address) VALUES (@address)",
                     container.storageFillParameterCollection,
                     "Add new adress."); ;
             }
@@ -26,7 +38,7 @@ namespace MList.Storage.Table
         public override void storageUpdate(iContainer container)
         {
             SqLite.exec(
-                "UPDATE addresses SET address = @address WHERE id = @id",
+                "UPDATE " + this.StorageTableName + " SET address = @address WHERE id = @id",
                 container.storageFillParameterCollectionWithId,
                 "Update address.");
         }
@@ -37,14 +49,14 @@ namespace MList.Storage.Table
         public override ContainerCollection<iContainer> storageGet()
         {
             return new ContainerCollection<ContainerAddress>(SqLite.execGet(
-                "SELECT id, address FROM addresses",
+                "SELECT id, address FROM " + this.StorageTableName,
                 dFillerEmpty,
                 "Read addresses.")).downCast();
         }
         public override ContainerCollection<iContainer> storageGet(string search)
         {
             return new ContainerCollection<ContainerAddress>(SqLite.execGet(
-                "SELECT id, address FROM addresses as ad WHERE ad.address LIKE @like",
+                "SELECT id, address FROM " + this.StorageTableName + " as ad WHERE ad.address LIKE @like",
                 (SqliteCommand command) => dFillerSearcher(command, search),
                 "Search address.")).downCast();
         }
@@ -55,7 +67,7 @@ namespace MList.Storage.Table
         public ContainerCollection<iContainer> storageGetCurrentArrive(long mlistId)
         {
             return new ContainerCollection<ContainerAddress>(SqLite.execGet(
-                "SELECT ad.id, ad.address FROM addresses AS ad " +
+                "SELECT ad.id, ad.address FROM  " + this.StorageTableName + " AS ad " +
                     "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id WHERE maa.mlist_id = @mlist_id",
                 (SqliteCommand command) => dFillerSCurrent(command, mlistId),
                 "Read MList addresses arrive")).downCast();
@@ -63,7 +75,7 @@ namespace MList.Storage.Table
         public ContainerCollection<iContainer> storageGetCurrentDeep(long mlistId)
         {
             return new ContainerCollection<ContainerAddress>(SqLite.execGet(
-                "SELECT ad.id, ad.address FROM addresses AS ad " +
+                "SELECT ad.id, ad.address FROM " + this.StorageTableName + " AS ad " +
                     "JOIN mlist_deep_address maa ON ad.id = maa.deep_address_id WHERE maa.mlist_id = @mlist_id",
                 (SqliteCommand command) => dFillerSCurrent(command, mlistId),
                 "Read MList addresses deep")).downCast();

@@ -9,7 +9,6 @@ using System.Linq;
 
 using MList.Storage;
 using MList.Storage.Table;
-using MList.Forms.CustomizeForms;
 using MList.Storage.Table.Container;
 
 namespace MList.Forms
@@ -17,60 +16,77 @@ namespace MList.Forms
     public partial class TableFormTemplate : Form
     {
         iTable table;
-        private class CustomizeInputFormContainerEmpty :
-            CustomizeInputFormContainer
-        {
-            public CustomizeInputFormContainerEmpty() : base("empty") {}
-            public override bool check(ref List<Tuple<Label, TextBox>> lItems)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override DialogResult operation(List<Tuple<Label, TextBox>> lItems)
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         protected TableFormTemplate()
         {
             InitializeComponent();
+            this.KeyDown += new KeyEventHandler(KeyDownEvent);
         }
-
         public TableFormTemplate(iTable table) : this()
         {
             this.table = table;
 
             this.table.gridInit(this.dataGridView1);
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            this.getAddForm().ShowDialog();
-            this.updateGrid();
+            add();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            if (this.dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show(
-                        "Не выбрано ни одной строки",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
-                return;
-            }
-            this.getUpdateForm().ShowDialog();
-            this.updateGrid();
+            update();
         }
-
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            update();
+        }
         private void button3_Click(object sender, EventArgs e)
         {
+            delete();
+        }
+        private void KeyDownEvent(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                delete();
+            }
+        }
+        private void add()
+        {
+            if (new CustomizeInputForm(
+                "Добавить",
+                this.table.getAssociatedContainer().getItemList(),
+                this.table.getAssociatedContainer().checkItemList,
+                (ref List<Tuple<Label, TextBox>> lItems) =>
+                {
+                    try
+                    {
+                        this.table.storageAdd(this.table.getAssociatedContainer().updateFromList(lItems));
+                    }
+                    catch (ParceException)
+                    {
+                        MessageBox.Show(
+                        "Неверные входные данные.",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                        return DialogResult.OK;
+                    }
+                    catch (QueryExeption)
+                    {
+                        MessageBox.Show(
+                        "Не удалось добавить элемент в базу данных.",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                        return DialogResult.OK;
+                    }
+                    return DialogResult.Cancel;
+                }).ShowDialog() == DialogResult.OK)
+            {
+                this.updateGrid();
+            }
+        }
+        private void update()
+        {
             if (this.dataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
@@ -79,30 +95,57 @@ namespace MList.Forms
                         MessageBoxButtons.OK);
                 return;
             }
-            this.delete();
-            this.updateGrid();
-        }
 
-        // virtual
-        protected virtual CustomizeInputForm getAddForm()
-        {
-            return new CustomizeInputForm(
-                new CustomizeInputFormContainerEmpty());
-        }
+            iContainer container = this.table.getAssociatedContainer(this.dataGridView1.SelectedRows[0]);
 
-        protected virtual CustomizeInputForm getUpdateForm()
-        {
-            return new CustomizeInputForm(
-                new CustomizeInputFormContainerEmpty());
+            if (new CustomizeInputForm(
+                    "Изменить",
+                    container.getItemList(),
+                    this.table.getAssociatedContainer().checkItemList,
+                    (ref List<Tuple<Label, TextBox>> lItems) =>
+                    {
+                        try
+                        {
+                            this.table.storageUpdate(container.updateFromList(lItems));
+                        }
+                        catch (ParceException)
+                        {
+                            MessageBox.Show(
+                            "Неверные входные данные.",
+                            "Ошибка",
+                            MessageBoxButtons.OK);
+                            return DialogResult.OK;
+                        }
+                        catch (QueryExeption)
+                        {
+                            MessageBox.Show(
+                            "Не удалось обновить элемент в базу данных.",
+                            "Ошибка",
+                            MessageBoxButtons.OK);
+                            return DialogResult.OK;
+                        }
+                        return DialogResult.Cancel;
+                    }).ShowDialog() == DialogResult.OK)
+            {
+                this.updateGrid();
+            }
         }
-        protected void delete() 
+        private void delete()
         {
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                        "Не выбрано ни одной строки",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                return;
+            }
 
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
                 try
                 {
-                    this.table.storageDelete(row);
+                    this.table.storageDelete(this.table.getAssociatedContainer(row));
                 }
                 catch (QueryExeption)
                 {
@@ -133,7 +176,6 @@ namespace MList.Forms
         {
             this.updateGrid();
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             this.updateGrid();

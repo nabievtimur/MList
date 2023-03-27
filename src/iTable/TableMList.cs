@@ -8,8 +8,21 @@ namespace MList.Storage.Table
 {
     public class TableMList : iTable
     {
+        public TableMList()
+        {
+            this.StorageTableName = "mlist";
+        }
+        public override iContainer getAssociatedContainer()
+        {
+            return new ContainerMList();
+        }
+        public override iContainer getAssociatedContainer(DataGridViewRow row)
+        {
+            return new ContainerMList(row);
+        }
         public override void gridInit(DataGridView table)
         {
+            base.gridInit(table);
             table.Columns.Add("number", "Номер");
             table.Columns.Add("employee", "Сотрудник");
             table.Columns.Add("createDate", "Дата создания");
@@ -26,7 +39,7 @@ namespace MList.Storage.Table
         public override void storageAdd(iContainer container)
         {
             SqLite.exec(
-                "INSERT INTO mlist (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
+                "INSERT INTO " + this.StorageTableName + " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
                 "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist)",
                 container.storageFillParameterCollection,
                 "Add new MLlist");
@@ -34,7 +47,7 @@ namespace MList.Storage.Table
         public override void storageUpdate(iContainer container)
         {
             SqLite.exec(
-                "UPDATE mlist SET " +
+                "UPDATE " + this.StorageTableName + " SET " +
                         "date_create   = @date_create," +
                         "date_begin    = @date_begin," +
                         "end_date      = @end_date," +
@@ -106,7 +119,7 @@ namespace MList.Storage.Table
                     "e.last_name, " +
                     "e.first_name, " +
                     "e.middle_name " +
-                    "FROM mlist AS ml " +
+                    "FROM " + this.StorageTableName + " AS ml " +
                     "JOIN mlist_employees me ON ml.id = me.mlist_id " +
                     "JOIN employees e ON e.id = me.employee_id",
                 dFillerEmpty,

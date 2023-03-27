@@ -3,29 +3,36 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-using MList.Forms.CustomizeForms;
-
 namespace MList.Forms
 {
     public partial class CustomizeInputForm : Form
     {
-        private CustomizeInputFormContainer cContainer;
+        public delegate bool dCheck(ref List<Tuple<Label, TextBox>> lItems);
+        public delegate DialogResult dOperation(ref List<Tuple<Label, TextBox>> lItems);
+
+        private dCheck check;
+        private dOperation operation;
         private List<Tuple<Label, TextBox>> lItems;
         private const string STRING_NEEDED = "Необходимо";
 
-        public CustomizeInputForm(CustomizeInputFormContainer container)
+        public CustomizeInputForm(
+            String operationName, 
+            List<Tuple<Label, TextBox>> lItems, 
+            dCheck check, 
+            dOperation operation)
         {
             InitializeComponent();
-            this.cContainer = container;
-            this.lItems = new List<Tuple<Label, TextBox>>();
-            container.fillItemList(ref this.lItems);
-            this.Text = container.getOperationName();
+
+            this.lItems = lItems;
+            this.check = check;
+            this.operation = operation;
+            this.Text = operationName;
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if (cContainer.check(ref this.lItems))
+            if (this.check(ref this.lItems))
             {
-                this.DialogResult = this.cContainer.operation(this.lItems);
+                this.DialogResult = this.operation(ref this.lItems);
             }
         }
         private void button2_Click(object sender, EventArgs e)

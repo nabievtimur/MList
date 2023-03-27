@@ -9,29 +9,32 @@ using System.Linq;
 
 using MList.Storage;
 using MList.Storage.Table;
-using MList.Forms.CustomizeForms;
 using MList.Storage.Table.Container;
 
 namespace MList.Forms.TableForm
 {
     public partial class TableFormOrders : Form
     {
-
+        TableOrder tableOrder;
+        TableGun tableGun;
         public TableFormOrders()
         {
             InitializeComponent();
 
-            new TableOrder().gridInit(this.dataGridView1);
-            new TableGun().gridInit(this.dataGridView2);
+            this.tableOrder = new TableOrder();
+            this.tableOrder.gridInit(this.dataGridView1);
+            this.tableGun = new TableGun();
+            this.tableGun.gridInit(this.dataGridView2);
 
             this.Text = "Приказы о закреплении оружия";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TableFormOrder form = new TableFormOrder();
-            form.ShowDialog();
-            this.updateGrid();
+            if (DialogResult.OK == new TableFormOrder().ShowDialog())
+            {
+                this.updateGrid();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -45,9 +48,10 @@ namespace MList.Forms.TableForm
                 return;
             }
 
-            TableFormOrder form = new TableFormOrder(new ContainerOrder(this.dataGridView1.SelectedRows[0]));
-            form.ShowDialog();
-            this.updateGrid();
+            if (DialogResult.OK == new TableFormOrder(new ContainerOrder(this.dataGridView1.SelectedRows[0])).ShowDialog())
+            {
+                this.updateGrid();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -56,7 +60,7 @@ namespace MList.Forms.TableForm
             {
                 try
                 {
-                    new TableOrder().storageDelete(new ContainerOrder(row));
+                    this.tableOrder.storageDelete(row);
                 }
                 catch (QueryExeption)
                 {
@@ -65,8 +69,8 @@ namespace MList.Forms.TableForm
                         "Ошибка",
                         MessageBoxButtons.OK);
                 }
+                this.updateGrid();
             }
-            this.updateGrid();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -104,9 +108,8 @@ namespace MList.Forms.TableForm
             {
                 try
                 {
-                    TableGun tableGun = new TableGun();
-                    tableGun.gridFill(this.dataGridView2, tableGun.storageGetCurrent(
-                        new ContainerOrder(this.dataGridView1.SelectedRows[0]).getId()));
+                    this.tableGun.gridFill(this.dataGridView2, this.tableGun.storageGetCurrent(
+                        new ContainerOrder(this.dataGridView1.SelectedRows[0]).getId()).downCast());
                 }
                 catch (QueryExeption)
                 {
@@ -115,6 +118,10 @@ namespace MList.Forms.TableForm
                             "Ошибка",
                             MessageBoxButtons.OK);
                 }
+            }
+            else
+            {
+                this.dataGridView2.Rows.Clear();
             }
         }
 

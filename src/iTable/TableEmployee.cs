@@ -7,8 +7,21 @@ namespace MList.Storage.Table
 {
     public class TableEmployee : iTable
     {
+        public TableEmployee()
+        {
+            this.StorageTableName = "employees";
+        }
+        public override iContainer getAssociatedContainer()
+        {
+            return new ContainerEmployee();
+        }
+        public override iContainer getAssociatedContainer(DataGridViewRow row)
+        {
+            return new ContainerEmployee(row);
+        }
         public override void gridInit(DataGridView table)
         {
+            base.gridInit(table);
             table.Columns.Add("lastName", "Фамилия");
             table.Columns.Add("firstName", "Имя");
             table.Columns.Add("middleName", "Отчество");
@@ -16,14 +29,14 @@ namespace MList.Storage.Table
         public override void storageAdd(iContainer container)
         {
             SqLite.exec(
-                "INSERT INTO employees (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)",
+                "INSERT INTO " + this.StorageTableName + " (first_name, last_name, middle_name) VALUES (@first_name, @last_name, @middle_name)",
                 container.storageFillParameterCollection,
                 "Add new Employee.");
         }
         public override void storageUpdate(iContainer container)
         {
             SqLite.exec(
-                "UPDATE employees SET first_name = @first_name, last_name = @last_name, middle_name = @middle_name WHERE id = @id",
+                "UPDATE " + this.StorageTableName + " SET first_name = @first_name, last_name = @last_name, middle_name = @middle_name WHERE id = @id",
                 container.storageFillParameterCollectionWithId,
                 "Update Employee.");
         }
@@ -34,14 +47,14 @@ namespace MList.Storage.Table
         public override ContainerCollection<iContainer> storageGet()
         {
             return new ContainerCollection<ContainerEmployee>(SqLite.execGet(
-                "SELECT id, first_name, last_name, middle_name FROM employees",
+                "SELECT id, first_name, last_name, middle_name FROM " + this.StorageTableName,
                 dFillerEmpty,
-                "Search employees.")).downCast();
+                "Search " + this.StorageTableName + ".")).downCast();
         }
         public override ContainerCollection<iContainer> storageGet(string search)
         {
             return new ContainerCollection<ContainerEmployee>(SqLite.execGet(
-                "SELECT id, first_name, last_name, middle_name FROM employees " +
+                "SELECT id, first_name, last_name, middle_name FROM " + this.StorageTableName + " " +
                     "WHERE first_name LIKE @like OR last_name LIKE @like OR middle_name LIKE @like " +
                     "ORDER BY id;",
                 (SqliteCommand command) => dFillerSearcher(command, search),

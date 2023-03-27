@@ -40,7 +40,7 @@ namespace MList.Storage.Table.Container
             {
                 this.number = getLongFromCell(row.Cells[1]);
                 this.employeeID = getLongFromCell(row.Cells[2]);
-                this.date = getLongFromCell(row.Cells[3]);
+                this.date = getDateFromCell(row.Cells[3]);
                 this.employeeFullName = getStringFromCell(row.Cells[4]);
             }
             catch (IndexOutOfRangeException)
@@ -53,8 +53,15 @@ namespace MList.Storage.Table.Container
             base.storageFill(reader);
             try
             {
-                this.number = reader.GetInt64(3);
-            }
+                this.number = reader.GetInt64(1);
+                this.date = reader.GetInt64(2);
+                this.employeeID = reader.GetInt64(3);
+                this.employeeFullName = string.Format(
+                    "{0} {1} {2}",
+                    reader.GetString(4),
+                    reader.GetString(5),
+                    reader.GetString(6));
+        }
             catch (Exception)
             {
                 throw new ParceException("SqliteDataReader");
@@ -69,11 +76,16 @@ namespace MList.Storage.Table.Container
         override public void gridRowFill(ref DataGridViewRow row)
         {
             base.gridRowFill(ref row);
-            row.Cells[0].Value = this.number;
-            row.Cells[1].Value = this.date;
-            row.Cells[2].Value = this.employeeFullName;
+            row.Cells[1].Value = this.number;
+            row.Cells[2].Value = this.employeeID;
+            row.Cells[3].Value = new DateTime(this.date).ToString();
+            row.Cells[4].Value = this.employeeFullName;
         }
-        public override void fillItemList(ref List<Tuple<Label, TextBox>> lItems)
+        public override List<Tuple<Label, TextBox>> getItemList()
+        {
+            throw new NotImplementedException();
+        }
+        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
         {
             throw new NotImplementedException();
         }

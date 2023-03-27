@@ -6,22 +6,35 @@ namespace MList.Storage.Table
 {
     public class TableCar : iTable
     {
+        public TableCar()
+        {
+            this.StorageTableName = "cars";
+        }
+        public override iContainer getAssociatedContainer()
+        {
+            return new ContainerCar();
+        }
+        public override iContainer getAssociatedContainer(DataGridViewRow row)
+        {
+            return new ContainerCar(row);
+        }
         public override void gridInit(DataGridView table)
         {
+            base.gridInit(table);
             table.Columns.Add("brand", "Брэнд");
             table.Columns.Add("number", "Номер");
         }
         public override void storageAdd(iContainer container)
         {
             SqLite.exec(
-                "INSERT INTO cars (brand, number) VALUES (@brand, @number)",
+                "INSERT INTO " + this.StorageTableName + " (brand, number) VALUES (@brand, @number)",
                     container.storageFillParameterCollection,
                 "Add new adress.");
         }
         public override void storageUpdate(iContainer container)
         {
             SqLite.exec(
-                "UPDATE cars SET brand = @brand, number = @number WHERE id = @id",
+                "UPDATE " + this.StorageTableName + " SET brand = @brand, number = @number WHERE id = @id",
                 container.storageFillParameterCollectionWithId,
                 "Update address.");
         }
@@ -32,24 +45,24 @@ namespace MList.Storage.Table
         public override ContainerCollection<iContainer> storageGet()
         {
             return new ContainerCollection<ContainerCar>(SqLite.execGet(
-                "SELECT c.id, c.brand, c.\"number\"  FROM cars c ",
+                "SELECT c.id, c.brand, c.\"number\"  FROM " + this.StorageTableName + " c ",
                 dFillerEmpty,
-                "Read cars.")).downCast();
+                "Read " + this.StorageTableName + ".")).downCast();
         }
         public override ContainerCollection<iContainer> storageGet(string search)
         {
             return new ContainerCollection<ContainerCar>(SqLite.execGet(
-                "SELECT id, brand, number FROM cars as cr WHERE cr.brand LIKE @like OR cr.number LIKE @like",
+                "SELECT id, brand, number FROM " + this.StorageTableName + " as cr WHERE cr.brand LIKE @like OR cr.number LIKE @like",
                 (SqliteCommand command) => dFillerSearcher(command, search),
-                "Search cars.")).downCast();
+                "Search " + this.StorageTableName + ".")).downCast();
         }
         public override ContainerCollection<iContainer> storageGet(long mlistId)
         {
             return new ContainerCollection<ContainerCar>(SqLite.execGet(
-                "SELECT cr.id, cr.brand, cr.number FROM cars AS cr " +
-                    "JOIN mlist_cars mc ON cr.id = mc.car_id WHERE mc.mlist_id = @mlist_id",
+                "SELECT cr.id, cr.brand, cr.number FROM " + this.StorageTableName + " AS cr " +
+                    "JOIN mlist_" + this.StorageTableName + " mc ON cr.id = mc.car_id WHERE mc.mlist_id = @mlist_id",
                 (SqliteCommand command) => dFillerSCurrent(command, mlistId),
-                "Read MList cars")).downCast();
+                "Read MList " + this.StorageTableName + "")).downCast();
         }
     }
 }

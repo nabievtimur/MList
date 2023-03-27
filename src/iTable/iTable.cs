@@ -6,18 +6,21 @@ namespace MList.Storage.Table
 {
     public abstract class iTable
     {
-        private string StorageTableName = "table";
+        protected string StorageTableName = "table";
+        public abstract iContainer getAssociatedContainer();
+        public abstract iContainer getAssociatedContainer(DataGridViewRow row);
         public abstract ContainerCollection<iContainer> storageGet();
         public abstract ContainerCollection<iContainer> storageGet(string search);
         public abstract ContainerCollection<iContainer> storageGet(long mlistId);
         public abstract void storageAdd(iContainer container);
         public abstract void storageUpdate(iContainer container);
-        public void storageDelete(iContainer container)
-        {
-            SqLite.Delete(this.StorageTableName, container.getId());
-        }
+        public virtual void storageDelete(iContainer container) { SqLite.Delete(this.StorageTableName, container.getId()); }
         public abstract void storageDelete(DataGridViewRow row);
-        public abstract void gridInit(DataGridView table);
+        public virtual void gridInit(DataGridView table)
+        {
+            table.Columns.Add("id", "id");
+            table.Columns[0].Visible = false;
+        }
         public void gridFill(DataGridView table, ContainerCollection<iContainer> collection)
         {
             table.Rows.Clear();
