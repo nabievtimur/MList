@@ -10,7 +10,7 @@ namespace MList.Storage.Table
     {
         public TableMList()
         {
-            this.StorageTableName = "mlist";
+            this.StorageTableName = "Маршрутные листы";
         }
         public override iContainer getAssociatedContainer()
         {
@@ -23,18 +23,20 @@ namespace MList.Storage.Table
         public override void gridInit(DataGridView table)
         {
             base.gridInit(table);
-            table.Columns.Add("number", "Номер");
-            table.Columns.Add("employee", "Сотрудник");
-            table.Columns.Add("createDate", "Дата создания");
-            table.Columns.Add("createStart", "Дата начала");
-            table.Columns.Add("startTime", "Время начала");
-            table.Columns.Add("endDate", "Дата окончания");
-            table.Columns.Add("endTime", "Время окончания");
-            table.Columns.Add("instractionTime", "Время инструктажа");
-            table.Columns.Add("returnGunDate", "Дата сдачи оружия");
-            table.Columns.Add("returnGunTime", "Время сдачи оружия");
-            table.Columns.Add("printDate", "Дата печати");
-            table.Columns.Add("description", "Примечание");
+            table.Columns.Add("numberMlist", "Номер");
+            table.Columns.Add("employeeID", "СотрудникID");
+            table.Columns[2].Visible = false;
+            table.Columns.Add("employeeFullName", "Сотрудник");
+            table.Columns.Add("dateCreate", "Дата создания");
+            table.Columns.Add("dateBegin", "Дата начала");
+            table.Columns.Add("timeBegin", "Время начала");
+            table.Columns.Add("dateEnd", "Дата окончания");
+            table.Columns.Add("timeEnd", "Время окончания");
+            table.Columns.Add("dateCoach", "Время инструктажа");
+            table.Columns.Add("datePassGun", "Дата сдачи оружия");
+            table.Columns.Add("timePassGun", "Время сдачи оружия");
+            table.Columns.Add("datePrint", "Дата печати");
+            table.Columns.Add("notes", "Примечание");
         }
         public override void storageAdd(iContainer container)
         {

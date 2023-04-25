@@ -8,7 +8,7 @@ namespace MList.Storage.Table
     {
         public TableCar()
         {
-            this.StorageTableName = "cars";
+            this.StorageTableName = "Машины";
         }
         public override iContainer getAssociatedContainer()
         {

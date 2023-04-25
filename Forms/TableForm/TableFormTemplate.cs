@@ -25,6 +25,7 @@ namespace MList.Forms
         public TableFormTemplate(iTable table) : this()
         {
             this.table = table;
+            this.Text = table.getStorageTableName();
 
             this.table.gridInit(this.dataGridView1);
         }

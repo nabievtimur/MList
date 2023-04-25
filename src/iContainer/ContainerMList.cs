@@ -10,13 +10,13 @@ namespace MList.Storage.Table.Container
         // Поля
         private long dateCreate { get; set; }
         private long dateBegin { get; set; }
+        private long timeBegin { get; set; }
         private long dateEnd { get; set; }
+        private long timeEnd { get; set; }
         private long dateCoach { get; set; }
         private long datePassGun { get; set; }
         private long datePrint { get; set; }
         private string notes { get; set; }
-        private long timeDeep { get; set; }
-        private long timeArrive { get; set; }
         private long timePassGun { get; set; }
         private long numberMlist { get; set; }
         private long employeeID { get; set; }
@@ -26,14 +26,14 @@ namespace MList.Storage.Table.Container
         {
             this.dateCreate = 0;
             this.dateBegin = 0;
+            this.timeBegin = 0;
             this.dateEnd = 0;
+            this.timeEnd = 0;
             this.dateCoach = 0;
             this.datePassGun = 0;
+            this.timePassGun = 0;
             this.datePrint = 0;
             this.notes = "";
-            this.timeDeep = 0;
-            this.timeArrive = 0;
-            this.timePassGun = 0;
             this.numberMlist = 0;
             this.employeeID = -1;
             this.employeeFullName = "";
@@ -56,14 +56,14 @@ namespace MList.Storage.Table.Container
         {
             this.dateCreate = dateCreate;
             this.dateBegin = dateBegin;
+            this.timeBegin = timeDeep;
             this.dateEnd = dateEnd;
+            this.timeEnd = timeArrive;
             this.dateCoach = dateCoach;
             this.datePassGun = datePassGun;
+            this.timePassGun = timePassGun;
             this.datePrint = datePrint;
             this.notes = notes;
-            this.timeDeep = timeDeep;
-            this.timeArrive = timeArrive;
-            this.timePassGun = timePassGun;
             this.numberMlist = numberMlist;
             this.employeeID = employeeID;
             this.employeeFullName = employeeFullName;
@@ -72,19 +72,19 @@ namespace MList.Storage.Table.Container
         {
             try
             {
-                this.dateCreate = getLongFromCell(row.Cells[1]);
-                this.dateBegin = getLongFromCell(row.Cells[2]);
-                this.dateEnd = getLongFromCell(row.Cells[3]);
-                this.dateCoach = getLongFromCell(row.Cells[4]);
-                this.datePassGun = getLongFromCell(row.Cells[5]);
-                this.datePrint = getLongFromCell(row.Cells[6]);
-                this.notes = getStringFromCell(row.Cells[7]);
-                this.timeDeep = getLongFromCell(row.Cells[8]);
-                this.timeArrive = getLongFromCell(row.Cells[9]);
-                this.timePassGun = getLongFromCell(row.Cells[10]);
-                this.numberMlist = getLongFromCell(row.Cells[11]);
-                this.employeeID = getLongFromCell(row.Cells[12]);
-                this.employeeFullName = getStringFromCell(row.Cells[13]);
+                this.numberMlist = getLongFromCell(row.Cells[1]);
+                this.employeeID = getLongFromCell(row.Cells[2]);
+                this.employeeFullName = getStringFromCell(row.Cells[3]);
+                this.dateCreate = getLongFromCell(row.Cells[4]);
+                this.dateBegin = getLongFromCell(row.Cells[5]);
+                this.timeBegin = getLongFromCell(row.Cells[6]);
+                this.dateEnd = getLongFromCell(row.Cells[7]);
+                this.timeEnd = getLongFromCell(row.Cells[8]);
+                this.dateCoach = getLongFromCell(row.Cells[9]);
+                this.datePassGun = getLongFromCell(row.Cells[10]);
+                this.timePassGun = getLongFromCell(row.Cells[11]);
+                this.datePrint = getLongFromCell(row.Cells[12]);
+                this.notes = getStringFromCell(row.Cells[13]);
             }
             catch (IndexOutOfRangeException)
             {
@@ -94,14 +94,14 @@ namespace MList.Storage.Table.Container
         
         public long getDateCreate() { return this.dateCreate; }
         public long getDateBegin() { return this.dateBegin; }
+        public long getTimeBegin() { return this.timeBegin; }
         public long getDateEnd() { return this.dateEnd; }
+        public long getTimeEnd() { return this.timeEnd; }
         public long getDateCoach() { return this.dateCoach; }
         public long getDatePassGun() { return this.datePassGun; }
+        public long getTimePassGun() { return this.timePassGun; }
         public long getDatePrint() { return this.datePrint; }
         public string getNotes() { return this.notes; }
-        public long getTimeDeep() { return this.timeDeep; }
-        public long getTimeArrive() { return this.timeArrive; }
-        public long getTimePassGun() { return this.timePassGun; }
         public long getNumberMlist() { return this.numberMlist; }
         public long getEmployeeID() { return this.employeeID; }
         public string getEmployeeFullName() { return this.employeeFullName; }

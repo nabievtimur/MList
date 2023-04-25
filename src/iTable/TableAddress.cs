@@ -9,7 +9,7 @@ namespace MList.Storage.Table
     {
         public TableAddress() 
         {
-            this.StorageTableName = "addresses";
+            this.StorageTableName = "Адреса";
         }
         public override iContainer getAssociatedContainer()
         {
@@ -33,7 +33,6 @@ namespace MList.Storage.Table
                     container.storageFillParameterCollection,
                     "Add new adress.");
             }
-            throw new NotSupportedException();
         }
         public override void storageUpdate(iContainer container)
         {
