@@ -91,6 +91,21 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
+        
+        public long getDateCreate() { return this.dateCreate; }
+        public long getDateBegin() { return this.dateBegin; }
+        public long getDateEnd() { return this.dateEnd; }
+        public long getDateCoach() { return this.dateCoach; }
+        public long getDatePassGun() { return this.datePassGun; }
+        public long getDatePrint() { return this.datePrint; }
+        public string getNotes() { return this.notes; }
+        public long getTimeDeep() { return this.timeDeep; }
+        public long getTimeArrive() { return this.timeArrive; }
+        public long getTimePassGun() { return this.timePassGun; }
+        public long getNumberMlist() { return this.numberMlist; }
+        public long getEmployeeID() { return this.employeeID; }
+        public string getEmployeeFullName() { return this.employeeFullName; }
+
         public override void storageFill(SqliteDataReader reader)
         {
             base.storageFill(reader);

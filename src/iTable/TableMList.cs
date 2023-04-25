@@ -48,12 +48,166 @@ namespace MList.Storage.Table
             ContainerCollection<ContainerAddress> addressesDeep,
             ContainerCollection<ContainerAddress> addressesArrive)
         {
-            SqLite.exec(
-                "INSERT INTO " + this.StorageTableName + " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
-                "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist)",
-                container.storageFillParameterCollection,
-                "Add new MLlist");
-            // TODO Ваня
+            using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
+            {
+                SqliteCommand createMlistCommand = SqLite.getInstance().getConnection().CreateCommand();
+                createMlistCommand.Transaction = transaction;
+                createMlistCommand.CommandText =
+                    "INSERT INTO " + this.StorageTableName +
+                    " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
+                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist)";
+                createMlistCommand.Parameters.Add(new SqliteParameter("@date_create", container.getDateCreate()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@date_begin", container.getDateBegin()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@end_date", container.getDateEnd()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@coach_date", container.getDateCoach()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@pass_gun_date", container.getDatePassGun()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@print_date", container.getDatePrint()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@notes", container.getNotes()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@deep_time", container.getTimeDeep()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@arrive_time", container.getTimeArrive()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@pass_gun_time", container.getTimePassGun()));
+                createMlistCommand.Parameters.Add(new SqliteParameter("@num_mlist", container.getNumberMlist()));
+                
+                object mlistID;
+                try
+                {
+                    mlistID = createMlistCommand.ExecuteScalar();
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    transaction.Rollback();
+                    throw new QueryExeption("Add new Mlist.");
+                }
+                
+                SqliteCommand mlistEmployeeCommand = SqLite.getInstance().getConnection().CreateCommand();
+                mlistEmployeeCommand.Transaction = transaction;
+                
+                mlistEmployeeCommand.CommandText =
+                    "INSERT INTO mlist_employees (mlist_id, employee_id) VALUES (@mlist_id, @employee_id)";
+                mlistEmployeeCommand.Parameters.Add(new SqliteParameter("@mlist_id", mlistID));
+                mlistEmployeeCommand.Parameters.Add(new SqliteParameter("@employee_id", employee.getId()));
+                try
+                {
+                    if (mlistEmployeeCommand.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        throw new QueryExeption("Add employee to mlist.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    transaction.Rollback();
+                    throw new QueryExeption("Add employee to mlist.");
+                }
+
+                foreach (var gun in guns)
+                {
+                    SqliteCommand mlistGunCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistGunCommand.Transaction = transaction;
+                    
+                    mlistGunCommand.CommandText =
+                        "INSERT INTO mlist_gun (mlist_id, gun_id) VALUES (@mlist_id, @gun_id)";
+                    mlistGunCommand.Parameters.Add(new SqliteParameter("@mlist_id", mlistID));
+                    mlistGunCommand.Parameters.Add(new SqliteParameter("@gun_id", gun.getId()));
+                    
+                    try
+                    {
+                        if (mlistGunCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add gun to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add gun to mlist.");
+                    }
+                }
+                
+                foreach (var car in cars)
+                {
+                    SqliteCommand mlistCarCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistCarCommand.Transaction = transaction;
+                    
+                    mlistCarCommand.CommandText =
+                        "INSERT INTO mlist_cars (mlist_id, car_id) VALUES (@mlist_id, @car_id)";
+                    mlistCarCommand.Parameters.Add(new SqliteParameter("@mlist_id", mlistID));
+                    mlistCarCommand.Parameters.Add(new SqliteParameter("@car_id", car.getId()));
+                    
+                    try
+                    {
+                        if (mlistCarCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add car to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add car to mlist.");
+                    }
+                }
+                
+                foreach (var address in addressesDeep)
+                {
+                    SqliteCommand mlistAddressCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistAddressCommand.Transaction = transaction;
+                    
+                    mlistAddressCommand.CommandText =
+                        "INSERT INTO mlist_deep_address (mlist_id, deep_address_id) VALUES (@mlist_id, @deep_address_id)";
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@mlist_id", mlistID));
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@deep_address_id", address.getId()));
+
+                    try
+                    {
+                        if (mlistAddressCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add deep address to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add deep address to mlist.");
+                    }
+                }
+                
+                foreach (var address in addressesArrive)
+                {
+                    SqliteCommand mlistAddressCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistAddressCommand.Transaction = transaction;
+                    
+                    mlistAddressCommand.CommandText =
+                        "INSERT INTO mlist_arrive_address (mlist_id, arrive_address_id) VALUES (@mlist_id, @arrive_address_id)";
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@mlist_id", mlistID));
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@arrive_address_id", address.getId()));
+
+                    try
+                    {
+                        if (mlistAddressCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add arrive address to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add arrive address to mlist.");
+                    }
+                }
+                
+                transaction.Commit();
+            }
         }
         public override void storageUpdate(iContainer container)
         {
