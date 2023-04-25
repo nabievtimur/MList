@@ -53,7 +53,7 @@ namespace MList.Forms
         }
         private void add()
         {
-            if (new CustomizeInputForm(
+            new CustomizeInputForm(
                 "Добавить",
                 this.table.getAssociatedContainer().getItemList(),
                 this.table.getAssociatedContainer().checkItemList,
@@ -80,10 +80,8 @@ namespace MList.Forms
                         return DialogResult.OK;
                     }
                     return DialogResult.Cancel;
-                }).ShowDialog() == DialogResult.OK)
-            {
-                this.updateGrid();
-            }
+                }).ShowDialog();
+            this.updateGrid();
         }
         private void update()
         {
@@ -98,37 +96,36 @@ namespace MList.Forms
 
             iContainer container = this.table.getAssociatedContainer(this.dataGridView1.SelectedRows[0]);
 
-            if (new CustomizeInputForm(
-                    "Изменить",
-                    container.getItemList(),
-                    this.table.getAssociatedContainer().checkItemList,
-                    (ref List<Tuple<Label, TextBox>> lItems) =>
+            new CustomizeInputForm(
+                "Изменить",
+                container.getItemList(),
+                this.table.getAssociatedContainer().checkItemList,
+                (ref List<Tuple<Label, TextBox>> lItems) =>
+                {
+                    try
                     {
-                        try
-                        {
-                            this.table.storageUpdate(container.updateFromList(lItems));
-                        }
-                        catch (ParceException)
-                        {
-                            MessageBox.Show(
-                            "Неверные входные данные.",
-                            "Ошибка",
-                            MessageBoxButtons.OK);
-                            return DialogResult.OK;
-                        }
-                        catch (QueryExeption)
-                        {
-                            MessageBox.Show(
-                            "Не удалось обновить элемент в базу данных.",
-                            "Ошибка",
-                            MessageBoxButtons.OK);
-                            return DialogResult.OK;
-                        }
-                        return DialogResult.Cancel;
-                    }).ShowDialog() == DialogResult.OK)
-            {
-                this.updateGrid();
-            }
+                        this.table.storageUpdate(container.updateFromList(lItems));
+                    }
+                    catch (ParceException)
+                    {
+                        MessageBox.Show(
+                        "Неверные входные данные.",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                        return DialogResult.OK;
+                    }
+                    catch (QueryExeption)
+                    {
+                        MessageBox.Show(
+                        "Не удалось обновить элемент в базу данных.",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                        return DialogResult.OK;
+                    }
+                    return DialogResult.Cancel;
+                } ).ShowDialog();
+
+            this.updateGrid();
         }
         private void delete()
         {

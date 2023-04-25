@@ -218,18 +218,35 @@ namespace MList.Forms.TableForm
                             new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
                             this.dateTimePicker1.Value.Ticks,
                             ""),
-                        this.guns) ;
+                        new ContainerEmployee(this.dataGridView1.SelectedRows[0]),
+                        this.guns,
+                        this.cars,
+                        this.deepAdresses,
+                        this.arriveAdresses ) ;
                 }
                 else
                 {
                     new TableMList().storageUpdate(
                         new ContainerMList(
                             this.containerMList.getId(),
-                            int.Parse(this.textBox1.Text),
+                            this.dateTimePicker1.Value.Ticks,
+                            this.dateTimePicker2.Value.Ticks,
+                            this.dateTimePicker4.Value.Ticks,
+                            this.dateTimePicker6.Value.Ticks,
+                            this.dateTimePicker7.Value.Ticks,
+                            this.dateTimePicker9.Value.Ticks,
+                            this.textBox1.Text.ToString(),
+                            this.dateTimePicker4.Value.Ticks,
+                            this.dateTimePicker4.Value.Ticks,
+                            this.dateTimePicker4.Value.Ticks,
                             new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
                             this.dateTimePicker1.Value.Ticks,
                             ""),
-                        this.guns);
+                        new ContainerEmployee(this.dataGridView1.SelectedRows[0]),
+                        this.guns,
+                        this.cars,
+                        this.deepAdresses,
+                        this.arriveAdresses);
                 }
             }
             catch (FormatException)
