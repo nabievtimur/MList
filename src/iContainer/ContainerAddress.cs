@@ -28,6 +28,9 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
+        
+        public string getAddress() { return this.address; }
+        
         public override void storageFill(SqliteDataReader reader)
         {
             base.storageFill(reader);

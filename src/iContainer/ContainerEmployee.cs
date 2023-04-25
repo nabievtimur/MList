@@ -36,6 +36,11 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
+        
+        public string getLastName() { return this.lastName; }
+        public string getFirstName() { return this.firstName; }
+        public string getMiddleName() { return this.middleName; }
+        
         public override void storageFill(SqliteDataReader reader)
         {
             base.storageFill(reader);

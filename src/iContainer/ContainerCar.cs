@@ -32,6 +32,10 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
+        
+        public string getBrand() { return this.brand; }
+        public string getNumber() { return this.number; }
+        
         public override void storageFill(SqliteDataReader reader)
         {
             base.storageFill(reader);

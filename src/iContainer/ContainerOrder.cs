@@ -11,9 +11,6 @@ namespace MList.Storage.Table.Container
         private long employeeID { get; set; }
         private long date { get; set; }
         private string employeeFullName { get; set; }
-        public long getNumber() { return this.number; }
-        public long getEmployeeID() { return this.employeeID; }
-        public long getDate() { return this.date; }
 
         public ContainerOrder() : base()
         {
@@ -48,6 +45,12 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
+        
+        public long getNumber() { return this.number; }
+        public long getEmployeeID() { return this.employeeID; }
+        public long getDate() { return this.date; }
+        public string getEmployeeFullName() { return this.employeeFullName; }
+
         public override void storageFill(SqliteDataReader reader)
         {
             base.storageFill(reader);
