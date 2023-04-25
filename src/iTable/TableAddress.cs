@@ -31,7 +31,7 @@ namespace MList.Storage.Table
                 SqLite.exec(
                     "INSERT INTO " + this.StorageTableName + " (address) VALUES (@address)",
                     container.storageFillParameterCollection,
-                    "Add new adress."); ;
+                    "Add new adress.");
             }
             throw new NotSupportedException();
         }

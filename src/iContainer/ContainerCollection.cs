@@ -71,7 +71,7 @@ namespace MList.Storage.Table
         }
         public ContainerCollection<iContainer> downCast()
         {
-            return new ContainerCollection<iContainer>(((ContainerCollection<T>)this).Cast<iContainer>().ToList());
+            return new ContainerCollection<iContainer>(this.Cast<iContainer>().ToList());
         }
     }
 }

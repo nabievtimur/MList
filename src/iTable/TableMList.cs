@@ -38,13 +38,34 @@ namespace MList.Storage.Table
         }
         public override void storageAdd(iContainer container)
         {
+            throw new NotImplementedException();
+        }
+        public void storageAdd(
+            ContainerMList container, 
+            ContainerEmployee employee, 
+            ContainerCollection<ContainerGun> guns,
+            ContainerCollection<ContainerCar> cars,
+            ContainerCollection<ContainerAddress> addressesDeep,
+            ContainerCollection<ContainerAddress> addressesArrive)
+        {
             SqLite.exec(
                 "INSERT INTO " + this.StorageTableName + " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
                 "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist)",
                 container.storageFillParameterCollection,
                 "Add new MLlist");
+            // TODO Ваня
         }
         public override void storageUpdate(iContainer container)
+        {
+            throw new NotImplementedException();
+        }
+        public void storageUpdate(
+            ContainerMList container,
+            ContainerEmployee employee,
+            ContainerCollection<ContainerGun> guns,
+            ContainerCollection<ContainerCar> cars,
+            ContainerCollection<ContainerAddress> addressesDeep,
+            ContainerCollection<ContainerAddress> addressesArrive)
         {
             SqLite.exec(
                 "UPDATE " + this.StorageTableName + " SET " +
@@ -62,16 +83,13 @@ namespace MList.Storage.Table
                         "where id = @id",
                 container.storageFillParameterCollectionWithId,
                 "Update MList");
+            // TODO Ваня
         }
         public override void storageDelete(DataGridViewRow row)
         {
             storageDelete(new ContainerMList(row));
         }
         public override ContainerCollection<iContainer> storageGet()
-        {
-            return new ContainerCollection<iContainer>();
-        }
-        public ContainerCollection<ContainerMList> storageGetMLists()
         {
             return new ContainerCollection<ContainerMList>(SqLite.execGet(
                 "SELECT ml.id, " +
@@ -94,13 +112,9 @@ namespace MList.Storage.Table
                     "JOIN mlist_employees me ON ml.id = me.mlist_id " +
                     "JOIN employees e ON e.id = me.employee_id",
                 dFillerEmpty,
-                "Reads MList."));
+                "Reads MList.")).downCast();
         }
         public override ContainerCollection<iContainer> storageGet(string search)
-        {
-            throw new NotImplementedException();
-        }
-        public ContainerCollection<ContainerMList> storageGetMLists(string search)
         {
             return new ContainerCollection<ContainerMList>(SqLite.execGet(
                 "SELECT ml.id, " +
@@ -123,7 +137,7 @@ namespace MList.Storage.Table
                     "JOIN mlist_employees me ON ml.id = me.mlist_id " +
                     "JOIN employees e ON e.id = me.employee_id",
                 dFillerEmpty,
-                "Reads MList."));
+                "Reads MList.")).downCast();
         }
         public override ContainerCollection<iContainer> storageGet(long mlistId)
         {

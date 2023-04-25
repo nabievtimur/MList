@@ -34,18 +34,18 @@ namespace MList.Forms.TableForm
             new TableAddress().gridInit(this.dataGridView7);
             new TableAddress().gridInit(this.dataGridView8);
             new TableAddress().gridInit(this.dataGridView9);
-
-            updateConstGrids();
         }
         public TableFormMList(ContainerMList containerMList):
             this()
         {
+            this.containerMList = containerMList;
 
+            // TODO UPDATE
 
         }
         private void TableFormMList_Load(object sender, EventArgs e)
         {
-
+            updateConstGrids();
         }
 
         private void updateConstGrids()
@@ -149,6 +149,116 @@ namespace MList.Forms.TableForm
                 this.arriveAdresses.Remove(new ContainerAddress(row));
             }
             this.updateSubGrids();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Нет ни одного сотрудника.",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (this.guns.Count == 0)
+            {
+                MessageBox.Show(
+                    "Нет ни одного оружия.",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (this.cars.Count == 0)
+            {
+                MessageBox.Show(
+                    "Нет ни одной машины.",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (this.deepAdresses.Count == 0)
+            {
+                MessageBox.Show(
+                    "Нет ни одного адреса убытия.",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (this.arriveAdresses.Count == 0)
+            {
+                MessageBox.Show(
+                    "Нет ни одного адреса прибытия.",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            try
+            {
+                if (this.containerMList.getId() == -1)
+                {
+                    new TableMList().storageAdd(
+                        new ContainerMList(
+                            0,
+                            this.dateTimePicker1.Value.Ticks,
+                            this.dateTimePicker2.Value.Ticks,
+                            this.dateTimePicker4.Value.Ticks,
+                            this.dateTimePicker6.Value.Ticks,
+                            this.dateTimePicker7.Value.Ticks,
+                            this.dateTimePicker9.Value.Ticks,
+                            this.textBox1.Text.ToString(),
+                            this.dateTimePicker4.Value.Ticks,
+                            this.dateTimePicker4.Value.Ticks,
+                            this.dateTimePicker4.Value.Ticks,
+                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
+                            this.dateTimePicker1.Value.Ticks,
+                            ""),
+                        this.guns) ;
+                }
+                else
+                {
+                    new TableMList().storageUpdate(
+                        new ContainerMList(
+                            this.containerMList.getId(),
+                            int.Parse(this.textBox1.Text),
+                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
+                            this.dateTimePicker1.Value.Ticks,
+                            ""),
+                        this.guns);
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show(
+                    "Ошибка",
+                    "Неверный номер приказа.",
+                    MessageBoxButtons.OK);
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show(
+                    "Ошибка",
+                    "Не заполнен номер приказа.",
+                    MessageBoxButtons.OK);
+            }
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                    "Ошибка",
+                    "Добавления в базу данных",
+                    MessageBoxButtons.OK);
+            }
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }
