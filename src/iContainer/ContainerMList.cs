@@ -8,17 +8,14 @@ namespace MList.Storage.Table.Container
     public class ContainerMList : iContainer
     {
         // Поля
+        private long numberMlist { get; set; }
         private long dateCreate { get; set; }
         private long dateBegin { get; set; }
-        private long timeBegin { get; set; }
         private long dateEnd { get; set; }
-        private long timeEnd { get; set; }
         private long dateCoach { get; set; }
         private long datePassGun { get; set; }
         private long datePrint { get; set; }
         private string notes { get; set; }
-        private long timePassGun { get; set; }
-        private long numberMlist { get; set; }
         private long employeeID { get; set; }
         private string employeeFullName { get; set; }
         // Конструкторы
@@ -26,9 +23,7 @@ namespace MList.Storage.Table.Container
         {
             this.dateCreate = 0;
             this.dateBegin = 0;
-            this.timeBegin = 0;
             this.dateEnd = 0;
-            this.timeEnd = 0;
             this.dateCoach = 0;
             this.datePassGun = 0;
             this.timePassGun = 0;
@@ -118,8 +113,6 @@ namespace MList.Storage.Table.Container
                 this.datePassGun = reader.GetInt64(6);
                 this.datePrint = reader.GetInt64(8);
                 this.notes = reader.GetString(9);
-                this.timeDeep = reader.GetInt64(11);
-                this.timeArrive = reader.GetInt64(10);
                 this.timePassGun = reader.GetInt64(7);
                 this.numberMlist = reader.GetInt64(1);
                 this.employeeID = reader.GetInt64(12);
