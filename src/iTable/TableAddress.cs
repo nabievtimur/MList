@@ -33,7 +33,6 @@ namespace MList.Storage.Table
                     container.storageFillParameterCollection,
                     "Add new adress.");
             }
-            throw new NotSupportedException();
         }
         public override void storageUpdate(iContainer container)
         {

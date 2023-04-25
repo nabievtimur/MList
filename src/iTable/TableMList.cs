@@ -55,7 +55,7 @@ namespace MList.Storage.Table
                 createMlistCommand.CommandText =
                     "INSERT INTO " + this.StorageTableName +
                     " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
-                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist)";
+                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist); SELECT last_insert_rowid();";
                 createMlistCommand.Parameters.Add(new SqliteParameter("@date_create", container.getDateCreate()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@date_begin", container.getDateBegin()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@end_date", container.getDateEnd()));
