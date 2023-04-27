@@ -42,6 +42,7 @@ namespace MList.Storage.Table
         {
             throw new NotImplementedException();
         }
+        // TODO Ваня Check
         public void storageAdd(
             ContainerMList container, 
             ContainerEmployee employee, 
@@ -65,9 +66,6 @@ namespace MList.Storage.Table
                 createMlistCommand.Parameters.Add(new SqliteParameter("@pass_gun_date", container.getDatePassGun()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@print_date", container.getDatePrint()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@notes", container.getNotes()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@deep_time", container.getTimeDeep()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@arrive_time", container.getTimeArrive()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@pass_gun_time", container.getTimePassGun()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@num_mlist", container.getNumberMlist()));
                 
                 object mlistID;

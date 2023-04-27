@@ -204,7 +204,7 @@ namespace MList.Forms.TableForm
                 {
                     new TableMList().storageAdd(
                         new ContainerMList(
-                            0,
+                            -1,
                             this.dateTimePicker1.Value.Ticks,
                             this.dateTimePicker2.Value.Ticks,
                             this.dateTimePicker4.Value.Ticks,
