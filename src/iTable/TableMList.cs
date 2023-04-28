@@ -297,5 +297,27 @@ namespace MList.Storage.Table
         {
             throw new NotImplementedException();
         }
+        static public long GetNextNum()
+        {
+            SqliteDataReader reader = SqLite.execGet(
+                "SELECT coalesce(max(m.num_mlist), 0) last_order_num FROM mlist as m;",
+                dFillerEmpty,
+                "Read max number.");
+            long maxNum = 0;
+            if (reader.HasRows)
+            {
+                try
+                {
+                    reader.Read();
+                    maxNum = reader.GetInt64(0);
+                    reader.Close();
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+            return maxNum + 1;
+        }
     }
 }
