@@ -25,15 +25,17 @@ namespace MList.Forms.TableForm
             this.deepAdresses = new ContainerCollection<ContainerAddress>();
             this.arriveAdresses = new ContainerCollection<ContainerAddress>();
 
-            new TableEmployee().gridInit(this.dataGridView1);
-            new TableGun().gridInit(this.dataGridView2);
-            new TableGun().gridInit(this.dataGridView3);
-            new TableCar().gridInit(this.dataGridView4);
-            new TableCar().gridInit(this.dataGridView5);
-            new TableAddress().gridInit(this.dataGridView6);
-            new TableAddress().gridInit(this.dataGridView7);
-            new TableAddress().gridInit(this.dataGridView8);
-            new TableAddress().gridInit(this.dataGridView9);
+            new TableEmployee().gridInit(this.dataGridViewEmployee);
+            new TableGun().gridInit(this.dataGridViewGuns);
+            new TableGun().gridInit(this.dataGridViewPickedGuns);
+            new TableCar().gridInit(this.dataGridViewCars);
+            new TableCar().gridInit(this.dataGridViewPickedCars);
+            new TableAddress().gridInit(this.dataGridViewDeepAddresses);
+            new TableAddress().gridInit(this.dataGridViewPickedDeepAddresses);
+            new TableAddress().gridInit(this.dataGridViewArriveAddresses);
+            new TableAddress().gridInit(this.dataGridViewPickedArriveAddresses);
+
+            // TODO номер
         }
         public TableFormMList(ContainerMList containerMList):
             this()
@@ -52,15 +54,15 @@ namespace MList.Forms.TableForm
         {
             try
             {
-                new TableEmployee().gridFill(this.dataGridView1,
+                new TableEmployee().gridFill(this.dataGridViewEmployee,
                     new TableEmployee().storageGet());
-                new TableGun().gridFill(this.dataGridView2,
+                new TableGun().gridFill(this.dataGridViewGuns,
                     new TableGun().storageGet());
-                new TableCar().gridFill(this.dataGridView4,
+                new TableCar().gridFill(this.dataGridViewCars,
                     new TableCar().storageGet());
-                new TableAddress().gridFill(this.dataGridView6,
+                new TableAddress().gridFill(this.dataGridViewDeepAddresses,
                     new TableAddress().storageGet());
-                new TableAddress().gridFill(this.dataGridView8,
+                new TableAddress().gridFill(this.dataGridViewArriveAddresses,
                     new TableAddress().storageGet());
             }
             catch (QueryExeption)
@@ -73,87 +75,14 @@ namespace MList.Forms.TableForm
         }
         private void updateSubGrids()
         {
-            new TableGun().gridFill(this.dataGridView3, this.guns.downCast());
-            new TableCar().gridFill(this.dataGridView5, this.cars.downCast());
-            new TableAddress().gridFill(this.dataGridView7, this.deepAdresses.downCast());
-            new TableAddress().gridFill(this.dataGridView9, this.arriveAdresses.downCast());
+            new TableGun().gridFill(this.dataGridViewPickedGuns, this.guns.downCast());
+            new TableCar().gridFill(this.dataGridViewPickedCars, this.cars.downCast());
+            new TableAddress().gridFill(this.dataGridViewPickedDeepAddresses, this.deepAdresses.downCast());
+            new TableAddress().gridFill(this.dataGridViewPickedArriveAddresses, this.arriveAdresses.downCast());
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonApply_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in this.dataGridView2.SelectedRows)
-            {
-                this.guns.Add(new ContainerGun(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView3.SelectedRows)
-            {
-                this.guns.Remove(new ContainerGun(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView4.SelectedRows)
-            {
-                this.cars.Add(new ContainerCar(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView5.SelectedRows)
-            {
-                this.cars.Remove(new ContainerCar(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView6.SelectedRows)
-            {
-                this.deepAdresses.Add(new ContainerAddress(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView7.SelectedRows)
-            {
-                this.deepAdresses.Remove(new ContainerAddress(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView8.SelectedRows)
-            {
-                this.arriveAdresses.Add(new ContainerAddress(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in this.dataGridView9.SelectedRows)
-            {
-                this.arriveAdresses.Remove(new ContainerAddress(row));
-            }
-            this.updateSubGrids();
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            if (this.dataGridView1.SelectedRows.Count == 0)
+            if (this.dataGridViewEmployee.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
                     "Нет ни одного сотрудника.",
@@ -205,44 +134,38 @@ namespace MList.Forms.TableForm
                     new TableMList().storageAdd(
                         new ContainerMList(
                             -1,
-                            this.dateTimePicker1.Value.Ticks,
-                            this.dateTimePicker2.Value.Ticks,
-                            this.dateTimePicker4.Value.Ticks,
-                            this.dateTimePicker6.Value.Ticks,
-                            this.dateTimePicker7.Value.Ticks,
-                            this.dateTimePicker9.Value.Ticks,
-                            this.textBox1.Text.ToString(),
-                            this.dateTimePicker4.Value.Ticks,
-                            this.dateTimePicker4.Value.Ticks,
-                            this.dateTimePicker4.Value.Ticks,
-                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
-                            this.dateTimePicker1.Value.Ticks,
-                            ""),
-                        new ContainerEmployee(this.dataGridView1.SelectedRows[0]),
+                            Int32.Parse(this.textBoxMlistNum.Text), // try
+                            new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
+                            new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName(),
+                            this.datePickerCreate.Value.Ticks,
+                            this.datePickerBegin.Value.Ticks + this.timePickerBegin.Value.Ticks,
+                            this.datePickerEnd.Value.Ticks + this.timePickerEnd.Value.Ticks,
+                            this.timePickerCoach.Value.Ticks,
+                            this.datePickerPassGun.Value.Ticks + this.timePickerPassGun.Value.Ticks,
+                            this.datePickerPrint.Value.Ticks,
+                            this.textBoxDescription.Text),
+                        new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]),
                         this.guns,
                         this.cars,
                         this.deepAdresses,
-                        this.arriveAdresses ) ;
+                        this.arriveAdresses );
                 }
                 else
                 {
                     new TableMList().storageUpdate(
                         new ContainerMList(
                             this.containerMList.getId(),
-                            this.dateTimePicker1.Value.Ticks,
-                            this.dateTimePicker2.Value.Ticks,
-                            this.dateTimePicker4.Value.Ticks,
-                            this.dateTimePicker6.Value.Ticks,
-                            this.dateTimePicker7.Value.Ticks,
-                            this.dateTimePicker9.Value.Ticks,
-                            this.textBox1.Text.ToString(),
-                            this.dateTimePicker4.Value.Ticks,
-                            this.dateTimePicker4.Value.Ticks,
-                            this.dateTimePicker4.Value.Ticks,
-                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
-                            this.dateTimePicker1.Value.Ticks,
-                            ""),
-                        new ContainerEmployee(this.dataGridView1.SelectedRows[0]),
+                            Int32.Parse(this.textBoxMlistNum.Text), // try
+                            new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
+                            new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName(),
+                            this.datePickerCreate.Value.Ticks,
+                            this.datePickerBegin.Value.Ticks + this.timePickerBegin.Value.Ticks,
+                            this.datePickerEnd.Value.Ticks + this.timePickerEnd.Value.Ticks,
+                            this.timePickerCoach.Value.Ticks,
+                            this.datePickerPassGun.Value.Ticks + this.timePickerPassGun.Value.Ticks,
+                            this.datePickerPrint.Value.Ticks,
+                            this.textBoxDescription.Text),
+                        new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]),
                         this.guns,
                         this.cars,
                         this.deepAdresses,
@@ -272,10 +195,80 @@ namespace MList.Forms.TableForm
             }
             this.DialogResult = DialogResult.OK;
         }
-
-        private void button10_Click(object sender, EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+        private void buttonGunsAdd_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewGuns.SelectedRows)
+            {
+                this.guns.Add(new ContainerGun(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonGunsDelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewPickedGuns.SelectedRows)
+            {
+                this.guns.Remove(new ContainerGun(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonCarsAdd_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewCars.SelectedRows)
+            {
+                this.cars.Add(new ContainerCar(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonCarsDelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewPickedCars.SelectedRows)
+            {
+                this.cars.Remove(new ContainerCar(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonDeepAddressesAdd_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewDeepAddresses.SelectedRows)
+            {
+                this.deepAdresses.Add(new ContainerAddress(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonDeepAddressesDelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewPickedDeepAddresses.SelectedRows)
+            {
+                this.deepAdresses.Remove(new ContainerAddress(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonArriveAddressesAdd_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewArriveAddresses.SelectedRows)
+            {
+                this.arriveAdresses.Add(new ContainerAddress(row));
+            }
+            this.updateSubGrids();
+        }
+
+        private void buttonArriveAddressesDelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewPickedArriveAddresses.SelectedRows)
+            {
+                this.arriveAdresses.Remove(new ContainerAddress(row));
+            }
+            this.updateSubGrids();
         }
     }
 }

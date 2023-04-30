@@ -40,6 +40,7 @@ namespace MList.Storage.Table.Container
         public string getLastName() { return this.lastName; }
         public string getFirstName() { return this.firstName; }
         public string getMiddleName() { return this.middleName; }
+        public string getFullName() { return this.lastName + " " + this.firstName + " " + this.middleName;  }
         
         public override void storageFill(SqliteDataReader reader)
         {

@@ -28,660 +28,754 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label11 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker5 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker6 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker7 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker8 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker9 = new System.Windows.Forms.DateTimePicker();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
-            this.dataGridView5 = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.dataGridView6 = new System.Windows.Forms.DataGridView();
-            this.dataGridView7 = new System.Windows.Forms.DataGridView();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.dataGridView8 = new System.Windows.Forms.DataGridView();
-            this.dataGridView9 = new System.Windows.Forms.DataGridView();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView9)).BeginInit();
+            this.datePickerCreate = new System.Windows.Forms.DateTimePicker();
+            this.datePickerBegin = new System.Windows.Forms.DateTimePicker();
+            this.timePickerBegin = new System.Windows.Forms.DateTimePicker();
+            this.timePickerCoach = new System.Windows.Forms.DateTimePicker();
+            this.textBoxDescription = new System.Windows.Forms.TextBox();
+            this.dataGridViewEmployee = new System.Windows.Forms.DataGridView();
+            this.dataGridViewGuns = new System.Windows.Forms.DataGridView();
+            this.buttonGunsDelete = new System.Windows.Forms.Button();
+            this.buttonGunsAdd = new System.Windows.Forms.Button();
+            this.dataGridViewPickedGuns = new System.Windows.Forms.DataGridView();
+            this.buttonApply = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.datePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.timePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.datePickerPassGun = new System.Windows.Forms.DateTimePicker();
+            this.timePickerPassGun = new System.Windows.Forms.DateTimePicker();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBoxMlistNum = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.datePickerPrint = new System.Windows.Forms.DateTimePicker();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonCarsAdd = new System.Windows.Forms.Button();
+            this.buttonCarsDelete = new System.Windows.Forms.Button();
+            this.dataGridViewCars = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPickedCars = new System.Windows.Forms.DataGridView();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.buttonDeepAddressesAdd = new System.Windows.Forms.Button();
+            this.buttonDeepAddressesDelete = new System.Windows.Forms.Button();
+            this.dataGridViewDeepAddresses = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPickedDeepAddresses = new System.Windows.Forms.DataGridView();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.buttonArriveAddressesAdd = new System.Windows.Forms.Button();
+            this.buttonArriveAddressesDelete = new System.Windows.Forms.Button();
+            this.dataGridViewArriveAddresses = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPickedArriveAddresses = new System.Windows.Forms.DataGridView();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCars)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedCars)).BeginInit();
+            this.groupBox12.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDeepAddresses)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedDeepAddresses)).BeginInit();
+            this.groupBox13.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewArriveAddresses)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedArriveAddresses)).BeginInit();
+            this.panel5.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label11.Location = new System.Drawing.Point(123, 13);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(108, 17);
-            this.label11.TabIndex = 10;
-            this.label11.Text = "Дата создания";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label1.Location = new System.Drawing.Point(137, 44);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 17);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Дата начала";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(129, 75);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(102, 17);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Время начала";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.Location = new System.Drawing.Point(710, 10);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(117, 17);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Дата окончания";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label4.Location = new System.Drawing.Point(702, 41);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(125, 17);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Время окончания";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label5.Location = new System.Drawing.Point(689, 72);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(138, 17);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "Время инструктажа";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label6.Location = new System.Drawing.Point(1205, 9);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(137, 17);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Дата сдачи оружия";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label7.Location = new System.Drawing.Point(1197, 40);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(145, 17);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "Время сдачи оружия";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label8.Location = new System.Drawing.Point(1249, 71);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(93, 17);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Дата печати";
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(239, 13);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker1.TabIndex = 19;
-            // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(239, 44);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker2.TabIndex = 20;
-            // 
-            // dateTimePicker3
-            // 
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker3.Location = new System.Drawing.Point(239, 75);
-            this.dateTimePicker3.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker3.TabIndex = 21;
-            // 
-            // dateTimePicker4
-            // 
-            this.dateTimePicker4.Location = new System.Drawing.Point(834, 9);
-            this.dateTimePicker4.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker4.TabIndex = 22;
-            // 
-            // dateTimePicker5
-            // 
-            this.dateTimePicker5.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker5.Location = new System.Drawing.Point(834, 40);
-            this.dateTimePicker5.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker5.Name = "dateTimePicker5";
-            this.dateTimePicker5.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker5.TabIndex = 23;
-            // 
-            // dateTimePicker6
-            // 
-            this.dateTimePicker6.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker6.Location = new System.Drawing.Point(834, 71);
-            this.dateTimePicker6.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker6.Name = "dateTimePicker6";
-            this.dateTimePicker6.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker6.TabIndex = 24;
-            // 
-            // dateTimePicker7
-            // 
-            this.dateTimePicker7.Location = new System.Drawing.Point(1350, 9);
-            this.dateTimePicker7.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker7.Name = "dateTimePicker7";
-            this.dateTimePicker7.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker7.TabIndex = 25;
-            // 
-            // dateTimePicker8
-            // 
-            this.dateTimePicker8.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker8.Location = new System.Drawing.Point(1350, 40);
-            this.dateTimePicker8.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker8.Name = "dateTimePicker8";
-            this.dateTimePicker8.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker8.TabIndex = 26;
-            // 
-            // dateTimePicker9
-            // 
-            this.dateTimePicker9.Location = new System.Drawing.Point(1350, 71);
-            this.dateTimePicker9.Margin = new System.Windows.Forms.Padding(4);
-            this.dateTimePicker9.Name = "dateTimePicker9";
-            this.dateTimePicker9.Size = new System.Drawing.Size(265, 23);
-            this.dateTimePicker9.TabIndex = 27;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label9.Location = new System.Drawing.Point(236, 625);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(91, 17);
-            this.label9.TabIndex = 28;
-            this.label9.Text = "Примечание";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(12, 645);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(580, 260);
-            this.textBox1.TabIndex = 29;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 166);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(580, 456);
-            this.dataGridView1.TabIndex = 30;
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(598, 101);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView2.TabIndex = 33;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(974, 289);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 23);
-            this.button2.TabIndex = 32;
-            this.button2.Text = "Удалить";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(857, 289);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 23);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "Добавить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // dataGridView3
-            // 
-            this.dataGridView3.AllowUserToAddRows = false;
-            this.dataGridView3.AllowUserToDeleteRows = false;
-            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(598, 318);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.RowHeadersVisible = false;
-            this.dataGridView3.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView3.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView3.TabIndex = 34;
-            // 
-            // dataGridView4
-            // 
-            this.dataGridView4.AllowUserToAddRows = false;
-            this.dataGridView4.AllowUserToDeleteRows = false;
-            this.dataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(1114, 101);
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.ReadOnly = true;
-            this.dataGridView4.RowHeadersVisible = false;
-            this.dataGridView4.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView4.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView4.TabIndex = 38;
-            // 
-            // dataGridView5
-            // 
-            this.dataGridView5.AllowUserToAddRows = false;
-            this.dataGridView5.AllowUserToDeleteRows = false;
-            this.dataGridView5.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(1114, 318);
-            this.dataGridView5.Name = "dataGridView5";
-            this.dataGridView5.ReadOnly = true;
-            this.dataGridView5.RowHeadersVisible = false;
-            this.dataGridView5.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView5.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView5.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView5.TabIndex = 37;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(1490, 289);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(111, 23);
-            this.button3.TabIndex = 36;
-            this.button3.Text = "Удалить";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(1373, 289);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(111, 23);
-            this.button4.TabIndex = 35;
-            this.button4.Text = "Добавить";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // dataGridView6
-            // 
-            this.dataGridView6.AllowUserToAddRows = false;
-            this.dataGridView6.AllowUserToDeleteRows = false;
-            this.dataGridView6.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView6.Location = new System.Drawing.Point(598, 506);
-            this.dataGridView6.Name = "dataGridView6";
-            this.dataGridView6.ReadOnly = true;
-            this.dataGridView6.RowHeadersVisible = false;
-            this.dataGridView6.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView6.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView6.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView6.TabIndex = 42;
-            // 
-            // dataGridView7
-            // 
-            this.dataGridView7.AllowUserToAddRows = false;
-            this.dataGridView7.AllowUserToDeleteRows = false;
-            this.dataGridView7.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView7.Location = new System.Drawing.Point(598, 723);
-            this.dataGridView7.Name = "dataGridView7";
-            this.dataGridView7.ReadOnly = true;
-            this.dataGridView7.RowHeadersVisible = false;
-            this.dataGridView7.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView7.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView7.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView7.TabIndex = 41;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(974, 694);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(111, 23);
-            this.button5.TabIndex = 40;
-            this.button5.Text = "Удалить";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(857, 694);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(111, 23);
-            this.button6.TabIndex = 39;
-            this.button6.Text = "Добавить";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // dataGridView8
-            // 
-            this.dataGridView8.AllowUserToAddRows = false;
-            this.dataGridView8.AllowUserToDeleteRows = false;
-            this.dataGridView8.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView8.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView8.Location = new System.Drawing.Point(1114, 506);
-            this.dataGridView8.Name = "dataGridView8";
-            this.dataGridView8.ReadOnly = true;
-            this.dataGridView8.RowHeadersVisible = false;
-            this.dataGridView8.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView8.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView8.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView8.TabIndex = 46;
-            // 
-            // dataGridView9
-            // 
-            this.dataGridView9.AllowUserToAddRows = false;
-            this.dataGridView9.AllowUserToDeleteRows = false;
-            this.dataGridView9.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView9.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView9.Location = new System.Drawing.Point(1114, 723);
-            this.dataGridView9.Name = "dataGridView9";
-            this.dataGridView9.ReadOnly = true;
-            this.dataGridView9.RowHeadersVisible = false;
-            this.dataGridView9.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView9.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView9.Size = new System.Drawing.Size(501, 182);
-            this.dataGridView9.TabIndex = 45;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(1490, 694);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(111, 23);
-            this.button7.TabIndex = 44;
-            this.button7.Text = "Удалить";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(1373, 694);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(111, 23);
-            this.button8.TabIndex = 43;
-            this.button8.Text = "Добавить";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label10.Location = new System.Drawing.Point(609, 292);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(59, 17);
-            this.label10.TabIndex = 47;
-            this.label10.Text = "Оружие";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label12.Location = new System.Drawing.Point(1130, 292);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(87, 17);
-            this.label12.TabIndex = 48;
-            this.label12.Text = "Автомобиль";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label13.Location = new System.Drawing.Point(609, 697);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(101, 17);
-            this.label13.TabIndex = 49;
-            this.label13.Text = "Место убытия";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label14.Location = new System.Drawing.Point(1130, 697);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(118, 17);
-            this.label14.TabIndex = 50;
-            this.label14.Text = "Место прибытия";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label15.Location = new System.Drawing.Point(236, 146);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(78, 17);
-            this.label15.TabIndex = 51;
-            this.label15.Text = "Сотрудник";
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(1445, 911);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 52;
-            this.button9.Text = "Ок";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(1526, 911);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(75, 23);
-            this.button10.TabIndex = 53;
-            this.button10.Text = "Отмена";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // datePickerCreate
+            // 
+            this.datePickerCreate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datePickerCreate.Location = new System.Drawing.Point(3, 19);
+            this.datePickerCreate.Margin = new System.Windows.Forms.Padding(4);
+            this.datePickerCreate.Name = "datePickerCreate";
+            this.datePickerCreate.Size = new System.Drawing.Size(205, 23);
+            this.datePickerCreate.TabIndex = 19;
+            // 
+            // datePickerBegin
+            // 
+            this.datePickerBegin.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datePickerBegin.Location = new System.Drawing.Point(3, 19);
+            this.datePickerBegin.Margin = new System.Windows.Forms.Padding(4);
+            this.datePickerBegin.Name = "datePickerBegin";
+            this.datePickerBegin.Size = new System.Drawing.Size(205, 23);
+            this.datePickerBegin.TabIndex = 20;
+            // 
+            // timePickerBegin
+            // 
+            this.timePickerBegin.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.timePickerBegin.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerBegin.Location = new System.Drawing.Point(3, 44);
+            this.timePickerBegin.Margin = new System.Windows.Forms.Padding(4);
+            this.timePickerBegin.Name = "timePickerBegin";
+            this.timePickerBegin.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.timePickerBegin.Size = new System.Drawing.Size(205, 23);
+            this.timePickerBegin.TabIndex = 21;
+            // 
+            // timePickerCoach
+            // 
+            this.timePickerCoach.Dock = System.Windows.Forms.DockStyle.Top;
+            this.timePickerCoach.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerCoach.Location = new System.Drawing.Point(3, 19);
+            this.timePickerCoach.Margin = new System.Windows.Forms.Padding(4);
+            this.timePickerCoach.Name = "timePickerCoach";
+            this.timePickerCoach.Size = new System.Drawing.Size(205, 23);
+            this.timePickerCoach.TabIndex = 24;
+            // 
+            // textBoxDescription
+            // 
+            this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxDescription.Location = new System.Drawing.Point(3, 19);
+            this.textBoxDescription.Multiline = true;
+            this.textBoxDescription.Name = "textBoxDescription";
+            this.textBoxDescription.Size = new System.Drawing.Size(458, 193);
+            this.textBoxDescription.TabIndex = 29;
+            // 
+            // dataGridViewEmployee
+            // 
+            this.dataGridViewEmployee.AllowUserToAddRows = false;
+            this.dataGridViewEmployee.AllowUserToDeleteRows = false;
+            this.dataGridViewEmployee.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewEmployee.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.dataGridViewEmployee.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEmployee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewEmployee.Location = new System.Drawing.Point(3, 19);
+            this.dataGridViewEmployee.MultiSelect = false;
+            this.dataGridViewEmployee.Name = "dataGridViewEmployee";
+            this.dataGridViewEmployee.ReadOnly = true;
+            this.dataGridViewEmployee.RowHeadersVisible = false;
+            this.dataGridViewEmployee.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewEmployee.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewEmployee.Size = new System.Drawing.Size(458, 381);
+            this.dataGridViewEmployee.TabIndex = 30;
+            // 
+            // dataGridViewGuns
+            // 
+            this.dataGridViewGuns.AllowUserToAddRows = false;
+            this.dataGridViewGuns.AllowUserToDeleteRows = false;
+            this.dataGridViewGuns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewGuns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewGuns.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewGuns.Location = new System.Drawing.Point(3, 19);
+            this.dataGridViewGuns.Name = "dataGridViewGuns";
+            this.dataGridViewGuns.ReadOnly = true;
+            this.dataGridViewGuns.RowHeadersVisible = false;
+            this.dataGridViewGuns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewGuns.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewGuns.TabIndex = 33;
+            // 
+            // buttonGunsDelete
+            // 
+            this.buttonGunsDelete.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonGunsDelete.Location = new System.Drawing.Point(329, 5);
+            this.buttonGunsDelete.Name = "buttonGunsDelete";
+            this.buttonGunsDelete.Size = new System.Drawing.Size(140, 28);
+            this.buttonGunsDelete.TabIndex = 32;
+            this.buttonGunsDelete.Text = "Удалить";
+            this.buttonGunsDelete.UseVisualStyleBackColor = true;
+            this.buttonGunsDelete.Click += new System.EventHandler(this.buttonGunsDelete_Click);
+            // 
+            // buttonGunsAdd
+            // 
+            this.buttonGunsAdd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonGunsAdd.Location = new System.Drawing.Point(180, 5);
+            this.buttonGunsAdd.Name = "buttonGunsAdd";
+            this.buttonGunsAdd.Size = new System.Drawing.Size(140, 28);
+            this.buttonGunsAdd.TabIndex = 31;
+            this.buttonGunsAdd.Text = "Добавить";
+            this.buttonGunsAdd.UseVisualStyleBackColor = true;
+            this.buttonGunsAdd.Click += new System.EventHandler(this.buttonGunsAdd_Click);
+            // 
+            // dataGridViewPickedGuns
+            // 
+            this.dataGridViewPickedGuns.AllowUserToAddRows = false;
+            this.dataGridViewPickedGuns.AllowUserToDeleteRows = false;
+            this.dataGridViewPickedGuns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPickedGuns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPickedGuns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewPickedGuns.Location = new System.Drawing.Point(3, 252);
+            this.dataGridViewPickedGuns.Name = "dataGridViewPickedGuns";
+            this.dataGridViewPickedGuns.ReadOnly = true;
+            this.dataGridViewPickedGuns.RowHeadersVisible = false;
+            this.dataGridViewPickedGuns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewPickedGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPickedGuns.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewPickedGuns.TabIndex = 34;
+            // 
+            // buttonApply
+            // 
+            this.buttonApply.Location = new System.Drawing.Point(1182, 924);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(140, 28);
+            this.buttonApply.TabIndex = 52;
+            this.buttonApply.Text = "Ок";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(1328, 924);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(140, 28);
+            this.buttonCancel.TabIndex = 53;
+            this.buttonCancel.Text = "Отмена";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.datePickerBegin);
+            this.groupBox1.Controls.Add(this.timePickerBegin);
+            this.groupBox1.Location = new System.Drawing.Point(13, 64);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(211, 70);
+            this.groupBox1.TabIndex = 56;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Дата и время начала";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.datePickerEnd);
+            this.groupBox3.Controls.Add(this.timePickerEnd);
+            this.groupBox3.Location = new System.Drawing.Point(230, 64);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(211, 70);
+            this.groupBox3.TabIndex = 57;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Дата и время окончания";
+            // 
+            // datePickerEnd
+            // 
+            this.datePickerEnd.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datePickerEnd.Location = new System.Drawing.Point(3, 19);
+            this.datePickerEnd.Margin = new System.Windows.Forms.Padding(4);
+            this.datePickerEnd.Name = "datePickerEnd";
+            this.datePickerEnd.Size = new System.Drawing.Size(205, 23);
+            this.datePickerEnd.TabIndex = 20;
+            // 
+            // timePickerEnd
+            // 
+            this.timePickerEnd.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.timePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerEnd.Location = new System.Drawing.Point(3, 44);
+            this.timePickerEnd.Margin = new System.Windows.Forms.Padding(4);
+            this.timePickerEnd.Name = "timePickerEnd";
+            this.timePickerEnd.Size = new System.Drawing.Size(205, 23);
+            this.timePickerEnd.TabIndex = 21;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.datePickerPassGun);
+            this.groupBox4.Controls.Add(this.timePickerPassGun);
+            this.groupBox4.Location = new System.Drawing.Point(13, 191);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(211, 70);
+            this.groupBox4.TabIndex = 58;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Дата и время сдачи оружия";
+            // 
+            // datePickerPassGun
+            // 
+            this.datePickerPassGun.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datePickerPassGun.Location = new System.Drawing.Point(3, 19);
+            this.datePickerPassGun.Margin = new System.Windows.Forms.Padding(4);
+            this.datePickerPassGun.Name = "datePickerPassGun";
+            this.datePickerPassGun.Size = new System.Drawing.Size(205, 23);
+            this.datePickerPassGun.TabIndex = 20;
+            // 
+            // timePickerPassGun
+            // 
+            this.timePickerPassGun.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.timePickerPassGun.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerPassGun.Location = new System.Drawing.Point(3, 44);
+            this.timePickerPassGun.Margin = new System.Windows.Forms.Padding(4);
+            this.timePickerPassGun.Name = "timePickerPassGun";
+            this.timePickerPassGun.Size = new System.Drawing.Size(205, 23);
+            this.timePickerPassGun.TabIndex = 21;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.textBoxMlistNum);
+            this.groupBox5.Location = new System.Drawing.Point(13, 13);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(211, 45);
+            this.groupBox5.TabIndex = 57;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Номер маршрутного листа";
+            // 
+            // textBoxMlistNum
+            // 
+            this.textBoxMlistNum.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxMlistNum.Location = new System.Drawing.Point(3, 19);
+            this.textBoxMlistNum.Name = "textBoxMlistNum";
+            this.textBoxMlistNum.Size = new System.Drawing.Size(205, 23);
+            this.textBoxMlistNum.TabIndex = 0;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.datePickerCreate);
+            this.groupBox6.Location = new System.Drawing.Point(230, 13);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(211, 45);
+            this.groupBox6.TabIndex = 58;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Дата создания";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.datePickerPrint);
+            this.groupBox2.Location = new System.Drawing.Point(230, 140);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(211, 45);
+            this.groupBox2.TabIndex = 59;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Дата печати";
+            // 
+            // datePickerPrint
+            // 
+            this.datePickerPrint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datePickerPrint.Location = new System.Drawing.Point(3, 19);
+            this.datePickerPrint.Margin = new System.Windows.Forms.Padding(4);
+            this.datePickerPrint.Name = "datePickerPrint";
+            this.datePickerPrint.Size = new System.Drawing.Size(205, 23);
+            this.datePickerPrint.TabIndex = 19;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.timePickerCoach);
+            this.groupBox7.Location = new System.Drawing.Point(13, 140);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(211, 45);
+            this.groupBox7.TabIndex = 60;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Время инструктажа";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.dataGridViewEmployee);
+            this.groupBox8.Location = new System.Drawing.Point(12, 12);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(464, 403);
+            this.groupBox8.TabIndex = 62;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Сотрудник";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.textBoxDescription);
+            this.groupBox9.Location = new System.Drawing.Point(12, 703);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(464, 215);
+            this.groupBox9.TabIndex = 63;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Примечание";
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.panel1);
+            this.groupBox10.Controls.Add(this.dataGridViewGuns);
+            this.groupBox10.Controls.Add(this.dataGridViewPickedGuns);
+            this.groupBox10.Location = new System.Drawing.Point(479, 12);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(500, 450);
+            this.groupBox10.TabIndex = 64;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Оружие";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.buttonGunsAdd);
+            this.panel1.Controls.Add(this.buttonGunsDelete);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 214);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(180, 5, 25, 5);
+            this.panel1.Size = new System.Drawing.Size(494, 38);
+            this.panel1.TabIndex = 35;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.panel2);
+            this.groupBox11.Controls.Add(this.dataGridViewCars);
+            this.groupBox11.Controls.Add(this.dataGridViewPickedCars);
+            this.groupBox11.Location = new System.Drawing.Point(985, 12);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(500, 450);
+            this.groupBox11.TabIndex = 65;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Автомобили";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.buttonCarsAdd);
+            this.panel2.Controls.Add(this.buttonCarsDelete);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 214);
+            this.panel2.Name = "panel2";
+            this.panel2.Padding = new System.Windows.Forms.Padding(180, 5, 25, 5);
+            this.panel2.Size = new System.Drawing.Size(494, 38);
+            this.panel2.TabIndex = 35;
+            // 
+            // buttonCarsAdd
+            // 
+            this.buttonCarsAdd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonCarsAdd.Location = new System.Drawing.Point(180, 5);
+            this.buttonCarsAdd.Name = "buttonCarsAdd";
+            this.buttonCarsAdd.Size = new System.Drawing.Size(140, 28);
+            this.buttonCarsAdd.TabIndex = 31;
+            this.buttonCarsAdd.Text = "Добавить";
+            this.buttonCarsAdd.UseVisualStyleBackColor = true;
+            this.buttonCarsAdd.Click += new System.EventHandler(this.buttonCarsAdd_Click);
+            // 
+            // buttonCarsDelete
+            // 
+            this.buttonCarsDelete.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonCarsDelete.Location = new System.Drawing.Point(329, 5);
+            this.buttonCarsDelete.Name = "buttonCarsDelete";
+            this.buttonCarsDelete.Size = new System.Drawing.Size(140, 28);
+            this.buttonCarsDelete.TabIndex = 32;
+            this.buttonCarsDelete.Text = "Удалить";
+            this.buttonCarsDelete.UseVisualStyleBackColor = true;
+            this.buttonCarsDelete.Click += new System.EventHandler(this.buttonCarsDelete_Click);
+            // 
+            // dataGridViewCars
+            // 
+            this.dataGridViewCars.AllowUserToAddRows = false;
+            this.dataGridViewCars.AllowUserToDeleteRows = false;
+            this.dataGridViewCars.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCars.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewCars.Location = new System.Drawing.Point(3, 19);
+            this.dataGridViewCars.Name = "dataGridViewCars";
+            this.dataGridViewCars.ReadOnly = true;
+            this.dataGridViewCars.RowHeadersVisible = false;
+            this.dataGridViewCars.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewCars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewCars.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewCars.TabIndex = 33;
+            // 
+            // dataGridViewPickedCars
+            // 
+            this.dataGridViewPickedCars.AllowUserToAddRows = false;
+            this.dataGridViewPickedCars.AllowUserToDeleteRows = false;
+            this.dataGridViewPickedCars.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPickedCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPickedCars.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewPickedCars.Location = new System.Drawing.Point(3, 252);
+            this.dataGridViewPickedCars.Name = "dataGridViewPickedCars";
+            this.dataGridViewPickedCars.ReadOnly = true;
+            this.dataGridViewPickedCars.RowHeadersVisible = false;
+            this.dataGridViewPickedCars.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewPickedCars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPickedCars.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewPickedCars.TabIndex = 34;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.panel3);
+            this.groupBox12.Controls.Add(this.dataGridViewDeepAddresses);
+            this.groupBox12.Controls.Add(this.dataGridViewPickedDeepAddresses);
+            this.groupBox12.Location = new System.Drawing.Point(479, 468);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(500, 450);
+            this.groupBox12.TabIndex = 66;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Места убытия";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.buttonDeepAddressesAdd);
+            this.panel3.Controls.Add(this.buttonDeepAddressesDelete);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 214);
+            this.panel3.Name = "panel3";
+            this.panel3.Padding = new System.Windows.Forms.Padding(180, 5, 25, 5);
+            this.panel3.Size = new System.Drawing.Size(494, 38);
+            this.panel3.TabIndex = 35;
+            // 
+            // buttonDeepAddressesAdd
+            // 
+            this.buttonDeepAddressesAdd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonDeepAddressesAdd.Location = new System.Drawing.Point(180, 5);
+            this.buttonDeepAddressesAdd.Name = "buttonDeepAddressesAdd";
+            this.buttonDeepAddressesAdd.Size = new System.Drawing.Size(140, 28);
+            this.buttonDeepAddressesAdd.TabIndex = 31;
+            this.buttonDeepAddressesAdd.Text = "Добавить";
+            this.buttonDeepAddressesAdd.UseVisualStyleBackColor = true;
+            this.buttonDeepAddressesAdd.Click += new System.EventHandler(this.buttonDeepAddressesAdd_Click);
+            // 
+            // buttonDeepAddressesDelete
+            // 
+            this.buttonDeepAddressesDelete.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonDeepAddressesDelete.Location = new System.Drawing.Point(329, 5);
+            this.buttonDeepAddressesDelete.Name = "buttonDeepAddressesDelete";
+            this.buttonDeepAddressesDelete.Size = new System.Drawing.Size(140, 28);
+            this.buttonDeepAddressesDelete.TabIndex = 32;
+            this.buttonDeepAddressesDelete.Text = "Удалить";
+            this.buttonDeepAddressesDelete.UseVisualStyleBackColor = true;
+            this.buttonDeepAddressesDelete.Click += new System.EventHandler(this.buttonDeepAddressesDelete_Click);
+            // 
+            // dataGridViewDeepAddresses
+            // 
+            this.dataGridViewDeepAddresses.AllowUserToAddRows = false;
+            this.dataGridViewDeepAddresses.AllowUserToDeleteRows = false;
+            this.dataGridViewDeepAddresses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewDeepAddresses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewDeepAddresses.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewDeepAddresses.Location = new System.Drawing.Point(3, 19);
+            this.dataGridViewDeepAddresses.Name = "dataGridViewDeepAddresses";
+            this.dataGridViewDeepAddresses.ReadOnly = true;
+            this.dataGridViewDeepAddresses.RowHeadersVisible = false;
+            this.dataGridViewDeepAddresses.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewDeepAddresses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewDeepAddresses.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewDeepAddresses.TabIndex = 33;
+            // 
+            // dataGridViewPickedDeepAddresses
+            // 
+            this.dataGridViewPickedDeepAddresses.AllowUserToAddRows = false;
+            this.dataGridViewPickedDeepAddresses.AllowUserToDeleteRows = false;
+            this.dataGridViewPickedDeepAddresses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPickedDeepAddresses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPickedDeepAddresses.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewPickedDeepAddresses.Location = new System.Drawing.Point(3, 252);
+            this.dataGridViewPickedDeepAddresses.Name = "dataGridViewPickedDeepAddresses";
+            this.dataGridViewPickedDeepAddresses.ReadOnly = true;
+            this.dataGridViewPickedDeepAddresses.RowHeadersVisible = false;
+            this.dataGridViewPickedDeepAddresses.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewPickedDeepAddresses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPickedDeepAddresses.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewPickedDeepAddresses.TabIndex = 34;
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.panel4);
+            this.groupBox13.Controls.Add(this.dataGridViewArriveAddresses);
+            this.groupBox13.Controls.Add(this.dataGridViewPickedArriveAddresses);
+            this.groupBox13.Location = new System.Drawing.Point(985, 468);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(500, 450);
+            this.groupBox13.TabIndex = 67;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Места прибытия";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.buttonArriveAddressesAdd);
+            this.panel4.Controls.Add(this.buttonArriveAddressesDelete);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 214);
+            this.panel4.Name = "panel4";
+            this.panel4.Padding = new System.Windows.Forms.Padding(180, 5, 25, 5);
+            this.panel4.Size = new System.Drawing.Size(494, 38);
+            this.panel4.TabIndex = 35;
+            // 
+            // buttonArriveAddressesAdd
+            // 
+            this.buttonArriveAddressesAdd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonArriveAddressesAdd.Location = new System.Drawing.Point(180, 5);
+            this.buttonArriveAddressesAdd.Name = "buttonArriveAddressesAdd";
+            this.buttonArriveAddressesAdd.Size = new System.Drawing.Size(140, 28);
+            this.buttonArriveAddressesAdd.TabIndex = 31;
+            this.buttonArriveAddressesAdd.Text = "Добавить";
+            this.buttonArriveAddressesAdd.UseVisualStyleBackColor = true;
+            this.buttonArriveAddressesAdd.Click += new System.EventHandler(this.buttonArriveAddressesAdd_Click);
+            // 
+            // buttonArriveAddressesDelete
+            // 
+            this.buttonArriveAddressesDelete.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonArriveAddressesDelete.Location = new System.Drawing.Point(329, 5);
+            this.buttonArriveAddressesDelete.Name = "buttonArriveAddressesDelete";
+            this.buttonArriveAddressesDelete.Size = new System.Drawing.Size(140, 28);
+            this.buttonArriveAddressesDelete.TabIndex = 32;
+            this.buttonArriveAddressesDelete.Text = "Удалить";
+            this.buttonArriveAddressesDelete.UseVisualStyleBackColor = true;
+            this.buttonArriveAddressesDelete.Click += new System.EventHandler(this.buttonArriveAddressesDelete_Click);
+            // 
+            // dataGridViewArriveAddresses
+            // 
+            this.dataGridViewArriveAddresses.AllowUserToAddRows = false;
+            this.dataGridViewArriveAddresses.AllowUserToDeleteRows = false;
+            this.dataGridViewArriveAddresses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewArriveAddresses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewArriveAddresses.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewArriveAddresses.Location = new System.Drawing.Point(3, 19);
+            this.dataGridViewArriveAddresses.Name = "dataGridViewArriveAddresses";
+            this.dataGridViewArriveAddresses.ReadOnly = true;
+            this.dataGridViewArriveAddresses.RowHeadersVisible = false;
+            this.dataGridViewArriveAddresses.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewArriveAddresses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewArriveAddresses.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewArriveAddresses.TabIndex = 33;
+            // 
+            // dataGridViewPickedArriveAddresses
+            // 
+            this.dataGridViewPickedArriveAddresses.AllowUserToAddRows = false;
+            this.dataGridViewPickedArriveAddresses.AllowUserToDeleteRows = false;
+            this.dataGridViewPickedArriveAddresses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPickedArriveAddresses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPickedArriveAddresses.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewPickedArriveAddresses.Location = new System.Drawing.Point(3, 252);
+            this.dataGridViewPickedArriveAddresses.Name = "dataGridViewPickedArriveAddresses";
+            this.dataGridViewPickedArriveAddresses.ReadOnly = true;
+            this.dataGridViewPickedArriveAddresses.RowHeadersVisible = false;
+            this.dataGridViewPickedArriveAddresses.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewPickedArriveAddresses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPickedArriveAddresses.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewPickedArriveAddresses.TabIndex = 34;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.flowLayoutPanel1);
+            this.panel5.Location = new System.Drawing.Point(12, 421);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(5);
+            this.panel5.Size = new System.Drawing.Size(464, 279);
+            this.panel5.TabIndex = 68;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.groupBox5);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox6);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox7);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox4);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 5);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(454, 269);
+            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // TableFormMList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1627, 943);
-            this.Controls.Add(this.button9);
-            this.Controls.Add(this.button10);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.dataGridView8);
-            this.Controls.Add(this.dataGridView9);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.dataGridView6);
-            this.Controls.Add(this.dataGridView7);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.dataGridView4);
-            this.Controls.Add(this.dataGridView5);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.dataGridView3);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.dateTimePicker9);
-            this.Controls.Add(this.dateTimePicker8);
-            this.Controls.Add(this.dateTimePicker7);
-            this.Controls.Add(this.dateTimePicker6);
-            this.Controls.Add(this.dateTimePicker5);
-            this.Controls.Add(this.dateTimePicker4);
-            this.Controls.Add(this.dateTimePicker3);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label11);
+            this.ClientSize = new System.Drawing.Size(1497, 960);
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.groupBox13);
+            this.Controls.Add(this.groupBox12);
+            this.Controls.Add(this.groupBox11);
+            this.Controls.Add(this.groupBox10);
+            this.Controls.Add(this.groupBox9);
+            this.Controls.Add(this.groupBox8);
+            this.Controls.Add(this.buttonApply);
+            this.Controls.Add(this.buttonCancel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TableFormMList";
             this.Text = "TableFormMList";
             this.Load += new System.EventHandler(this.TableFormMList_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCars)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedCars)).EndInit();
+            this.groupBox12.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDeepAddresses)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedDeepAddresses)).EndInit();
+            this.groupBox13.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewArriveAddresses)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedArriveAddresses)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker5;
-        private System.Windows.Forms.DateTimePicker dateTimePicker6;
-        private System.Windows.Forms.DateTimePicker dateTimePicker7;
-        private System.Windows.Forms.DateTimePicker dateTimePicker8;
-        private System.Windows.Forms.DateTimePicker dateTimePicker9;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
-        protected System.Windows.Forms.DataGridView dataGridView1;
-        protected System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        protected System.Windows.Forms.DataGridView dataGridView3;
-        protected System.Windows.Forms.DataGridView dataGridView4;
-        protected System.Windows.Forms.DataGridView dataGridView5;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        protected System.Windows.Forms.DataGridView dataGridView6;
-        protected System.Windows.Forms.DataGridView dataGridView7;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        protected System.Windows.Forms.DataGridView dataGridView8;
-        protected System.Windows.Forms.DataGridView dataGridView9;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.DateTimePicker datePickerCreate;
+        private System.Windows.Forms.DateTimePicker datePickerBegin;
+        private System.Windows.Forms.DateTimePicker timePickerBegin;
+        private System.Windows.Forms.DateTimePicker timePickerCoach;
+        private System.Windows.Forms.TextBox textBoxDescription;
+        protected System.Windows.Forms.DataGridView dataGridViewEmployee;
+        protected System.Windows.Forms.DataGridView dataGridViewGuns;
+        private System.Windows.Forms.Button buttonGunsDelete;
+        private System.Windows.Forms.Button buttonGunsAdd;
+        protected System.Windows.Forms.DataGridView dataGridViewPickedGuns;
+        private System.Windows.Forms.Button buttonApply;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.DateTimePicker datePickerEnd;
+        private System.Windows.Forms.DateTimePicker timePickerEnd;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.DateTimePicker datePickerPassGun;
+        private System.Windows.Forms.DateTimePicker timePickerPassGun;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox textBoxMlistNum;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DateTimePicker datePickerPrint;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button buttonCarsAdd;
+        private System.Windows.Forms.Button buttonCarsDelete;
+        protected System.Windows.Forms.DataGridView dataGridViewCars;
+        protected System.Windows.Forms.DataGridView dataGridViewPickedCars;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button buttonDeepAddressesAdd;
+        private System.Windows.Forms.Button buttonDeepAddressesDelete;
+        protected System.Windows.Forms.DataGridView dataGridViewDeepAddresses;
+        protected System.Windows.Forms.DataGridView dataGridViewPickedDeepAddresses;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button buttonArriveAddressesAdd;
+        private System.Windows.Forms.Button buttonArriveAddressesDelete;
+        protected System.Windows.Forms.DataGridView dataGridViewArriveAddresses;
+        protected System.Windows.Forms.DataGridView dataGridViewPickedArriveAddresses;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
