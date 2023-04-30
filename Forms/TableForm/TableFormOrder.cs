@@ -28,10 +28,10 @@ namespace MList.Forms.TableForm
             this.guns = new ContainerCollection<ContainerGun>();
             this.order = new ContainerOrder();
 
-            this.textBox1.Text = TableOrder.GetNextOrderNum().ToString();
-            new TableEmployee().gridInit(this.dataGridView1);
-            new TableGun().gridInit(this.dataGridView2);
-            new TableGun().gridInit(this.dataGridView3);
+            this.textBoxOrderNum.Text = TableOrder.GetNextOrderNum().ToString();
+            new TableEmployee().gridInit(this.dataGridViewEmployee);
+            new TableGun().gridInit(this.dataGridViewGuns);
+            new TableGun().gridInit(this.dataGridViewPickedGuns);
         }
 
         public TableFormOrder(ContainerOrder order) :
@@ -41,8 +41,8 @@ namespace MList.Forms.TableForm
 
             this.order = order;
 
-            this.textBox1.Text = order.getNumber().ToString();
-            this.dateTimePicker1.Value = new DateTime(order.getDate());
+            this.textBoxOrderNum.Text = order.getNumber().ToString();
+            this.datePickerCreate.Value = new DateTime(order.getDate());
 
             try
             {
@@ -59,8 +59,8 @@ namespace MList.Forms.TableForm
 
             this.UpdatePickedGunGrid();
 
-            this.dataGridView1.ClearSelection();
-            foreach (DataGridViewRow row in this.dataGridView1.Rows)
+            this.dataGridViewPickedGuns.ClearSelection();
+            foreach (DataGridViewRow row in this.dataGridViewEmployee.Rows)
             {
                 if (new ContainerEmployee(row).getId() == this.order.getId())
                 {
@@ -79,7 +79,7 @@ namespace MList.Forms.TableForm
         {
             try
             {
-                new TableEmployee().gridFill(this.dataGridView1,
+                new TableEmployee().gridFill(this.dataGridViewEmployee,
                     new TableEmployee().storageGet());
             }
             catch (QueryExeption)
@@ -95,7 +95,7 @@ namespace MList.Forms.TableForm
         {
             try
             {
-                new TableGun().gridFill(this.dataGridView2,
+                new TableGun().gridFill(this.dataGridViewGuns,
                     new TableGun().storageGet());
             }
             catch (QueryExeption)
@@ -109,38 +109,12 @@ namespace MList.Forms.TableForm
 
         private void UpdatePickedGunGrid()
         {
-            new TableGun().gridFill(this.dataGridView3, this.guns.downCast());
+            new TableGun().gridFill(this.dataGridViewPickedGuns, this.guns.downCast());
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonApply_Click(object sender, EventArgs e)
         {
-            if (this.dataGridView2.SelectedRows.Count == 0)
-            {
-                return;
-            }
-            foreach (DataGridViewRow row in this.dataGridView2.SelectedRows)
-            {
-                this.guns.Add(new ContainerGun(row));
-            }
-            this.UpdatePickedGunGrid();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (this.dataGridView3.SelectedRows.Count == 0)
-            {
-                return;
-            }
-            foreach (DataGridViewRow row in this.dataGridView3.SelectedRows)
-            {
-                this.guns.Remove(new ContainerGun(row));
-            }
-            this.UpdatePickedGunGrid();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (this.dataGridView1.SelectedRows.Count == 0)
+            if (this.dataGridViewEmployee.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
                     "Нет ни одного сотрудника.",
@@ -149,7 +123,7 @@ namespace MList.Forms.TableForm
                 this.DialogResult = DialogResult.Cancel;
             }
 
-            if (this.dataGridView3.Rows.Count == 0)
+            if (this.dataGridViewPickedGuns.Rows.Count == 0)
             {
                 MessageBox.Show(
                     "Не выбрано оружие",
@@ -165,9 +139,9 @@ namespace MList.Forms.TableForm
                     new TableOrder().storageAdd(
                         new ContainerOrder(
                             0,
-                            int.Parse(this.textBox1.Text),
-                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
-                            this.dateTimePicker1.Value.Ticks,
+                            int.Parse(this.textBoxOrderNum.Text),
+                            new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
+                            this.datePickerCreate.Value.Ticks,
                             ""),
                         this.guns);
                 }
@@ -176,14 +150,14 @@ namespace MList.Forms.TableForm
                     new TableOrder().storageUpdate(
                         new ContainerOrder(
                             this.order.getId(),
-                            int.Parse(this.textBox1.Text),
-                            new ContainerEmployee(this.dataGridView1.SelectedRows[0]).getId(),
-                            this.dateTimePicker1.Value.Ticks,
+                            int.Parse(this.textBoxOrderNum.Text),
+                            new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
+                            this.datePickerCreate.Value.Ticks,
                             ""),
                         this.guns);
                 }
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 MessageBox.Show(
                     "Ошибка",
@@ -207,9 +181,27 @@ namespace MList.Forms.TableForm
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void buttonGunsAdd_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewGuns.SelectedRows)
+            {
+                this.guns.Add(new ContainerGun(row));
+            }
+            this.UpdatePickedGunGrid();
+        }
+
+        private void buttonGunsDelete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewPickedGuns.SelectedRows)
+            {
+                this.guns.Remove(new ContainerGun(row));
+            }
+            this.UpdatePickedGunGrid();
         }
     }
 }

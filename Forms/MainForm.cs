@@ -16,18 +16,18 @@ namespace MList
         {
             InitializeComponent();
 
-            new TableMList().gridInit(this.dataGridView1);
-            new TableGun().gridInit(this.dataGridView2);
-            new TableCar().gridInit(this.dataGridView3);
-            new TableAddress().gridInit(this.dataGridView4);
-            new TableAddress().gridInit(this.dataGridView5);
+            new TableMList().gridInit(this.dataGridViewMLists);
+            new TableGun().gridInit(this.dataGridViewGuns);
+            new TableCar().gridInit(this.dataGridViewCars);
+            new TableAddress().gridInit(this.dataGridViewDeepAddresses);
+            new TableAddress().gridInit(this.dataGridViewArriveAddresses);
         }
         public void updateGrid()
         {
             TableMList tableMList = new TableMList();
             try
             {
-                tableMList.gridFill(this.dataGridView1, this.textBox1.Text.Length > 0 ?
+                tableMList.gridFill(this.dataGridViewMLists, this.textBox1.Text.Length > 0 ?
                     tableMList.storageGet(this.textBox1.Text) : tableMList.storageGet());
             }
             catch(QueryExeption)
@@ -41,18 +41,18 @@ namespace MList
         }
         public void updateSubGrids()
         {
-            if (this.dataGridView1.SelectedRows.Count == 0)
+            if (this.dataGridViewMLists.SelectedRows.Count == 0)
             {
                 return;
             }
 
             try
             {
-                ContainerMList containerMList = new ContainerMList(this.dataGridView1.SelectedRows[0]);
-                new TableGun().gridFill(this.dataGridView2, new TableGun().storageGet(containerMList.getId()));
-                new TableCar().gridFill(this.dataGridView3, new TableCar().storageGet(containerMList.getId()));
-                new TableAddress().gridFill(this.dataGridView2, new TableAddress().storageGetCurrentArrive(containerMList.getId()));
-                new TableAddress().gridFill(this.dataGridView2, new TableAddress().storageGetCurrentDeep(containerMList.getId()));
+                ContainerMList containerMList = new ContainerMList(this.dataGridViewMLists.SelectedRows[0]);
+                new TableGun().gridFill(this.dataGridViewGuns, new TableGun().storageGet(containerMList.getId()));
+                new TableCar().gridFill(this.dataGridViewCars, new TableCar().storageGet(containerMList.getId()));
+                new TableAddress().gridFill(this.dataGridViewGuns, new TableAddress().storageGetCurrentArrive(containerMList.getId()));
+                new TableAddress().gridFill(this.dataGridViewGuns, new TableAddress().storageGetCurrentDeep(containerMList.getId()));
             }
             catch (QueryExeption)
             {
@@ -153,7 +153,7 @@ namespace MList
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+            foreach (DataGridViewRow row in this.dataGridViewMLists.SelectedRows)
             {
                 try
                 {

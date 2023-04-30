@@ -28,183 +28,234 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonGunsAdd = new System.Windows.Forms.Button();
+            this.buttonGunsDelete = new System.Windows.Forms.Button();
+            this.dataGridViewPickedGuns = new System.Windows.Forms.DataGridView();
+            this.dataGridViewGuns = new System.Windows.Forms.DataGridView();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBoxOrderNum = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.datePickerCreate = new System.Windows.Forms.DateTimePicker();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.dataGridViewEmployee = new System.Windows.Forms.DataGridView();
+            this.buttonApply = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.groupBox10.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // groupBox10
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label1.Location = new System.Drawing.Point(558, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Номер Приказа";
+            this.groupBox10.Controls.Add(this.panel1);
+            this.groupBox10.Controls.Add(this.dataGridViewGuns);
+            this.groupBox10.Controls.Add(this.dataGridViewPickedGuns);
+            this.groupBox10.Location = new System.Drawing.Point(12, 12);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(500, 450);
+            this.groupBox10.TabIndex = 65;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Оружие";
             // 
-            // label2
+            // panel1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(561, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(108, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Дата создания";
+            this.panel1.Controls.Add(this.buttonGunsAdd);
+            this.panel1.Controls.Add(this.buttonGunsDelete);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 211);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(180, 5, 25, 5);
+            this.panel1.Size = new System.Drawing.Size(494, 41);
+            this.panel1.TabIndex = 35;
             // 
-            // textBox1
+            // buttonGunsAdd
             // 
-            this.textBox1.Location = new System.Drawing.Point(675, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(279, 20);
-            this.textBox1.TabIndex = 2;
+            this.buttonGunsAdd.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonGunsAdd.Location = new System.Drawing.Point(180, 5);
+            this.buttonGunsAdd.Name = "buttonGunsAdd";
+            this.buttonGunsAdd.Size = new System.Drawing.Size(140, 31);
+            this.buttonGunsAdd.TabIndex = 31;
+            this.buttonGunsAdd.Text = "Добавить";
+            this.buttonGunsAdd.UseVisualStyleBackColor = true;
+            this.buttonGunsAdd.Click += new System.EventHandler(this.buttonGunsAdd_Click);
             // 
-            // dateTimePicker1
+            // buttonGunsDelete
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(675, 44);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(279, 20);
-            this.dateTimePicker1.TabIndex = 3;
+            this.buttonGunsDelete.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonGunsDelete.Location = new System.Drawing.Point(329, 5);
+            this.buttonGunsDelete.Name = "buttonGunsDelete";
+            this.buttonGunsDelete.Size = new System.Drawing.Size(140, 31);
+            this.buttonGunsDelete.TabIndex = 32;
+            this.buttonGunsDelete.Text = "Удалить";
+            this.buttonGunsDelete.UseVisualStyleBackColor = true;
+            this.buttonGunsDelete.Click += new System.EventHandler(this.buttonGunsDelete_Click);
             // 
-            // button1
+            // dataGridViewPickedGuns
             // 
-            this.button1.Location = new System.Drawing.Point(12, 262);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Добавить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.dataGridViewPickedGuns.AllowUserToAddRows = false;
+            this.dataGridViewPickedGuns.AllowUserToDeleteRows = false;
+            this.dataGridViewPickedGuns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPickedGuns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPickedGuns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewPickedGuns.Location = new System.Drawing.Point(3, 252);
+            this.dataGridViewPickedGuns.Name = "dataGridViewPickedGuns";
+            this.dataGridViewPickedGuns.ReadOnly = true;
+            this.dataGridViewPickedGuns.RowHeadersVisible = false;
+            this.dataGridViewPickedGuns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewPickedGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPickedGuns.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewPickedGuns.TabIndex = 34;
             // 
-            // button2
+            // dataGridViewGuns
             // 
-            this.button2.Location = new System.Drawing.Point(93, 262);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Удалить";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.dataGridViewGuns.AllowUserToAddRows = false;
+            this.dataGridViewGuns.AllowUserToDeleteRows = false;
+            this.dataGridViewGuns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewGuns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewGuns.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewGuns.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewGuns.Name = "dataGridViewGuns";
+            this.dataGridViewGuns.ReadOnly = true;
+            this.dataGridViewGuns.RowHeadersVisible = false;
+            this.dataGridViewGuns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewGuns.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewGuns.TabIndex = 33;
             // 
-            // dataGridView1
+            // groupBox5
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(519, 70);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(500, 418);
-            this.dataGridView1.TabIndex = 9;
+            this.groupBox5.Controls.Add(this.textBoxOrderNum);
+            this.groupBox5.Location = new System.Drawing.Point(518, 12);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(211, 45);
+            this.groupBox5.TabIndex = 66;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Номер Приказа";
             // 
-            // dataGridView2
+            // textBoxOrderNum
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(501, 244);
-            this.dataGridView2.TabIndex = 10;
+            this.textBoxOrderNum.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxOrderNum.Location = new System.Drawing.Point(3, 16);
+            this.textBoxOrderNum.Name = "textBoxOrderNum";
+            this.textBoxOrderNum.Size = new System.Drawing.Size(205, 20);
+            this.textBoxOrderNum.TabIndex = 0;
             // 
-            // dataGridView3
+            // groupBox6
             // 
-            this.dataGridView3.AllowUserToAddRows = false;
-            this.dataGridView3.AllowUserToDeleteRows = false;
-            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(12, 291);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.RowHeadersVisible = false;
-            this.dataGridView3.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView3.Size = new System.Drawing.Size(501, 244);
-            this.dataGridView3.TabIndex = 11;
+            this.groupBox6.Controls.Add(this.datePickerCreate);
+            this.groupBox6.Location = new System.Drawing.Point(735, 12);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(211, 45);
+            this.groupBox6.TabIndex = 67;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Дата создания";
             // 
-            // button3
+            // datePickerCreate
             // 
-            this.button3.Location = new System.Drawing.Point(852, 503);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 12;
-            this.button3.Text = "Ок";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.datePickerCreate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datePickerCreate.Location = new System.Drawing.Point(3, 16);
+            this.datePickerCreate.Margin = new System.Windows.Forms.Padding(4);
+            this.datePickerCreate.Name = "datePickerCreate";
+            this.datePickerCreate.Size = new System.Drawing.Size(205, 20);
+            this.datePickerCreate.TabIndex = 19;
             // 
-            // button4
+            // groupBox8
             // 
-            this.button4.Location = new System.Drawing.Point(933, 503);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 13;
-            this.button4.Text = "Отмена";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.groupBox8.Controls.Add(this.dataGridViewEmployee);
+            this.groupBox8.Location = new System.Drawing.Point(518, 63);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(428, 399);
+            this.groupBox8.TabIndex = 68;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Сотрудник";
+            // 
+            // dataGridViewEmployee
+            // 
+            this.dataGridViewEmployee.AllowUserToAddRows = false;
+            this.dataGridViewEmployee.AllowUserToDeleteRows = false;
+            this.dataGridViewEmployee.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewEmployee.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.dataGridViewEmployee.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEmployee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewEmployee.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewEmployee.MultiSelect = false;
+            this.dataGridViewEmployee.Name = "dataGridViewEmployee";
+            this.dataGridViewEmployee.ReadOnly = true;
+            this.dataGridViewEmployee.RowHeadersVisible = false;
+            this.dataGridViewEmployee.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewEmployee.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewEmployee.Size = new System.Drawing.Size(422, 380);
+            this.dataGridViewEmployee.TabIndex = 30;
+            // 
+            // buttonApply
+            // 
+            this.buttonApply.Location = new System.Drawing.Point(640, 468);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(140, 28);
+            this.buttonApply.TabIndex = 69;
+            this.buttonApply.Text = "Ок";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(786, 468);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(140, 28);
+            this.buttonCancel.TabIndex = 70;
+            this.buttonCancel.Text = "Отмена";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // TableFormOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1031, 545);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.dataGridView3);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(955, 506);
+            this.Controls.Add(this.buttonApply);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.groupBox8);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBox10);
             this.Name = "TableFormOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TableFormOrder";
             this.Load += new System.EventHandler(this.TableFormOrder_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            this.groupBox10.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        protected System.Windows.Forms.DataGridView dataGridView1;
-        protected System.Windows.Forms.DataGridView dataGridView2;
-        protected System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonGunsAdd;
+        private System.Windows.Forms.Button buttonGunsDelete;
+        protected System.Windows.Forms.DataGridView dataGridViewGuns;
+        protected System.Windows.Forms.DataGridView dataGridViewPickedGuns;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox textBoxOrderNum;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.DateTimePicker datePickerCreate;
+        private System.Windows.Forms.GroupBox groupBox8;
+        protected System.Windows.Forms.DataGridView dataGridViewEmployee;
+        private System.Windows.Forms.Button buttonApply;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

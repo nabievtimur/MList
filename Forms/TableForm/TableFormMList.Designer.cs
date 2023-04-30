@@ -378,7 +378,7 @@
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.dataGridViewEmployee);
-            this.groupBox8.Location = new System.Drawing.Point(12, 12);
+            this.groupBox8.Location = new System.Drawing.Point(12, 297);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(464, 403);
             this.groupBox8.TabIndex = 62;
@@ -652,7 +652,7 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.flowLayoutPanel1);
-            this.panel5.Location = new System.Drawing.Point(12, 421);
+            this.panel5.Location = new System.Drawing.Point(12, 12);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(5);
             this.panel5.Size = new System.Drawing.Size(464, 279);
