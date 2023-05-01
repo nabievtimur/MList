@@ -52,25 +52,23 @@ namespace MList.Storage.Table.Container
             base.gridRowFill(ref row);
             row.Cells[1].Value = this.address;
         }
-        public override List<Tuple<Label, TextBox>> getItemList()
+        public override List<String> getFieldsNames()
         {
-            List<Tuple<Label, TextBox>> lItems = new List<Tuple<Label, TextBox>>();
-            Label label = new Label();
-            label.Text = "Адрес";
-            TextBox textBox = new TextBox();
-            textBox.Text = this.address;
-            lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            return lItems;
+            return new List<String>() { "Адрес" };
         }
-        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
+        public override List<String> getFieldsValues()
+        {
+            return new List<String>() { this.address };
+        }
+        public override bool checkItemList(ref List<TextBox> lItems)
         {
             return true;
         }
-        public override iContainer updateFromList(List<Tuple<Label, TextBox>> lItems)
+        public override iContainer updateFromList(List<TextBox> lItems)
         {
             if (lItems.Count != 1)
                 throw new ParceException();
-            this.address = lItems[0].Item2.Text;
+            this.address = lItems[0].Text;
             return this;
         }
     }

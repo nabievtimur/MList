@@ -10,7 +10,8 @@ namespace MList.Storage.Table
     {
         public TableMList()
         {
-            this.StorageTableName = "Маршрутные листы";
+            this.VisibleTableName = "Маршрутные листы";
+            this.StorageTableName = "mlist";
         }
         public override iContainer getAssociatedContainer()
         {

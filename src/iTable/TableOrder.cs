@@ -14,7 +14,8 @@ namespace MList.Storage.Table
     {
         public TableOrder()
         {
-            this.StorageTableName = "Приказы о закреплении оружия";
+            this.VisibleTableName = "Приказы о закреплении оружия";
+            this.StorageTableName = "orders";
         }
         public override iContainer getAssociatedContainer()
         {

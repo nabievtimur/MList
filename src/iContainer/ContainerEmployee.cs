@@ -70,45 +70,25 @@ namespace MList.Storage.Table.Container
             row.Cells[3].Value = this.middleName;
         }
 
-        public override List<Tuple<Label, TextBox>> getItemList()
+        public override List<String> getFieldsNames()
         {
-            List<Tuple<Label, TextBox>> lItems = new List<Tuple<Label, TextBox>>();
-            {
-                Label label = new Label();
-                label.Text = "Фамилия";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.lastName;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-
-            {
-                Label label = new Label();
-                label.Text = "Имя";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.firstName;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-
-            {
-                Label label = new Label();
-                label.Text = "Отчество";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.middleName;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-            return lItems;
+            return new List<String>() { "Фамилия", "Имя", "Отчество" };
         }
-        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
+        public override List<String> getFieldsValues()
+        {
+            return new List<String>() { this.lastName, this.firstName, this.middleName };
+        }
+        public override bool checkItemList(ref List<TextBox> lItems)
         {
             return true;
         }
-        public override iContainer updateFromList(List<Tuple<Label, TextBox>> lItems)
+        public override iContainer updateFromList(List<TextBox> lItems)
         {
             if (lItems.Count != 3)
                 throw new ParceException();
-            this.firstName = lItems[1].Item2.Text;
-            this.lastName = lItems[0].Item2.Text;
-            this.middleName = lItems[2].Item2.Text;
+            this.firstName = lItems[1].Text;
+            this.lastName = lItems[0].Text;
+            this.middleName = lItems[2].Text;
             return this;
         }
     }

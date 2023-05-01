@@ -16,7 +16,6 @@ namespace MList.Forms
     public partial class TableFormTemplate : Form
     {
         iTable table;
-
         protected TableFormTemplate()
         {
             InitializeComponent();
@@ -25,7 +24,7 @@ namespace MList.Forms
         public TableFormTemplate(iTable table) : this()
         {
             this.table = table;
-            this.Text = table.getStorageTableName();
+            this.Text = table.getVisibleTableName();
 
             this.table.gridInit(this.dataGridView1);
         }
@@ -55,10 +54,9 @@ namespace MList.Forms
         private void add()
         {
             new CustomizeInputForm(
-                "Добавить",
-                this.table.getAssociatedContainer().getItemList(),
+                this.table.getAssociatedContainer().getFieldsNames(),
                 this.table.getAssociatedContainer().checkItemList,
-                (ref List<Tuple<Label, TextBox>> lItems) =>
+                (ref List<TextBox> lItems) =>
                 {
                     try
                     {
@@ -98,10 +96,10 @@ namespace MList.Forms
             iContainer container = this.table.getAssociatedContainer(this.dataGridView1.SelectedRows[0]);
 
             new CustomizeInputForm(
-                "Изменить",
-                container.getItemList(),
+                container.getFieldsNames(),
+                container.getFieldsValues(),
                 this.table.getAssociatedContainer().checkItemList,
-                (ref List<Tuple<Label, TextBox>> lItems) =>
+                (ref List<TextBox> lItems) =>
                 {
                     try
                     {

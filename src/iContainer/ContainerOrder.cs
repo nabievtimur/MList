@@ -84,13 +84,5 @@ namespace MList.Storage.Table.Container
             row.Cells[3].Value = new DateTime(this.date).ToString();
             row.Cells[4].Value = this.employeeFullName;
         }
-        public override List<Tuple<Label, TextBox>> getItemList()
-        {
-            throw new NotImplementedException();
-        }
-        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

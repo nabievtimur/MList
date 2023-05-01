@@ -60,36 +60,24 @@ namespace MList.Storage.Table.Container
             row.Cells[1].Value = this.brand;
             row.Cells[2].Value = this.number;
         }
-        public override List<Tuple<Label, TextBox>> getItemList()
+        public override List<String> getFieldsNames()
         {
-            List<Tuple<Label, TextBox>> lItems = new List<Tuple<Label, TextBox>>();
-            {
-                Label label = new Label();
-                label.Text = "Брэнд";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.brand;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-
-            {
-                Label label = new Label();
-                label.Text = "Номер";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.number;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-            return lItems;
+            return new List<String>() { "Брэнд", "Номер" };
         }
-        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
+        public override List<String> getFieldsValues()
+        {
+            return new List<String>() { this.brand, this.number };
+        }
+        public override bool checkItemList(ref List<TextBox> lItems)
         {
             return true;
         }
-        public override iContainer updateFromList(List<Tuple<Label, TextBox>> lItems)
+        public override iContainer updateFromList(List<TextBox> lItems)
         {
             if (lItems.Count != 2)
                 throw new ParceException();
-            this.brand = lItems[0].Item2.Text;
-            this.number = lItems[1].Item2.Text;
+            this.brand = lItems[0].Text;
+            this.number = lItems[1].Text;
             return this;
         }
     }

@@ -8,7 +8,8 @@ namespace MList.Storage.Table
     {
         public TableGun()
         {
-            this.StorageTableName = "Оружие";
+            this.VisibleTableName = "Оружие";
+            this.StorageTableName = "guns";
         }
         public override iContainer getAssociatedContainer()
         {

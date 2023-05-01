@@ -142,13 +142,5 @@ namespace MList.Storage.Table.Container
             row.Cells[12].Value = new DateTime(this.datePrint).Date.ToString();
             row.Cells[13].Value = this.notes;
         }
-        public override List<Tuple<Label, TextBox>> getItemList()
-        {
-            throw new NotImplementedException();
-        }
-        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

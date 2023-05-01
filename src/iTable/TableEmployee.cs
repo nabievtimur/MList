@@ -9,7 +9,8 @@ namespace MList.Storage.Table
     {
         public TableEmployee()
         {
-            this.StorageTableName = "Работники";
+            this.VisibleTableName = "Сотрудники";
+            this.StorageTableName = "employees";
         }
         public override iContainer getAssociatedContainer()
         {

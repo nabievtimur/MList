@@ -7,9 +7,10 @@ namespace MList.Storage.Table
 {
     public class TableAddress : iTable
     {
-        public TableAddress() 
+        public TableAddress()
         {
-            this.StorageTableName = "Адреса";
+            this.VisibleTableName = "Адреса";
+            this.StorageTableName = "addresses";
         }
         public override iContainer getAssociatedContainer()
         {

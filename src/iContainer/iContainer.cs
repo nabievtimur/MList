@@ -66,15 +66,19 @@ namespace MList.Storage.Table.Container
         {
             row.Cells[0].Value = this.id;
         }
-        public virtual List<Tuple<Label, TextBox>> getItemList()
+        public virtual List<String> getFieldsNames()
         {
-            return new List<Tuple<Label, TextBox>>();
+            throw new NotImplementedException();
         }
-        public virtual bool checkItemList(ref List<Tuple<Label, TextBox>> items)
+        public virtual List<String> getFieldsValues()
         {
-            return false;
+            throw new NotImplementedException();
         }
-        public virtual iContainer updateFromList(List<Tuple<Label, TextBox>> lItems) { return this; }
+        public virtual bool checkItemList(ref List<TextBox> lItems)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual iContainer updateFromList(List<TextBox> lItems) { throw new NotImplementedException(); }
         protected string getStringFromCell(DataGridViewCell cell)
         {
             try

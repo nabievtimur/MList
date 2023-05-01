@@ -77,54 +77,26 @@ namespace MList.Storage.Table.Container
             row.Cells[4].Value = this.ammo;
         }
 
-        public override List<Tuple<Label, TextBox>> getItemList()
+        public override List<String> getFieldsNames()
         {
-            List<Tuple<Label, TextBox>> lItems = new List<Tuple<Label, TextBox>>();
-            {
-                Label label = new Label();
-                label.Text = "Брэнд";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.brand;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-
-            {
-                Label label = new Label();
-                label.Text = "Серия";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.series;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-
-            {
-                Label label = new Label();
-                label.Text = "Номер";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.number.ToString();
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-
-            {
-                Label label = new Label();
-                label.Text = "Патроны";
-                TextBox textBox = new TextBox();
-                textBox.Text = this.ammo;
-                lItems.Add(new Tuple<Label, TextBox>(label, textBox));
-            }
-            return lItems;
+            return new List<String>() { "Брэнд", "Серия", "Номер", "Патроны" };
         }
-        public override bool checkItemList(ref List<Tuple<Label, TextBox>> items)
+        public override List<String> getFieldsValues()
         {
-            return true;
+            return new List<String>() { this.brand, this.series, this.number.ToString(), this.ammo };
         }
-        public override iContainer updateFromList(List<Tuple<Label, TextBox>> lItems)
+        public override bool checkItemList(ref List<TextBox> lItems)
+        {
+            return true; // CHECH 
+        }
+        public override iContainer updateFromList(List<TextBox> lItems)
         {
             if (lItems.Count != 4)
                 throw new ParceException();
-            this.brand = lItems[0].Item2.Text;
-            this.series = lItems[1].Item2.Text;
-            this.number = long.Parse(lItems[2].Item2.Text);
-            this.ammo = lItems[3].Item2.Text;
+            this.brand = lItems[0].Text;
+            this.series = lItems[1].Text;
+            this.number = long.Parse(lItems[2].Text);
+            this.ammo = lItems[3].Text;
             return this;
         }
     }

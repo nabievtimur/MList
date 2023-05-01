@@ -6,10 +6,12 @@ namespace MList.Storage.Table
 {
     public abstract class iTable
     {
+        protected string VisibleTableName = "Таблица";
         protected string StorageTableName = "table";
         public abstract iContainer getAssociatedContainer();
         public abstract iContainer getAssociatedContainer(DataGridViewRow row);
         public string getStorageTableName() { return StorageTableName; }
+        public string getVisibleTableName() { return VisibleTableName; }
         public abstract ContainerCollection<iContainer> storageGet();
         public abstract ContainerCollection<iContainer> storageGet(string search);
         public abstract ContainerCollection<iContainer> storageGet(long mlistId);
