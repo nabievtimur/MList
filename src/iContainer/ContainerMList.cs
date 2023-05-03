@@ -63,12 +63,12 @@ namespace MList.Storage.Table.Container
                 this.numberMlist = getLongFromCell(row.Cells[1]);
                 this.employeeID = getLongFromCell(row.Cells[2]);
                 this.employeeFullName = getStringFromCell(row.Cells[3]);
-                this.dateCreate = getLongFromCell(row.Cells[4]);
-                this.dateBegin = getLongFromCell(row.Cells[5]) + getLongFromCell(row.Cells[6]);
-                this.dateEnd = getLongFromCell(row.Cells[7]) + getLongFromCell(row.Cells[8]);
-                this.dateCoach = getLongFromCell(row.Cells[9]);
-                this.datePassGun = getLongFromCell(row.Cells[10]) + getLongFromCell(row.Cells[11]);
-                this.datePrint = getLongFromCell(row.Cells[12]);
+                this.dateCreate = getDateFromCell(row.Cells[4]);
+                this.dateBegin = getDateFromCell(row.Cells[5]) + getDateFromCell(row.Cells[6]);
+                this.dateEnd = getDateFromCell(row.Cells[7]) + getDateFromCell(row.Cells[8]);
+                this.dateCoach = getDateFromCell(row.Cells[9]);
+                this.datePassGun = getDateFromCell(row.Cells[10]) + getDateFromCell(row.Cells[11]);
+                this.datePrint = getDateFromCell(row.Cells[12]);
                 this.notes = getStringFromCell(row.Cells[13]);
             }
             catch (IndexOutOfRangeException)
@@ -131,15 +131,15 @@ namespace MList.Storage.Table.Container
             row.Cells[1].Value = this.numberMlist;
             row.Cells[2].Value = this.employeeID;
             row.Cells[3].Value = this.employeeFullName;
-            row.Cells[4].Value = new DateTime(this.dateCreate).Date.ToString();
-            row.Cells[5].Value = new DateTime(this.dateBegin).Date.ToString();
-            row.Cells[6].Value = new DateTime(this.dateBegin).ToLocalTime().ToString();
-            row.Cells[7].Value = new DateTime(this.dateEnd).Date.ToString();
-            row.Cells[8].Value = new DateTime(this.dateEnd).ToLocalTime().ToString();
-            row.Cells[9].Value = new DateTime(this.dateCoach).ToLocalTime().ToString();
-            row.Cells[10].Value = new DateTime(this.datePassGun).Date.ToString();
-            row.Cells[11].Value = new DateTime(this.datePassGun).ToLocalTime().ToString();
-            row.Cells[12].Value = new DateTime(this.datePrint).Date.ToString();
+            row.Cells[4].Value = new DateTime(this.dateCreate).ToLocalTime().Date.ToString("dd.MM.yyyy");
+            row.Cells[5].Value = new DateTime(this.dateBegin).ToLocalTime().Date.ToString("dd.MM.yyyy");
+            row.Cells[6].Value = new DateTime(this.dateBegin).ToLocalTime().ToString("hh:mm:ss");
+            row.Cells[7].Value = new DateTime(this.dateEnd).ToLocalTime().Date.ToString("dd.MM.yyyy");
+            row.Cells[8].Value = new DateTime(this.dateEnd).ToLocalTime().ToString("hh:mm:ss");
+            row.Cells[9].Value = new DateTime(this.dateCoach).ToLocalTime().ToString("hh:mm:ss");
+            row.Cells[10].Value = new DateTime(this.datePassGun).ToLocalTime().Date.ToString("dd.MM.yyyy");
+            row.Cells[11].Value = new DateTime(this.datePassGun).ToLocalTime().ToString("hh:mm:ss");
+            row.Cells[12].Value = new DateTime(this.datePrint).ToLocalTime().Date.ToString("dd.MM.yyyy");
             row.Cells[13].Value = this.notes;
         }
     }
