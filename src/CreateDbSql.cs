@@ -98,14 +98,9 @@ create table mlist
     pass_gun_date integer not null,
     print_date    integer not null,
     notes         text,
-    deep_time     integer,
-    arrive_time   integer,
     pass_gun_time integer,
     num_mlist     integer not null
 );
-
-create index mlist_arrive_time_IDX
-    on mlist (arrive_time);
 
 create index mlist_coach_date_IDX
     on mlist (coach_date);
@@ -115,9 +110,6 @@ create index mlist_date_begin_IDX
 
 create index mlist_date_create_IDX
     on mlist (date_create);
-
-create index mlist_deep_time_IDX
-    on mlist (deep_time);
 
 create index mlist_end_date_IDX
     on mlist (end_date);
