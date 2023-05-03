@@ -48,6 +48,7 @@ namespace MList.Forms.TableForm
         private void TableFormMList_Load(object sender, EventArgs e)
         {
             updateConstGrids();
+            this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
         }
 
         private void updateConstGrids()
@@ -55,15 +56,25 @@ namespace MList.Forms.TableForm
             try
             {
                 new TableEmployee().gridFill(this.dataGridViewEmployee,
-                    new TableEmployee().storageGet());
+                    this.textBoxSearchEmployee.Text.Length == 0 ? 
+                        new TableEmployee().storageGet() : 
+                        new TableEmployee().storageGet(this.textBoxSearchEmployee.Text));
                 new TableGun().gridFill(this.dataGridViewGuns,
-                    new TableGun().storageGet());
+                    this.textBoxSearchGuns.Text.Length == 0 ?
+                        new TableGun().storageGet() : 
+                        new TableGun().storageGet(this.textBoxSearchGuns.Text));
                 new TableCar().gridFill(this.dataGridViewCars,
-                    new TableCar().storageGet());
+                    this.textBoxSearchCars.Text.Length == 0 ?
+                        new TableCar().storageGet() : 
+                        new TableCar().storageGet(this.textBoxSearchCars.Text));
                 new TableAddress().gridFill(this.dataGridViewDeepAddresses,
-                    new TableAddress().storageGet());
+                    this.textBoxSearchDeepAddresses.Text.Length == 0 ?
+                        new TableAddress().storageGet() : 
+                        new TableAddress().storageGet(this.textBoxSearchDeepAddresses.Text));
                 new TableAddress().gridFill(this.dataGridViewArriveAddresses,
-                    new TableAddress().storageGet());
+                    this.textBoxSearchArriveAddresses.Text.Length == 0 ?
+                        new TableAddress().storageGet() : 
+                        new TableAddress().storageGet(this.textBoxSearchArriveAddresses.Text));
             }
             catch (QueryExeption)
             {
@@ -269,6 +280,36 @@ namespace MList.Forms.TableForm
                 this.arriveAdresses.Remove(new ContainerAddress(row));
             }
             this.updateSubGrids();
+        }
+
+        private void textBoxSearchGuns_TextChanged(object sender, EventArgs e)
+        {
+            this.updateConstGrids();
+        }
+
+        private void textBoxSearchDeepAddresses_TextChanged(object sender, EventArgs e)
+        {
+            this.updateConstGrids();
+        }
+
+        private void textBoxSearchCars_TextChanged(object sender, EventArgs e)
+        {
+            this.updateConstGrids();
+        }
+
+        private void textBoxSearchArriveAddresses_TextChanged(object sender, EventArgs e)
+        {
+            this.updateConstGrids();
+        }
+
+        private void textBoxSearchEmployee_TextChanged(object sender, EventArgs e)
+        {
+            this.updateConstGrids();
+        }
+
+        private void dataGridViewEmployee_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
         }
     }
 }

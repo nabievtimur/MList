@@ -70,6 +70,14 @@ namespace MList.Forms
                         MessageBoxButtons.OK);
                         return DialogResult.OK;
                     }
+                    catch (FormatException)
+                    {
+                        MessageBox.Show(
+                        "Неверные входные данные.",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                        return DialogResult.OK;
+                    }
                     catch (QueryExeption)
                     {
                         MessageBox.Show(
@@ -106,6 +114,14 @@ namespace MList.Forms
                         this.table.storageUpdate(container.updateFromList(lItems));
                     }
                     catch (ParceException)
+                    {
+                        MessageBox.Show(
+                        "Неверные входные данные.",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                        return DialogResult.OK;
+                    }
+                    catch (FormatException)
                     {
                         MessageBox.Show(
                         "Неверные входные данные.",
