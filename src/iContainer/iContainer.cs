@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MList.Storage.Table.Container
@@ -101,6 +102,12 @@ namespace MList.Storage.Table.Container
         {
             try
             {
+                DateTime dt;
+                if (DateTime.TryParseExact(cell.Value.ToString(), "dd.MM.yyyy", CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out dt))
+                {
+                    return dt.Ticks;
+                }
                 return DateTime.Parse(cell.Value.ToString()).Ticks;
             }
             catch (Exception) { throw new ParceException("DataGridViewCell"); }
