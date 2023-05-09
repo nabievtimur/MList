@@ -42,9 +42,9 @@ namespace MList.Forms.TableForm
             if (this.dataGridView1.SelectedRows.Count <= 0)
             {
                 MessageBox.Show(
-                        "Не выбрано ни одной строки",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
+                    "Не выбрано ни одной строки",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
                 return;
             }
 
@@ -94,9 +94,9 @@ namespace MList.Forms.TableForm
             catch (QueryExeption)
             {
                 MessageBox.Show(
-                        "Чтение из базы данных",
-                        "Ошибка",
-                        MessageBoxButtons.OK);
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
             }
 
             this.updateSubGrid();
@@ -114,9 +114,9 @@ namespace MList.Forms.TableForm
                 catch (QueryExeption)
                 {
                     MessageBox.Show(
-                            "Чтение из базы данных",
-                            "Ошибка",
-                            MessageBoxButtons.OK);
+                        "Чтение из базы данных",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
                 }
             }
             else

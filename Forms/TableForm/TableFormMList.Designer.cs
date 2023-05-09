@@ -99,6 +99,7 @@
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.textBoxPickedEmployee = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -109,7 +110,6 @@
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel18 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).BeginInit();
@@ -156,6 +156,7 @@
             this.groupBox18.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -164,7 +165,6 @@
             this.panel17.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel16.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // datePickerCreate
@@ -193,6 +193,7 @@
             this.timePickerBegin.Margin = new System.Windows.Forms.Padding(4);
             this.timePickerBegin.Name = "timePickerBegin";
             this.timePickerBegin.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.timePickerBegin.ShowUpDown = true;
             this.timePickerBegin.Size = new System.Drawing.Size(350, 23);
             this.timePickerBegin.TabIndex = 21;
             // 
@@ -203,6 +204,7 @@
             this.timePickerCoach.Location = new System.Drawing.Point(3, 19);
             this.timePickerCoach.Margin = new System.Windows.Forms.Padding(4);
             this.timePickerCoach.Name = "timePickerCoach";
+            this.timePickerCoach.ShowUpDown = true;
             this.timePickerCoach.Size = new System.Drawing.Size(350, 23);
             this.timePickerCoach.TabIndex = 24;
             // 
@@ -232,7 +234,7 @@
             this.dataGridViewEmployee.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewEmployee.Size = new System.Drawing.Size(713, 359);
             this.dataGridViewEmployee.TabIndex = 30;
-            this.dataGridViewEmployee.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEmployee_CellContentClick);
+            this.dataGridViewEmployee.Click += new System.EventHandler(this.dataGridViewEmployee_Click);
             // 
             // dataGridViewGuns
             // 
@@ -350,6 +352,7 @@
             this.timePickerEnd.Location = new System.Drawing.Point(3, 19);
             this.timePickerEnd.Margin = new System.Windows.Forms.Padding(4);
             this.timePickerEnd.Name = "timePickerEnd";
+            this.timePickerEnd.ShowUpDown = true;
             this.timePickerEnd.Size = new System.Drawing.Size(351, 23);
             this.timePickerEnd.TabIndex = 21;
             // 
@@ -381,6 +384,7 @@
             this.timePickerPassGun.Location = new System.Drawing.Point(3, 19);
             this.timePickerPassGun.Margin = new System.Windows.Forms.Padding(4);
             this.timePickerPassGun.Name = "timePickerPassGun";
+            this.timePickerPassGun.ShowUpDown = true;
             this.timePickerPassGun.Size = new System.Drawing.Size(350, 23);
             this.timePickerPassGun.TabIndex = 21;
             // 
@@ -1025,6 +1029,15 @@
             this.panel3.Size = new System.Drawing.Size(719, 455);
             this.panel3.TabIndex = 1;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.dataGridViewEmployee);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 48);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(713, 359);
+            this.panel2.TabIndex = 33;
+            // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.textBoxPickedEmployee);
@@ -1041,6 +1054,7 @@
             this.textBoxPickedEmployee.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPickedEmployee.Location = new System.Drawing.Point(3, 19);
             this.textBoxPickedEmployee.Name = "textBoxPickedEmployee";
+            this.textBoxPickedEmployee.ReadOnly = true;
             this.textBoxPickedEmployee.Size = new System.Drawing.Size(707, 23);
             this.textBoxPickedEmployee.TabIndex = 0;
             // 
@@ -1136,15 +1150,6 @@
             this.panel16.Size = new System.Drawing.Size(200, 52);
             this.panel16.TabIndex = 0;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.dataGridViewEmployee);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 48);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(713, 359);
-            this.panel2.TabIndex = 33;
-            // 
             // TableFormMList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1209,6 +1214,7 @@
             this.groupBox18.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox8.ResumeLayout(false);
@@ -1219,7 +1225,6 @@
             this.panel17.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel16.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

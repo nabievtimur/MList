@@ -13,10 +13,10 @@ namespace MList.Storage.Table
         ICollection<T>, IEnumerable<T>
         where T : iContainer, new()
     {
-        private List<T> containers;
+        private HashSet<T> containers;
         public ContainerCollection()
         {
-            this.containers = new List<T>();
+            this.containers = new HashSet<T>();
         }
         public ContainerCollection(SqliteDataReader reader) : this()
         {
@@ -36,7 +36,7 @@ namespace MList.Storage.Table
                 throw new QueryExeption();
             }
         }
-        public ContainerCollection(List<T> containers)
+        public ContainerCollection(HashSet<T> containers)
         {
             this.containers = containers;
         }
@@ -72,7 +72,7 @@ namespace MList.Storage.Table
         }
         public ContainerCollection<iContainer> downCast()
         {
-            return new ContainerCollection<iContainer>(this.Cast<iContainer>().ToList());
+            return new ContainerCollection<iContainer>(this.Cast<iContainer>().ToHashSet());
         }
     }
 }

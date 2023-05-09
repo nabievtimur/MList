@@ -73,6 +73,7 @@ namespace MList.Forms.TableForm
         {
             this.UpdateEmloyeeGrid();
             this.UpdateGunGrid();
+            this.UpdatePickedEmployee();
         }
 
         private void UpdateEmloyeeGrid() 
@@ -80,7 +81,9 @@ namespace MList.Forms.TableForm
             try
             {
                 new TableEmployee().gridFill(this.dataGridViewEmployee,
-                    new TableEmployee().storageGet());
+                    this.textBoxSearchEmployee.Text.Length == 0 ?
+                        new TableEmployee().storageGet() :
+                        new TableEmployee().storageGet(this.textBoxSearchEmployee.Text));
             }
             catch (QueryExeption)
             {
@@ -110,6 +113,10 @@ namespace MList.Forms.TableForm
         private void UpdatePickedGunGrid()
         {
             new TableGun().gridFill(this.dataGridViewPickedGuns, this.guns.downCast());
+        }
+        private void UpdatePickedEmployee()
+        {
+            this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
         }
 
         private void buttonApply_Click(object sender, EventArgs e)
@@ -202,6 +209,16 @@ namespace MList.Forms.TableForm
                 this.guns.Remove(new ContainerGun(row));
             }
             this.UpdatePickedGunGrid();
+        }
+
+        private void dataGridViewEmployee_Click(object sender, EventArgs e)
+        {
+            this.UpdatePickedEmployee();
+        }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            this.UpdateEmloyeeGrid();
         }
     }
 }

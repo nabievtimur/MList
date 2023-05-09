@@ -58,16 +58,9 @@ namespace MList.Storage.Table
                 createMlistCommand.Transaction = transaction;
                 createMlistCommand.CommandText =
                     "INSERT INTO " + this.StorageTableName +
-                    " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, deep_time, arrive_time, pass_gun_time, num_mlist)" +
-                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @deep_time, @arrive_time, @pass_gun_time, @num_mlist); SELECT last_insert_rowid();";
-                createMlistCommand.Parameters.Add(new SqliteParameter("@date_create", container.getDateCreate()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@date_begin", container.getDateBegin()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@end_date", container.getDateEnd()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@coach_date", container.getDateCoach()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@pass_gun_date", container.getDatePassGun()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@print_date", container.getDatePrint()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@notes", container.getNotes()));
-                createMlistCommand.Parameters.Add(new SqliteParameter("@num_mlist", container.getNumberMlist()));
+                    " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, pass_gun_time, num_mlist)" +
+                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @pass_gun_time, @num_mlist); SELECT last_insert_rowid();";
+                container.storageFillParameterCollection(createMlistCommand);
                 
                 object mlistID;
                 try

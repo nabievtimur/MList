@@ -32,8 +32,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonGunsAdd = new System.Windows.Forms.Button();
             this.buttonGunsDelete = new System.Windows.Forms.Button();
-            this.dataGridViewPickedGuns = new System.Windows.Forms.DataGridView();
             this.dataGridViewGuns = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPickedGuns = new System.Windows.Forms.DataGridView();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.textBoxOrderNum = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -42,14 +42,26 @@
             this.dataGridViewEmployee = new System.Windows.Forms.DataGridView();
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBoxSearchEmployee = new System.Windows.Forms.TextBox();
+            this.textBoxPickedEmployee = new System.Windows.Forms.TextBox();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox10.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox10
@@ -97,22 +109,6 @@
             this.buttonGunsDelete.UseVisualStyleBackColor = true;
             this.buttonGunsDelete.Click += new System.EventHandler(this.buttonGunsDelete_Click);
             // 
-            // dataGridViewPickedGuns
-            // 
-            this.dataGridViewPickedGuns.AllowUserToAddRows = false;
-            this.dataGridViewPickedGuns.AllowUserToDeleteRows = false;
-            this.dataGridViewPickedGuns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewPickedGuns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPickedGuns.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataGridViewPickedGuns.Location = new System.Drawing.Point(3, 252);
-            this.dataGridViewPickedGuns.Name = "dataGridViewPickedGuns";
-            this.dataGridViewPickedGuns.ReadOnly = true;
-            this.dataGridViewPickedGuns.RowHeadersVisible = false;
-            this.dataGridViewPickedGuns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridViewPickedGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPickedGuns.Size = new System.Drawing.Size(494, 195);
-            this.dataGridViewPickedGuns.TabIndex = 34;
-            // 
             // dataGridViewGuns
             // 
             this.dataGridViewGuns.AllowUserToAddRows = false;
@@ -128,6 +124,22 @@
             this.dataGridViewGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewGuns.Size = new System.Drawing.Size(494, 195);
             this.dataGridViewGuns.TabIndex = 33;
+            // 
+            // dataGridViewPickedGuns
+            // 
+            this.dataGridViewPickedGuns.AllowUserToAddRows = false;
+            this.dataGridViewPickedGuns.AllowUserToDeleteRows = false;
+            this.dataGridViewPickedGuns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPickedGuns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPickedGuns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewPickedGuns.Location = new System.Drawing.Point(3, 252);
+            this.dataGridViewPickedGuns.Name = "dataGridViewPickedGuns";
+            this.dataGridViewPickedGuns.ReadOnly = true;
+            this.dataGridViewPickedGuns.RowHeadersVisible = false;
+            this.dataGridViewPickedGuns.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataGridViewPickedGuns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPickedGuns.Size = new System.Drawing.Size(494, 195);
+            this.dataGridViewPickedGuns.TabIndex = 34;
             // 
             // groupBox5
             // 
@@ -168,7 +180,9 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.dataGridViewEmployee);
+            this.groupBox8.Controls.Add(this.panel4);
+            this.groupBox8.Controls.Add(this.panel3);
+            this.groupBox8.Controls.Add(this.panel2);
             this.groupBox8.Location = new System.Drawing.Point(518, 63);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(428, 399);
@@ -184,15 +198,16 @@
             this.dataGridViewEmployee.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             this.dataGridViewEmployee.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewEmployee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewEmployee.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewEmployee.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewEmployee.MultiSelect = false;
             this.dataGridViewEmployee.Name = "dataGridViewEmployee";
             this.dataGridViewEmployee.ReadOnly = true;
             this.dataGridViewEmployee.RowHeadersVisible = false;
             this.dataGridViewEmployee.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dataGridViewEmployee.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewEmployee.Size = new System.Drawing.Size(422, 380);
+            this.dataGridViewEmployee.Size = new System.Drawing.Size(422, 306);
             this.dataGridViewEmployee.TabIndex = 30;
+            this.dataGridViewEmployee.Click += new System.EventHandler(this.dataGridViewEmployee_Click);
             // 
             // buttonApply
             // 
@@ -214,6 +229,73 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.groupBox1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 16);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(422, 37);
+            this.panel2.TabIndex = 31;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBoxSearchEmployee);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(422, 37);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Поиск";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.groupBox2);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(3, 359);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(422, 37);
+            this.panel3.TabIndex = 32;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBoxPickedEmployee);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(422, 37);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Выбранный сотруник";
+            // 
+            // textBoxSearchEmployee
+            // 
+            this.textBoxSearchEmployee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxSearchEmployee.Location = new System.Drawing.Point(3, 16);
+            this.textBoxSearchEmployee.Name = "textBoxSearchEmployee";
+            this.textBoxSearchEmployee.Size = new System.Drawing.Size(416, 20);
+            this.textBoxSearchEmployee.TabIndex = 0;
+            this.textBoxSearchEmployee.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
+            // 
+            // textBoxPickedEmployee
+            // 
+            this.textBoxPickedEmployee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxPickedEmployee.Location = new System.Drawing.Point(3, 16);
+            this.textBoxPickedEmployee.Name = "textBoxPickedEmployee";
+            this.textBoxPickedEmployee.ReadOnly = true;
+            this.textBoxPickedEmployee.Size = new System.Drawing.Size(416, 20);
+            this.textBoxPickedEmployee.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.dataGridViewEmployee);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 53);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(422, 306);
+            this.panel4.TabIndex = 33;
+            // 
             // TableFormOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -231,13 +313,20 @@
             this.Load += new System.EventHandler(this.TableFormOrder_Load);
             this.groupBox10.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPickedGuns)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEmployee)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -257,5 +346,12 @@
         protected System.Windows.Forms.DataGridView dataGridViewEmployee;
         private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBoxPickedEmployee;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBoxSearchEmployee;
     }
 }

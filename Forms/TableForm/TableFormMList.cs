@@ -35,7 +35,7 @@ namespace MList.Forms.TableForm
             new TableAddress().gridInit(this.dataGridViewArriveAddresses);
             new TableAddress().gridInit(this.dataGridViewPickedArriveAddresses);
 
-            // TODO номер
+            this.textBoxMlistNum.Text = TableMList.GetNextNum().ToString();
         }
         public TableFormMList(ContainerMList containerMList):
             this()
@@ -307,7 +307,7 @@ namespace MList.Forms.TableForm
             this.updateConstGrids();
         }
 
-        private void dataGridViewEmployee_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewEmployee_Click(object sender, EventArgs e)
         {
             this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
         }

@@ -112,5 +112,10 @@ namespace MList.Storage.Table.Container
             }
             catch (Exception) { throw new ParceException("DataGridViewCell"); }
         }
+
+        public override int GetHashCode()
+        {
+            return (int)this.id;
+        }
     }
 }
