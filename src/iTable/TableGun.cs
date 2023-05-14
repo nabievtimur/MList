@@ -65,7 +65,7 @@ namespace MList.Storage.Table
         public override ContainerCollection<iContainer> storageGet(long mlistId)
         {
             return new ContainerCollection<ContainerGun>(SqLite.execGet(
-                "SELECT gn.id, gn.number, gn.brand, gn.series, gn.ammo FROM " + this.StorageTableName + " AS gn " +
+                "SELECT gn.id, gn.brand, gn.series, gn.number, gn.ammo FROM " + this.StorageTableName + " AS gn " +
                     "JOIN mlist_gun mg ON gn.id = mg.gun_id WHERE mg.mlist_id = @mlist_id",
                 (SqliteCommand command) => dFillerSCurrent(command, mlistId),
                 "Get " + this.StorageTableName + " by mlist.")).downCast();
@@ -73,7 +73,7 @@ namespace MList.Storage.Table
         public ContainerCollection<ContainerGun> storageGetCurrent(long mOrderId)
         {
             return new ContainerCollection<ContainerGun>(SqLite.execGet(
-                "SELECT gn.id, gn.number, gn.ammo, gn.series, gn.brand FROM " + this.StorageTableName + " AS gn " +
+                "SELECT gn.id, gn.brand, gn.series, gn.number, gn.ammo FROM " + this.StorageTableName + " AS gn " +
                     "JOIN order_gun og ON gn.id = og.gun_id WHERE og.order_id = @order_id",
                 (SqliteCommand command) => { command.Parameters.Add(new SqliteParameter("@order_id", mOrderId)); },
                 "Get " + this.StorageTableName + " by order."));
