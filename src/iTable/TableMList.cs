@@ -63,8 +63,8 @@ namespace MList.Storage.Table
                 createMlistCommand.Transaction = transaction;
                 createMlistCommand.CommandText =
                     "INSERT INTO " + this.StorageTableName +
-                    " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, pass_gun_time, num_mlist)" +
-                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @pass_gun_time, @num_mlist); SELECT last_insert_rowid();";
+                    " (date_create, date_begin, end_date, coach_date, pass_gun_date, print_date, notes, num_mlist)" +
+                    "VALUES (@date_create, @date_begin, @end_date, @coach_date, @pass_gun_date, @print_date, @notes, @num_mlist); SELECT last_insert_rowid();";
                 createMlistCommand.Parameters.Add(new SqliteParameter("@date_create", container.getDateCreate()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@date_begin", container.getDateBegin()));
                 createMlistCommand.Parameters.Add(new SqliteParameter("@end_date", container.getDateEnd()));
@@ -238,7 +238,6 @@ namespace MList.Storage.Table
                 "pass_gun_date = @pass_gun_date," +
                 "print_date    = @print_date," +
                 "notes         = @notes," +
-                "pass_gun_time = @pass_gun_time," +
                 "num_mlist     = @num_mlist" +
                 "where id = @id",
                 container.storageFillParameterCollectionWithId,
@@ -261,7 +260,6 @@ namespace MList.Storage.Table
                 "ml.end_date, " +
                 "ml.coach_date, " +
                 "ml.pass_gun_date, " +
-                "ml.pass_gun_time, " +
                 "ml.print_date, " +
                 "ml.notes, " +
                 "e.id, " +
@@ -285,7 +283,6 @@ namespace MList.Storage.Table
                 "ml.end_date, " +
                 "ml.coach_date, " +
                 "ml.pass_gun_date, " +
-                "ml.pass_gun_time, " +
                 "ml.print_date, " +
                 "ml.notes, " +
                 "e.id, " +
