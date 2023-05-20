@@ -94,19 +94,19 @@ namespace MList.Storage.Table.Container
             try
             {
                 this.numberMlist = reader.GetInt64(1);
-                this.employeeID = reader.GetInt64(12);
-                this.employeeFullName = string.Format(
-                        "{0} {1} {2}",
-                        reader.GetString(13),
-                        reader.GetString(14),
-                        reader.GetString(15));
                 this.dateCreate = reader.GetInt64(2);
                 this.dateBegin = reader.GetInt64(3);
                 this.dateEnd = reader.GetInt64(4);
                 this.dateCoach = reader.GetInt64(5);
                 this.datePassGun = reader.GetInt64(6);
-                this.datePrint = reader.GetInt64(8);
-                this.notes = reader.GetString(9);
+                this.datePrint = reader.GetInt64(7);
+                this.notes = reader.GetString(8);
+                this.employeeID = reader.GetInt64(9);
+                this.employeeFullName = string.Format(
+                        "{0} {1} {2}",
+                        reader.GetString(10),
+                        reader.GetString(11),
+                        reader.GetString(12));
             }
             catch (Exception)
             {

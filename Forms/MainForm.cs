@@ -51,8 +51,8 @@ namespace MList
                 ContainerMList containerMList = new ContainerMList(this.dataGridViewMLists.SelectedRows[0]);
                 new TableGun().gridFill(this.dataGridViewGuns, new TableGun().storageGet(containerMList.getId()));
                 new TableCar().gridFill(this.dataGridViewCars, new TableCar().storageGet(containerMList.getId()));
-                new TableAddress().gridFill(this.dataGridViewGuns, new TableAddress().storageGetCurrentArrive(containerMList.getId()));
-                new TableAddress().gridFill(this.dataGridViewGuns, new TableAddress().storageGetCurrentDeep(containerMList.getId()));
+                new TableAddress().gridFill(this.dataGridViewArriveAddresses, new TableAddress().storageGetCurrentArrive(containerMList.getId()));
+                new TableAddress().gridFill(this.dataGridViewDeepAddresses, new TableAddress().storageGetCurrentDeep(containerMList.getId()));
             }
             catch (QueryExeption)
             {

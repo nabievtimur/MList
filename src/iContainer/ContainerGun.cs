@@ -33,7 +33,7 @@ namespace MList.Storage.Table.Container
                 this.brand = getStringFromCell(row.Cells[1]);
                 this.series = getStringFromCell(row.Cells[2]);
                 this.number = getLongFromCell(row.Cells[3]);
-                this.ammo = getStringFromCell(row.Cells[3]);
+                this.ammo = getStringFromCell(row.Cells[4]);
             }
             catch (IndexOutOfRangeException)
             {
