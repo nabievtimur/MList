@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
-using MList.Storage;
 using MList.Storage.Table.Container;
 
 namespace MList.Storage.Table
@@ -188,7 +183,7 @@ namespace MList.Storage.Table
 
         public override void storageDelete(DataGridViewRow row)
         {
-            this.storageDelete(new ContainerOrder(row)); // TODO
+            this.storageDelete(new ContainerOrder(row));
         }
 
         public override ContainerCollection<iContainer> storageGet()

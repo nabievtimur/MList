@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
+
 using MList.Forms;
 using MList.Forms.TableForm;
 using MList.Storage;
@@ -209,6 +207,11 @@ namespace MList
                 }
             }
             
+        }
+
+        private void dataGridViewMLists_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.updateSubGrids();
         }
     }
 }

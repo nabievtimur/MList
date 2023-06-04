@@ -45,6 +45,8 @@
             this.очиститьБДToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.приказыОЗакрепленияОружияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.печатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.печатьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.button1 = new System.Windows.Forms.Button();
@@ -72,8 +74,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.печатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.печатьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMLists)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuns)).BeginInit();
@@ -227,6 +227,21 @@
             this.приказыОЗакрепленияОружияToolStripMenuItem.Text = "Приказы о закрепления оружия";
             this.приказыОЗакрепленияОружияToolStripMenuItem.Click += new System.EventHandler(this.приказыОЗакрепленияОружияToolStripMenuItem_Click);
             // 
+            // печатьToolStripMenuItem
+            // 
+            this.печатьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.печатьToolStripMenuItem1});
+            this.печатьToolStripMenuItem.Name = "печатьToolStripMenuItem";
+            this.печатьToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.печатьToolStripMenuItem.Text = "Печать";
+            // 
+            // печатьToolStripMenuItem1
+            // 
+            this.печатьToolStripMenuItem1.Name = "печатьToolStripMenuItem1";
+            this.печатьToolStripMenuItem1.Size = new System.Drawing.Size(113, 22);
+            this.печатьToolStripMenuItem1.Text = "Печать";
+            this.печатьToolStripMenuItem1.Click += new System.EventHandler(this.печатьToolStripMenuItem1_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 890);
@@ -318,6 +333,7 @@
             this.dataGridViewMLists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewMLists.Size = new System.Drawing.Size(1651, 806);
             this.dataGridViewMLists.TabIndex = 18;
+            this.dataGridViewMLists.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMLists_CellClick);
             // 
             // dataGridViewGuns
             // 
@@ -561,21 +577,6 @@
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Поиск";
-            // 
-            // печатьToolStripMenuItem
-            // 
-            this.печатьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.печатьToolStripMenuItem1});
-            this.печатьToolStripMenuItem.Name = "печатьToolStripMenuItem";
-            this.печатьToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
-            this.печатьToolStripMenuItem.Text = "Печать";
-            // 
-            // печатьToolStripMenuItem1
-            // 
-            this.печатьToolStripMenuItem1.Name = "печатьToolStripMenuItem1";
-            this.печатьToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.печатьToolStripMenuItem1.Text = "Печать";
-            this.печатьToolStripMenuItem1.Click += new System.EventHandler(this.печатьToolStripMenuItem1_Click);
             // 
             // MainForm
             // 
