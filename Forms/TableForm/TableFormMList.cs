@@ -59,7 +59,6 @@ namespace MList.Forms.TableForm
             this.textBoxMlistNum.Text = this.containerMList.getNumberMlist().ToString();
             this.textBoxDescription.Text = this.containerMList.getNotes();
 
-
             this.updateSubGrids();
         }
         private void TableFormMList_Load(object sender, EventArgs e)

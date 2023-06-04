@@ -173,5 +173,42 @@ namespace MList
             }
             this.updateGrid();
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            TableMList tableMList = new TableMList();
+            try
+            {
+                tableMList.gridFill(this.dataGridViewMLists, this.textBox1.Text.Length > 0 ?
+                    tableMList.storageGet(this.textBox1.Text) : tableMList.storageGet());
+            }
+            catch (QueryExeption)
+            {
+                MessageBox.Show(
+                    "Чтение из базы данных",
+                    "Ошибка",
+                    MessageBoxButtons.OK);
+            }
+            updateSubGrids();
+        }
+
+        private void печатьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dataGridViewMLists.SelectedRows)
+            {
+                try
+                {
+                    // TODO print(ContainerMList(row));
+                }
+                catch (QueryExeption)
+                {
+                    MessageBox.Show(
+                        "Удаление элемента не удалось",
+                        "Ошибка",
+                        MessageBoxButtons.OK);
+                }
+            }
+            
+        }
     }
 }
