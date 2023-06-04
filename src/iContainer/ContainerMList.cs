@@ -64,10 +64,10 @@ namespace MList.Storage.Table.Container
                 this.employeeID = getLongFromCell(row.Cells[2]);
                 this.employeeFullName = getStringFromCell(row.Cells[3]);
                 this.dateCreate = getDateFromCell(row.Cells[4]);
-                this.dateBegin = getDateFromCell(row.Cells[5]) + getDateFromCell(row.Cells[6]);
-                this.dateEnd = getDateFromCell(row.Cells[7]) + getDateFromCell(row.Cells[8]);
-                this.dateCoach = getDateFromCell(row.Cells[9]);
-                this.datePassGun = getDateFromCell(row.Cells[10]) + getDateFromCell(row.Cells[11]);
+                this.dateBegin = getDateTimeFromCell(row.Cells[5], row.Cells[6]);
+                this.dateEnd = getDateTimeFromCell(row.Cells[7],row.Cells[8]);
+                this.dateCoach = getTimeFromCell(row.Cells[9]);
+                this.datePassGun = getDateTimeFromCell(row.Cells[10],row.Cells[11]);
                 this.datePrint = getDateFromCell(row.Cells[12]);
                 this.notes = getStringFromCell(row.Cells[13]);
             }

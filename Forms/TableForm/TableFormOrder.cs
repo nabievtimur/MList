@@ -35,7 +35,7 @@ namespace MList.Forms.TableForm
             this.order = order;
 
             this.textBoxOrderNum.Text = order.getNumber().ToString();
-            this.datePickerCreate.Value = new DateTime(order.getDate());
+            this.datePickerCreate.Value = DateTimeOffset.FromUnixTimeSeconds(order.getDate()).LocalDateTime;;
 
             try
             {

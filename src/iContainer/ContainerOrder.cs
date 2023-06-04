@@ -19,6 +19,7 @@ namespace MList.Storage.Table.Container
             this.date = 0;
             this.employeeFullName = "";
         }
+
         public ContainerOrder(
             long id,
             long number,
@@ -31,6 +32,7 @@ namespace MList.Storage.Table.Container
             this.date = date;
             this.employeeFullName = employeeFullName;
         }
+
         public ContainerOrder(DataGridViewRow row) : base(row)
         {
             try
@@ -45,11 +47,26 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("DataGridViewRow");
             }
         }
-        
-        public long getNumber() { return this.number; }
-        public long getEmployeeID() { return this.employeeID; }
-        public long getDate() { return this.date; }
-        public string getEmployeeFullName() { return this.employeeFullName; }
+
+        public long getNumber()
+        {
+            return this.number;
+        }
+
+        public long getEmployeeID()
+        {
+            return this.employeeID;
+        }
+
+        public long getDate()
+        {
+            return this.date;
+        }
+
+        public string getEmployeeFullName()
+        {
+            return this.employeeFullName;
+        }
 
         public override void storageFill(SqliteDataReader reader)
         {
@@ -64,18 +81,20 @@ namespace MList.Storage.Table.Container
                     reader.GetString(4),
                     reader.GetString(5),
                     reader.GetString(6));
-        }
+            }
             catch (Exception)
             {
                 throw new ParceException("SqliteDataReader");
             }
         }
+
         public override void storageFillParameterCollection(SqliteCommand command)
         {
             command.Parameters.Add(new SqliteParameter("@number", this.number));
             command.Parameters.Add(new SqliteParameter("@employee_id", this.employeeID));
             command.Parameters.Add(new SqliteParameter("@date", this.date));
         }
+
         override public void gridRowFill(ref DataGridViewRow row)
         {
             base.gridRowFill(ref row);

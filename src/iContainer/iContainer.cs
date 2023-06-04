@@ -9,9 +9,14 @@ namespace MList.Storage.Table.Container
     [Serializable]
     public class ParceException : Exception
     {
-        public ParceException() { }
+        public ParceException()
+        {
+        }
+
         public ParceException(string message)
-            : base("Parce " + message + " exeption.") { }
+            : base("Parce " + message + " exeption.")
+        {
+        }
     }
 
     /* brief
@@ -20,26 +25,34 @@ namespace MList.Storage.Table.Container
     public class iContainer
     {
         protected long id;
-        public long getId() { return this.id; }
+
+        public long getId()
+        {
+            return this.id;
+        }
+
         public iContainer()
         {
             this.id = -1;
         }
+
         public iContainer(long id)
         {
             this.id = id;
         }
+
         public iContainer(DataGridViewRow row) : this()
         {
             try
             {
                 this.id = getLongFromCell(row.Cells[0]);
             }
-            catch (IndexOutOfRangeException) 
+            catch (IndexOutOfRangeException)
             {
-                throw new ParceException("DataGridViewRow"); 
+                throw new ParceException("DataGridViewRow");
             }
         }
+
         public virtual void storageFill(SqliteDataReader reader)
         {
             try
@@ -51,11 +64,12 @@ namespace MList.Storage.Table.Container
                 throw new ParceException("SqliteDataReader");
             }
         }
-        
+
         public virtual void storageFillParameterCollection(SqliteCommand command)
         {
             command.Parameters.Clear();
         }
+
         public virtual void storageFillParameterCollectionWithId(SqliteCommand command)
         {
             command.Parameters.Add(new SqliteParameter("@id", this.id));
@@ -67,26 +81,37 @@ namespace MList.Storage.Table.Container
         {
             row.Cells[0].Value = this.id;
         }
+
         public virtual List<String> getFieldsNames()
         {
             throw new NotImplementedException();
         }
+
         public virtual List<String> getFieldsValues()
         {
             throw new NotImplementedException();
         }
+
         public virtual bool checkItemList(ref List<TextBox> lItems)
         {
             throw new NotImplementedException();
         }
-        public virtual iContainer updateFromList(List<TextBox> lItems) { throw new NotImplementedException(); }
+
+        public virtual iContainer updateFromList(List<TextBox> lItems)
+        {
+            throw new NotImplementedException();
+        }
+
         protected string getStringFromCell(DataGridViewCell cell)
         {
             try
             {
                 return cell.Value.ToString();
             }
-            catch(Exception) { throw new ParceException("DataGridViewCell"); }
+            catch (Exception)
+            {
+                throw new ParceException("DataGridViewCell");
+            }
         }
 
         protected long getLongFromCell(DataGridViewCell cell)
@@ -95,23 +120,75 @@ namespace MList.Storage.Table.Container
             {
                 return long.Parse(cell.Value.ToString());
             }
-            catch (Exception) { throw new ParceException("DataGridViewCell"); }
+            catch (Exception)
+            {
+                throw new ParceException("DataGridViewCell");
+            }
         }
 
-        protected long getDateFromCell(DataGridViewCell cell)
+        protected long getDateFromCell(DataGridViewCell dateCell)
         {
             try
             {
-                DateTime dt;
-                if (DateTime.TryParseExact(cell.Value.ToString(), "dd.MM.yyyy", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None, out dt))
-                {
-                    return dt.Ticks;
-                }
-                return DateTime.Parse(cell.Value.ToString()).Ticks;
+                return ((DateTimeOffset)DateTime.ParseExact(
+                    dateCell.Value.ToString(),
+                    "dd.MM.yyyy",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None)).ToUnixTimeSeconds();
             }
-            catch (Exception) { throw new ParceException("DataGridViewCell"); }
+            catch (Exception)
+            {
+                throw new ParceException("DataGridViewCell");
+            }
         }
+
+        protected long getTimeFromCell(DataGridViewCell timeCell)
+        {
+            try
+            {
+                return ((DateTimeOffset)DateTime.ParseExact(
+                    timeCell.Value.ToString(),
+                    "HH:mm:ss",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None)).ToUnixTimeSeconds();
+            }
+            catch (Exception)
+            {
+                throw new ParceException("DataGridViewCell");
+            }
+        }
+
+        protected long getDateTimeFromCell(DataGridViewCell dateCell, DataGridViewCell timeCell)
+        {
+            try
+            {
+                return ((DateTimeOffset)DateTime.ParseExact(
+                    $"{dateCell.Value.ToString()} {timeCell.Value.ToString()}",
+                    "dd.MM.yyyy HH:mm:ss",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None)).ToUnixTimeSeconds();
+            }
+            catch (Exception)
+            {
+                throw new ParceException("DataGridViewCell");
+            }
+        }
+        
+        // protected long getDateTimeFromCell(DataGridViewCell dateTimeCell)
+        // {
+        //     try
+        //     {
+        //         return ((DateTimeOffset)DateTime.ParseExact(
+        //             $"{dateCell.Value.ToString()} {timeCell.Value.ToString()}",
+        //             "dd.MM.yyyy HH:mm:ss",
+        //             CultureInfo.InvariantCulture,
+        //             DateTimeStyles.None)).ToUnixTimeSeconds();
+        //     }
+        //     catch (Exception)
+        //     {
+        //         throw new ParceException("DataGridViewCell");
+        //     }
+        // }
 
         public override int GetHashCode()
         {
