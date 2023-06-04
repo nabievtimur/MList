@@ -208,7 +208,7 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedGuns.SelectedRows)
             {
-                this.guns.Remove(new ContainerGun(row));
+                this.guns.Remove(new ContainerGun(row).getId());
             }
             this.UpdatePickedGunGrid();
         }
