@@ -31,15 +31,6 @@ namespace MList.Printer
             DateTime dateTimeEnd = DateTimeOffset.FromUnixTimeSeconds(mlist.getDateEnd()).LocalDateTime;
             DateTime dateTimeCoach = DateTimeOffset.FromUnixTimeSeconds(mlist.getDateCoach()).LocalDateTime;
             DateTime dateTimePassGun = DateTimeOffset.FromUnixTimeSeconds(mlist.getDatePassGun()).LocalDateTime;
-            
-            string dateBegin = dateTimeBegin.ToString("dd-MM-yyyy");
-            string timeBegin = dateTimeBegin.ToString("hh:mm:ss");
-            string dateEnd = dateTimeEnd.ToString("dd-MM-yyyy");
-            string timeEnd = dateTimeEnd.ToString("hh:mm:ss");
-            string dateCoach = dateTimeCoach.ToString("dd-MM-yyyy");
-            string timeCoach = dateTimeCoach.ToString("hh:mm:ss");
-            string datePassGun = dateTimePassGun.ToString("dd-MM-yyyy");
-            string timePassGun = dateTimePassGun.ToString("hh:mm:ss");
 
             ContainerCar[] carsArr = cars.ToArray();
             ContainerGun[] gunsArr = guns.ToArray();
@@ -49,11 +40,11 @@ namespace MList.Printer
             
             List<TemplateEngine.Docx.IContentItem> contents = new List<IContentItem>();
             contents.Add(new FieldContent("Mlist_Num", mlist.getNumberMlist().ToString()));
-            contents.Add(new FieldContent("##ATIME##", timeBegin));
-            contents.Add(new FieldContent("##ADATE##", dateBegin));
-            contents.Add(new FieldContent("##DTIME##", timeEnd));
-            contents.Add(new FieldContent("##DDATE##", dateEnd));
-            contents.Add(new FieldContent("##CDATE##", $"{dateCoach} в {timeCoach}"));
+            contents.Add(new FieldContent("##ATIME##", dateTimeBegin.ToString("hh:mm:ss")));
+            contents.Add(new FieldContent("##ADATE##", dateTimeBegin.ToString("dd-MM-yyyy")));
+            contents.Add(new FieldContent("##DTIME##", dateTimeEnd.ToString("hh:mm:ss")));
+            contents.Add(new FieldContent("##DDATE##", dateTimeEnd.ToString("dd-MM-yyyy")));
+            contents.Add(new FieldContent("##CDATE##", $"{dateTimeCoach.ToString("dd-MM-yyyy")} в {dateTimeCoach.ToString("dd-MM-yyyy")}"));
             
             
             string groupTitle = "Состав группы:";
@@ -110,8 +101,8 @@ namespace MList.Printer
             }
             contents.Add(addrTable);
             
-            contents.Add(new FieldContent("##ODATE##", datePassGun));
-            contents.Add(new FieldContent("##OTIME##", timePassGun));
+            contents.Add(new FieldContent("##ODATE##", dateTimePassGun.ToString("dd-MM-yyyy")));
+            contents.Add(new FieldContent("##OTIME##", dateTimePassGun.ToString("hh:mm:ss")));
             var valuesToFill = new Content(contents.ToArray());
             
             File.Delete(@"F:\c_sharp_projects\mlist_word\Output.docx");
@@ -124,21 +115,7 @@ namespace MList.Printer
             }
             openWord(@"F:\c_sharp_projects\mlist_word\Output.docx");
         }
-
-        // private static void openWord(string filepath)
-        // {
-        //     Word.ApplicationClass WordApp = new Word.ApplicationClass();
-        //
-        //     object fileName = filepath;
-        //     object readOnly = false;
-        //     object isVisible = true;
-        //     object missing = System.Reflection.Missing.Value;
-        //     WordApp.Visible = true;
-        //     Word.Document aDoc = WordApp.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing,
-        //         ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
-        //         ref isVisible);
-        //     aDoc.Activate();
-        // }
+        
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
 
