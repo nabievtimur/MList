@@ -18,15 +18,17 @@ namespace MList.Printer
             public ConnectionExeption(string message)
                 : base(message) { }
         }
+        private static string templateWordFilePath = Path.Combine(Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+            "MList\\WordTemplate"), "Template.docx");
         public static void print(
             ContainerMList mlist, 
             List<ContainerAddress> deepAddresses,
             List<ContainerAddress> arriveAddresses,
             List<ContainerCar> cars,
             List<ContainerGun> guns)
-        {
-            long mlistNum = mlist.getNumberMlist();
-
+        {   
+            DateTime timeNow = DateTime.Now.ToLocalTime();
             DateTime dateTimeBegin = DateTimeOffset.FromUnixTimeSeconds(mlist.getDateBegin()).LocalDateTime;
             DateTime dateTimeEnd = DateTimeOffset.FromUnixTimeSeconds(mlist.getDateEnd()).LocalDateTime;
             DateTime dateTimeCoach = DateTimeOffset.FromUnixTimeSeconds(mlist.getDateCoach()).LocalDateTime;
@@ -104,16 +106,32 @@ namespace MList.Printer
             contents.Add(new FieldContent("##ODATE##", dateTimePassGun.ToString("dd-MM-yyyy")));
             contents.Add(new FieldContent("##OTIME##", dateTimePassGun.ToString("hh:mm:ss")));
             var valuesToFill = new Content(contents.ToArray());
+
+            string newFolderPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                "Маршрутные листы");
+            if (!Directory.Exists(newFolderPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(newFolderPath);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                }
+            }
             
-            File.Delete(@"F:\c_sharp_projects\mlist_word\Output.docx");
-            File.Copy(@"F:\c_sharp_projects\mlist_word\Template2.docx", @"F:\c_sharp_projects\mlist_word\Output.docx");
-            using (var outputDocument = new TemplateProcessor(@"F:\c_sharp_projects\mlist_word\Output.docx")
+            string newFilePath = Path.Combine(newFolderPath, $"{mlist.getNumberMlist().ToString()}. {timeNow.ToString("yyyy-MM-dd hh_mm_ss")}.docx");
+            
+            File.Copy(templateWordFilePath, newFilePath);
+            using (var outputDocument = new TemplateProcessor(newFilePath)
                        .SetRemoveContentControls(true))
             {
                 outputDocument.FillContent(valuesToFill);
                 outputDocument.SaveChanges();
             }
-            openWord(@"F:\c_sharp_projects\mlist_word\Output.docx");
+            openWord(newFilePath);
         }
         
         [DllImport("user32.dll")]
