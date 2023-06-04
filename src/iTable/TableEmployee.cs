@@ -61,9 +61,5 @@ namespace MList.Storage.Table
                 (SqliteCommand command) => dFillerSearcher(command, search),
                 "Search employee.")).downCast();
         }
-        public override ContainerCollection<iContainer> storageGet(long mlistId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

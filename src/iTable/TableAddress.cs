@@ -60,25 +60,21 @@ namespace MList.Storage.Table
                 (SqliteCommand command) => dFillerSearcher(command, search),
                 "Search address.")).downCast();
         }
-        public override ContainerCollection<iContainer> storageGet(long mlistId)
-        {
-            throw new NotImplementedException();
-        }
-        public ContainerCollection<iContainer> storageGetCurrentArrive(long mlistId)
+        public ContainerCollection<ContainerAddress> storageGetCurrentArrive(long mlistId)
         {
             return new ContainerCollection<ContainerAddress>(SqLite.execGet(
                 "SELECT ad.id, ad.address FROM  " + this.StorageTableName + " AS ad " +
                     "JOIN mlist_arrive_address maa ON ad.id = maa.arrive_address_id WHERE maa.mlist_id = @mlist_id",
                 (SqliteCommand command) => dFillerSCurrent(command, mlistId),
-                "Read MList addresses arrive")).downCast();
+                "Read MList addresses arrive"));
         }
-        public ContainerCollection<iContainer> storageGetCurrentDeep(long mlistId)
+        public ContainerCollection<ContainerAddress> storageGetCurrentDeep(long mlistId)
         {
             return new ContainerCollection<ContainerAddress>(SqLite.execGet(
                 "SELECT ad.id, ad.address FROM " + this.StorageTableName + " AS ad " +
                     "JOIN mlist_deep_address maa ON ad.id = maa.deep_address_id WHERE maa.mlist_id = @mlist_id",
                 (SqliteCommand command) => dFillerSCurrent(command, mlistId),
-                "Read MList addresses deep")).downCast();
+                "Read MList addresses deep"));
         }
     }
 }

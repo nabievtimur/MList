@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using MList.Forms;
 using MList.Forms.TableForm;
@@ -49,10 +50,10 @@ namespace MList
             try
             {
                 ContainerMList containerMList = new ContainerMList(this.dataGridViewMLists.SelectedRows[0]);
-                new TableGun().gridFill(this.dataGridViewGuns, new TableGun().storageGet(containerMList.getId()));
-                new TableCar().gridFill(this.dataGridViewCars, new TableCar().storageGet(containerMList.getId()));
-                new TableAddress().gridFill(this.dataGridViewArriveAddresses, new TableAddress().storageGetCurrentArrive(containerMList.getId()));
-                new TableAddress().gridFill(this.dataGridViewDeepAddresses, new TableAddress().storageGetCurrentDeep(containerMList.getId()));
+                new TableGun().gridFill(this.dataGridViewGuns, new TableGun().storageGetCurrent(containerMList.getId()).downCast());
+                new TableCar().gridFill(this.dataGridViewCars, new TableCar().storageGetCurrent(containerMList.getId()).downCast());
+                new TableAddress().gridFill(this.dataGridViewArriveAddresses, new TableAddress().storageGetCurrentArrive(containerMList.getId()).downCast());
+                new TableAddress().gridFill(this.dataGridViewDeepAddresses, new TableAddress().storageGetCurrentDeep(containerMList.getId()).downCast());
             }
             catch (QueryExeption)
             {
@@ -147,9 +148,12 @@ namespace MList
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            TableFormMList form = new TableFormMList();
-            form.ShowDialog();
-            this.updateGrid();
+            if (this.dataGridViewMLists.SelectedRows.Count > 0)
+            {
+                TableFormMList form = new TableFormMList(new ContainerMList(this.dataGridViewMLists.SelectedRows[0]));
+                form.ShowDialog();
+                this.updateGrid();
+            }
         }
         private void button3_Click(object sender, EventArgs e)
         {

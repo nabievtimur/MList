@@ -62,15 +62,15 @@ namespace MList.Storage.Table
                 (SqliteCommand command) => dFillerSearcher(command, search),
                 "Read " + this.StorageTableName + ".")).downCast();
         }
-        public override ContainerCollection<iContainer> storageGet(long mlistId)
+        public ContainerCollection<ContainerGun> storageGetCurrent(long MMlistId)
         {
             return new ContainerCollection<ContainerGun>(SqLite.execGet(
                 "SELECT gn.id, gn.brand, gn.series, gn.number, gn.ammo FROM " + this.StorageTableName + " AS gn " +
                     "JOIN mlist_gun mg ON gn.id = mg.gun_id WHERE mg.mlist_id = @mlist_id",
-                (SqliteCommand command) => dFillerSCurrent(command, mlistId),
-                "Get " + this.StorageTableName + " by mlist.")).downCast();
+                (SqliteCommand command) => dFillerSCurrent(command, MMlistId),
+                "Get " + this.StorageTableName + " by mlist."));
         }
-        public ContainerCollection<ContainerGun> storageGetCurrent(long mOrderId)
+        public ContainerCollection<ContainerGun> storageGetCurrentByOrder(long mOrderId)
         {
             return new ContainerCollection<ContainerGun>(SqLite.execGet(
                 "SELECT gn.id, gn.brand, gn.series, gn.number, gn.ammo FROM " + this.StorageTableName + " AS gn " +

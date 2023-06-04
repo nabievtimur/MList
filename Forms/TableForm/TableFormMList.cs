@@ -18,6 +18,7 @@ namespace MList.Forms.TableForm
         public TableFormMList()
         {
             InitializeComponent();
+            this.Text = "Добавить";
 
             this.containerMList = new ContainerMList();
             this.guns = new ContainerCollection<ContainerGun>();
@@ -41,14 +42,33 @@ namespace MList.Forms.TableForm
             this()
         {
             this.containerMList = containerMList;
+            this.Text = "Изменить";
 
-            // TODO UPDATE
+            try
+            {
+                this.guns = new TableGun().storageGetCurrent(this.containerMList.getId());
+                this.cars = new TableCar().storageGetCurrent(this.containerMList.getId());
+                this.deepAdresses = new TableAddress().storageGetCurrentDeep(this.containerMList.getId());
+                this.arriveAdresses = new TableAddress().storageGetCurrentArrive(this.containerMList.getId());
+            }
+            catch (Exception)
+            {
+                throw new QueryExeption();
+            }
 
+            this.textBoxMlistNum.Text = this.containerMList.getNumberMlist().ToString();
+            this.textBoxDescription.Text = this.containerMList.getNotes();
+
+
+            this.updateSubGrids();
         }
         private void TableFormMList_Load(object sender, EventArgs e)
         {
             updateConstGrids();
-            this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+            if (this.dataGridViewEmployee.SelectedRows.Count > 0)
+            {
+                this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+            }
         }
 
         private void updateConstGrids()
@@ -59,6 +79,17 @@ namespace MList.Forms.TableForm
                     this.textBoxSearchEmployee.Text.Length == 0 ? 
                         new TableEmployee().storageGet() : 
                         new TableEmployee().storageGet(this.textBoxSearchEmployee.Text));
+
+                this.dataGridViewEmployee.ClearSelection();
+                foreach (DataGridViewRow it in this.dataGridViewEmployee.Rows)
+                {
+                    if (new ContainerEmployee(it).getId() == this.containerMList.getEmployeeID())
+                    {
+                        it.Selected = true;
+                        it.Cells[1].Selected = true;
+                    }
+                }
+
                 new TableGun().gridFill(this.dataGridViewGuns,
                     this.textBoxSearchGuns.Text.Length == 0 ?
                         new TableGun().storageGet() : 
@@ -227,7 +258,6 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void buttonCarsAdd_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridViewCars.SelectedRows)
@@ -236,7 +266,6 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void buttonCarsDelete_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedCars.SelectedRows)
@@ -245,7 +274,6 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void buttonDeepAddressesAdd_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridViewDeepAddresses.SelectedRows)
@@ -254,7 +282,6 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void buttonDeepAddressesDelete_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedDeepAddresses.SelectedRows)
@@ -263,7 +290,6 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void buttonArriveAddressesAdd_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridViewArriveAddresses.SelectedRows)
@@ -272,7 +298,6 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void buttonArriveAddressesDelete_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedArriveAddresses.SelectedRows)
@@ -281,32 +306,26 @@ namespace MList.Forms.TableForm
             }
             this.updateSubGrids();
         }
-
         private void textBoxSearchGuns_TextChanged(object sender, EventArgs e)
         {
             this.updateConstGrids();
         }
-
         private void textBoxSearchDeepAddresses_TextChanged(object sender, EventArgs e)
         {
             this.updateConstGrids();
         }
-
         private void textBoxSearchCars_TextChanged(object sender, EventArgs e)
         {
             this.updateConstGrids();
         }
-
         private void textBoxSearchArriveAddresses_TextChanged(object sender, EventArgs e)
         {
             this.updateConstGrids();
         }
-
         private void textBoxSearchEmployee_TextChanged(object sender, EventArgs e)
         {
             this.updateConstGrids();
         }
-
         private void dataGridViewEmployee_Click(object sender, EventArgs e)
         {
             this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();

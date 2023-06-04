@@ -13,17 +13,14 @@ namespace MList.Storage.Table
             this.VisibleTableName = "Маршрутные листы";
             this.StorageTableName = "mlist";
         }
-
         public override iContainer getAssociatedContainer()
         {
             return new ContainerMList();
         }
-
         public override iContainer getAssociatedContainer(DataGridViewRow row)
         {
             return new ContainerMList(row);
         }
-
         public override void gridInit(DataGridView table)
         {
             base.gridInit(table);
@@ -42,13 +39,10 @@ namespace MList.Storage.Table
             table.Columns.Add("datePrint", "Дата печати");
             table.Columns.Add("notes", "Примечание");
         }
-
         public override void storageAdd(iContainer container)
         {
             throw new NotImplementedException();
         }
-
-        // TODO Ваня Check
         public void storageAdd(
             ContainerMList container,
             ContainerEmployee employee,
@@ -215,12 +209,10 @@ namespace MList.Storage.Table
                 transaction.Commit();
             }
         }
-
         public override void storageUpdate(iContainer container)
         {
             throw new NotImplementedException();
         }
-
         public void storageUpdate(
             ContainerMList container,
             ContainerEmployee employee,
@@ -244,12 +236,10 @@ namespace MList.Storage.Table
                 "Update MList");
             // TODO Ваня
         }
-
         public override void storageDelete(DataGridViewRow row)
         {
             storageDelete(new ContainerMList(row));
         }
-
         public override ContainerCollection<iContainer> storageGet()
         {
             return new ContainerCollection<ContainerMList>(SqLite.execGet(
@@ -272,7 +262,6 @@ namespace MList.Storage.Table
                 dFillerEmpty,
                 "Reads MList.")).downCast();
         }
-
         public override ContainerCollection<iContainer> storageGet(string search)
         {
             return new ContainerCollection<ContainerMList>(SqLite.execGet(
@@ -295,12 +284,6 @@ namespace MList.Storage.Table
                 dFillerEmpty,
                 "Reads MList.")).downCast();
         }
-
-        public override ContainerCollection<iContainer> storageGet(long mlistId)
-        {
-            throw new NotImplementedException();
-        }
-
         static public long GetNextNum()
         {
             SqliteDataReader reader = SqLite.execGet(

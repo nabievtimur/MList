@@ -38,7 +38,7 @@ namespace MList.Forms.TableForm
 
             try
             {
-                this.guns = new TableGun().storageGetCurrent(order.getId());
+                this.guns = new TableGun().storageGetCurrentByOrder(order.getId());
             }
             catch(QueryExeption)
             {

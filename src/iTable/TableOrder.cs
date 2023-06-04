@@ -122,10 +122,6 @@ namespace MList.Storage.Table
                 (SqliteCommand command) => dFillerSearcher(command, search),
                 "Search Orders.")).downCast();
         }
-        public override ContainerCollection<iContainer> storageGet(long mlistId)
-        {
-            throw new NotImplementedException();
-        }
         static public long GetNextOrderNum()
         {
             SqliteDataReader reader = SqLite.execGet(

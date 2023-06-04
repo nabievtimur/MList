@@ -14,7 +14,6 @@ namespace MList.Storage.Table
         public string getVisibleTableName() { return VisibleTableName; }
         public abstract ContainerCollection<iContainer> storageGet();
         public abstract ContainerCollection<iContainer> storageGet(string search);
-        public abstract ContainerCollection<iContainer> storageGet(long mlistId);
         public abstract void storageAdd(iContainer container);
         public abstract void storageUpdate(iContainer container);
         public virtual void storageDelete(iContainer container) { SqLite.Delete(this.StorageTableName, container.getId()); }
