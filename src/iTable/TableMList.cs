@@ -13,14 +13,17 @@ namespace MList.Storage.Table
             this.VisibleTableName = "Маршрутные листы";
             this.StorageTableName = "mlist";
         }
+
         public override iContainer getAssociatedContainer()
         {
             return new ContainerMList();
         }
+
         public override iContainer getAssociatedContainer(DataGridViewRow row)
         {
             return new ContainerMList(row);
         }
+
         public override void gridInit(DataGridView table)
         {
             base.gridInit(table);
@@ -39,10 +42,12 @@ namespace MList.Storage.Table
             table.Columns.Add("datePrint", "Дата печати");
             table.Columns.Add("notes", "Примечание");
         }
+
         public override void storageAdd(iContainer container)
         {
             throw new NotImplementedException();
         }
+
         public void storageAdd(
             ContainerMList container,
             ContainerEmployee employee,
@@ -209,10 +214,12 @@ namespace MList.Storage.Table
                 transaction.Commit();
             }
         }
+
         public override void storageUpdate(iContainer container)
         {
             throw new NotImplementedException();
         }
+
         public void storageUpdate(
             ContainerMList container,
             ContainerEmployee employee,
@@ -221,25 +228,196 @@ namespace MList.Storage.Table
             ContainerCollection<ContainerAddress> addressesDeep,
             ContainerCollection<ContainerAddress> addressesArrive)
         {
-            SqLite.exec(
-                "UPDATE " + this.StorageTableName + " SET " +
-                "date_create   = @date_create," +
-                "date_begin    = @date_begin," +
-                "end_date      = @end_date," +
-                "coach_date    = @coach_date," +
-                "pass_gun_date = @pass_gun_date," +
-                "print_date    = @print_date," +
-                "notes         = @notes," +
-                "num_mlist     = @num_mlist" +
-                "where id = @id",
-                container.storageFillParameterCollectionWithId,
-                "Update MList");
-            // TODO Ваня
+            using (var transaction = SqLite.getInstance().getConnection().BeginTransaction())
+            {
+                // Обновляем основную информацию в таблице MList
+                SqliteCommand updateMlistCommand = SqLite.getInstance().getConnection().CreateCommand();
+                updateMlistCommand.Transaction = transaction;
+                updateMlistCommand.CommandText =
+                    "UPDATE " + this.StorageTableName +
+                    " SET date_create = @date_create, date_begin = @date_begin, end_date = @end_date, " +
+                    " coach_date = @coach_date, pass_gun_date = @pass_gun_date, print_date = @print_date, " +
+                    " notes = @notes, num_mlist = @num_mlist WHERE id = @id;";
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@date_create", container.getDateCreate()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@date_begin", container.getDateBegin()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@end_date", container.getDateEnd()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@coach_date", container.getDateCoach()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@pass_gun_date", container.getDatePassGun()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@print_date", container.getDatePrint()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@notes", container.getNotes()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@num_mlist", container.getNumberMlist()));
+                updateMlistCommand.Parameters.Add(new SqliteParameter("@id", container.getId()));
+                try
+                {
+                    if (updateMlistCommand.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        throw new QueryExeption("Update Mlist.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    transaction.Rollback();
+                    throw new QueryExeption("Update Mlist.");
+                }
+
+                // Обновляем информацию в таблице mlist_employees
+                // Здесь мы предполагаем, что одному MList соответствует только один employee, 
+                // так что мы просто обновляем его, а не удаляем старые данные.
+                SqliteCommand updateEmployeeCommand = SqLite.getInstance().getConnection().CreateCommand();
+                updateEmployeeCommand.Transaction = transaction;
+                updateEmployeeCommand.CommandText =
+                    "UPDATE mlist_employees SET employee_id = @employee_id WHERE mlist_id = @mlist_id;";
+                updateEmployeeCommand.Parameters.Add(new SqliteParameter("@mlist_id", container.getId()));
+                updateEmployeeCommand.Parameters.Add(new SqliteParameter("@employee_id", employee.getId()));
+                try
+                {
+                    if (updateEmployeeCommand.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        throw new QueryExeption("Update employee in mlist.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    transaction.Rollback();
+                    throw new QueryExeption("Update employee in mlist.");
+                }
+                
+                string[] tablesToDeleteFrom = { "mlist_gun", "mlist_cars", "mlist_deep_address", "mlist_arrive_address" };
+                foreach (string tableName in tablesToDeleteFrom)
+                {
+                    SqliteCommand deleteCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    deleteCommand.Transaction = transaction;
+                    deleteCommand.CommandText = "DELETE FROM " + tableName + " WHERE mlist_id = @mlist_id;";
+                    deleteCommand.Parameters.Add(new SqliteParameter("@mlist_id", container.getId()));
+                    try
+                    {
+                        deleteCommand.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Delete from " + tableName + ".");
+                    }
+                }
+
+                foreach (var gun in guns)
+                {
+                    SqliteCommand mlistGunCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistGunCommand.Transaction = transaction;
+
+                    mlistGunCommand.CommandText =
+                        "INSERT INTO mlist_gun (mlist_id, gun_id) VALUES (@mlist_id, @gun_id)";
+                    mlistGunCommand.Parameters.Add(new SqliteParameter("@mlist_id", container.getId()));
+                    mlistGunCommand.Parameters.Add(new SqliteParameter("@gun_id", gun.getId()));
+
+                    try
+                    {
+                        if (mlistGunCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add gun to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add gun to mlist.");
+                    }
+                }
+                
+                foreach (var car in cars)
+                {
+                    SqliteCommand mlistCarCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistCarCommand.Transaction = transaction;
+
+                    mlistCarCommand.CommandText =
+                        "INSERT INTO mlist_cars (mlist_id, car_id) VALUES (@mlist_id, @car_id)";
+                    mlistCarCommand.Parameters.Add(new SqliteParameter("@mlist_id", container.getId()));
+                    mlistCarCommand.Parameters.Add(new SqliteParameter("@car_id", car.getId()));
+
+                    try
+                    {
+                        if (mlistCarCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add car to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add car to mlist.");
+                    }
+                }
+                
+                foreach (var address in addressesDeep)
+                {
+                    SqliteCommand mlistAddressCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistAddressCommand.Transaction = transaction;
+
+                    mlistAddressCommand.CommandText =
+                        "INSERT INTO mlist_deep_address (mlist_id, deep_address_id) VALUES (@mlist_id, @deep_address_id)";
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@mlist_id", container.getId()));
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@deep_address_id", address.getId()));
+
+                    try
+                    {
+                        if (mlistAddressCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add deep address to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add deep address to mlist.");
+                    }
+                }
+                
+                foreach (var address in addressesArrive)
+                {
+                    SqliteCommand mlistAddressCommand = SqLite.getInstance().getConnection().CreateCommand();
+                    mlistAddressCommand.Transaction = transaction;
+
+                    mlistAddressCommand.CommandText =
+                        "INSERT INTO mlist_arrive_address (mlist_id, arrive_address_id) VALUES (@mlist_id, @arrive_address_id)";
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@mlist_id", container.getId()));
+                    mlistAddressCommand.Parameters.Add(new SqliteParameter("@arrive_address_id", address.getId()));
+
+                    try
+                    {
+                        if (mlistAddressCommand.ExecuteNonQuery() == 0)
+                        {
+                            transaction.Rollback();
+                            throw new QueryExeption("Add arrive address to mlist.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        transaction.Rollback();
+                        throw new QueryExeption("Add arrive address to mlist.");
+                    }
+                }
+
+                transaction.Commit();
+            }
         }
+
         public override void storageDelete(DataGridViewRow row)
         {
             storageDelete(new ContainerMList(row));
         }
+
         public override ContainerCollection<iContainer> storageGet()
         {
             return new ContainerCollection<ContainerMList>(SqLite.execGet(
@@ -262,6 +440,7 @@ namespace MList.Storage.Table
                 dFillerEmpty,
                 "Reads MList.")).downCast();
         }
+
         public override ContainerCollection<iContainer> storageGet(string search)
         {
             return new ContainerCollection<ContainerMList>(SqLite.execGet(
@@ -284,6 +463,7 @@ namespace MList.Storage.Table
                 dFillerEmpty,
                 "Reads MList.")).downCast();
         }
+
         static public long GetNextNum()
         {
             SqliteDataReader reader = SqLite.execGet(
