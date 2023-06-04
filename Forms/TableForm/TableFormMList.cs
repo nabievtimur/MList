@@ -59,7 +59,6 @@ namespace MList.Forms.TableForm
             this.textBoxMlistNum.Text = this.containerMList.getNumberMlist().ToString();
             this.textBoxDescription.Text = this.containerMList.getNotes();
 
-
             this.updateSubGrids();
         }
         private void TableFormMList_Load(object sender, EventArgs e)
@@ -254,7 +253,7 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedGuns.SelectedRows)
             {
-                this.guns.Remove(new ContainerGun(row));
+                this.guns.Remove(new ContainerGun(row).getId());
             }
             this.updateSubGrids();
         }
@@ -270,7 +269,7 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedCars.SelectedRows)
             {
-                this.cars.Remove(new ContainerCar(row));
+                this.cars.Remove(new ContainerCar(row).getId());
             }
             this.updateSubGrids();
         }
@@ -286,7 +285,7 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedDeepAddresses.SelectedRows)
             {
-                this.deepAdresses.Remove(new ContainerAddress(row));
+                this.deepAdresses.Remove(new ContainerAddress(row).getId());
             }
             this.updateSubGrids();
         }
@@ -302,7 +301,7 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedArriveAddresses.SelectedRows)
             {
-                this.arriveAdresses.Remove(new ContainerAddress(row));
+                this.arriveAdresses.Remove(new ContainerAddress(row).getId());
             }
             this.updateSubGrids();
         }

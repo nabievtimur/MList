@@ -66,6 +66,17 @@ namespace MList.Storage.Table
         {
             return this.containers.Remove(item);
         }
+        public bool Remove(long id)
+        {
+            foreach (var it in this.containers)
+            {
+                if (it.getId() == id)
+                {
+                    return this.containers.Remove(it);
+                }
+            }
+            return false;
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.containers.GetEnumerator();

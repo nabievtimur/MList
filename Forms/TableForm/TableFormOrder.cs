@@ -24,6 +24,7 @@ namespace MList.Forms.TableForm
             new TableEmployee().gridInit(this.dataGridViewEmployee);
             new TableGun().gridInit(this.dataGridViewGuns);
             new TableGun().gridInit(this.dataGridViewPickedGuns);
+            UpdateEmloyeeGrid();
         }
 
         public TableFormOrder(ContainerOrder order) :
@@ -49,23 +50,29 @@ namespace MList.Forms.TableForm
                 this.DialogResult = DialogResult.Cancel;
             }
 
-            this.UpdatePickedGunGrid();
+            UpdateEmloyeeGrid();
 
-            this.dataGridViewPickedGuns.ClearSelection();
-            foreach (DataGridViewRow row in this.dataGridViewEmployee.Rows)
+            this.dataGridViewEmployee.ClearSelection();
+            foreach (DataGridViewRow it in this.dataGridViewEmployee.Rows)
             {
-                if (new ContainerEmployee(row).getId() == this.order.getId())
+                if (new ContainerEmployee(it).getId() == this.order.getEmployeeID())
                 {
-                    row.Selected = true;
+                    it.Selected = true;
+                    it.Cells[1].Selected = true;
                 }
             }
+            this.UpdatePickedGunGrid();
         }
 
         private void TableFormOrder_Load(object sender, EventArgs e) 
         {
-            this.UpdateEmloyeeGrid();
             this.UpdateGunGrid();
             this.UpdatePickedEmployee();
+
+            if (this.dataGridViewEmployee.SelectedRows.Count > 0)
+            {
+                this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+            }
         }
 
         private void UpdateEmloyeeGrid() 
@@ -108,7 +115,10 @@ namespace MList.Forms.TableForm
         }
         private void UpdatePickedEmployee()
         {
-            this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+            if (this.dataGridViewEmployee.SelectedRows.Count > 0)
+            {
+                this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+            }
         }
 
         private void buttonApply_Click(object sender, EventArgs e)
@@ -198,7 +208,7 @@ namespace MList.Forms.TableForm
         {
             foreach (DataGridViewRow row in this.dataGridViewPickedGuns.SelectedRows)
             {
-                this.guns.Remove(new ContainerGun(row));
+                this.guns.Remove(new ContainerGun(row).getId());
             }
             this.UpdatePickedGunGrid();
         }
