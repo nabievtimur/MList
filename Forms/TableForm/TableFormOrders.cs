@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Linq;
 
 using MList.Storage;
 using MList.Storage.Table;
@@ -101,14 +95,13 @@ namespace MList.Forms.TableForm
 
             this.updateSubGrid();
         }
-
         protected void updateSubGrid()
         {
             if (this.dataGridView1.SelectedRows.Count > 0)
             {
                 try
                 {
-                    this.tableGun.gridFill(this.dataGridView2, this.tableGun.storageGetCurrent(
+                    this.tableGun.gridFill(this.dataGridView2, this.tableGun.storageGetCurrentByOrder(
                         new ContainerOrder(this.dataGridView1.SelectedRows[0]).getId()).downCast());
                 }
                 catch (QueryExeption)
