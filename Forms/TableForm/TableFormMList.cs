@@ -58,7 +58,8 @@ namespace MList.Forms.TableForm
 
             this.textBoxMlistNum.Text = this.containerMList.getNumberMlist().ToString();
             this.textBoxDescription.Text = this.containerMList.getNotes();
-
+            // this.datePickerCreate.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateCreate()).LocalDateTime;
+            this.datePickerCreate.Value = new DateTime(this.containerMList.getDateCreate());
             this.updateSubGrids();
         }
         private void TableFormMList_Load(object sender, EventArgs e)
@@ -178,7 +179,7 @@ namespace MList.Forms.TableForm
                             Int32.Parse(this.textBoxMlistNum.Text), // try
                             new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
                             new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName(),
-                            this.datePickerCreate.Value.Ticks,
+                            ((DateTimeOffset)this.datePickerCreate.Value).ToUnixTimeSeconds(),
                             this.datePickerBegin.Value.Ticks + this.timePickerBegin.Value.Ticks,
                             this.datePickerEnd.Value.Ticks + this.timePickerEnd.Value.Ticks,
                             this.timePickerCoach.Value.Ticks,
@@ -193,15 +194,42 @@ namespace MList.Forms.TableForm
                 }
                 else
                 {
+                    // TODO : fix
+                    long dc = ((DateTimeOffset)new DateTime(
+                        this.datePickerEnd.Value.Date.Year,
+                        this.datePickerEnd.Value.Date.Month,
+                        this.datePickerEnd.Value.Date.Day,
+                        this.timePickerEnd.Value.Hour,
+                        this.timePickerEnd.Value.Minute,
+                        this.timePickerEnd.Value.Second)).ToUnixTimeSeconds();
+                    
                     new TableMList().storageUpdate(
                         new ContainerMList(
                             this.containerMList.getId(),
                             Int32.Parse(this.textBoxMlistNum.Text), // try
                             new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
                             new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName(),
-                            this.datePickerCreate.Value.Ticks,
-                            this.datePickerBegin.Value.Ticks + this.timePickerBegin.Value.Ticks,
-                            this.datePickerEnd.Value.Ticks + this.timePickerEnd.Value.Ticks,
+                            ((DateTimeOffset)new DateTime(
+                                this.datePickerCreate.Value.Date.Year,
+                                this.datePickerCreate.Value.Date.Month,
+                                this.datePickerCreate.Value.Date.Day,
+                                this.datePickerCreate.Value.Hour,
+                                this.datePickerCreate.Value.Minute,
+                                this.datePickerCreate.Value.Second)).ToUnixTimeSeconds(),
+                            ((DateTimeOffset)new DateTime(
+                                this.datePickerBegin.Value.Date.Year,
+                                this.datePickerBegin.Value.Date.Month,
+                                this.datePickerBegin.Value.Date.Day,
+                                this.timePickerBegin.Value.Hour,
+                                this.timePickerBegin.Value.Minute,
+                                this.timePickerBegin.Value.Second)).ToUnixTimeSeconds(),
+                            ((DateTimeOffset)new DateTime(
+                                this.datePickerEnd.Value.Date.Year,
+                                this.datePickerEnd.Value.Date.Month,
+                                this.datePickerEnd.Value.Date.Day,
+                                this.timePickerEnd.Value.Hour,
+                                this.timePickerEnd.Value.Minute,
+                                this.timePickerEnd.Value.Second)).ToUnixTimeSeconds(),
                             this.timePickerCoach.Value.Ticks,
                             this.datePickerPassGun.Value.Ticks + this.timePickerPassGun.Value.Ticks,
                             this.datePickerPrint.Value.Ticks,
