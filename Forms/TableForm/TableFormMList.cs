@@ -59,7 +59,14 @@ namespace MList.Forms.TableForm
             this.textBoxMlistNum.Text = this.containerMList.getNumberMlist().ToString();
             this.textBoxDescription.Text = this.containerMList.getNotes();
             this.datePickerCreate.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateCreate()).LocalDateTime;
-            // this.datePickerCreate.Value = new DateTime(this.containerMList.getDateCreate());
+            this.datePickerBegin.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateBegin()).LocalDateTime;
+            this.timePickerBegin.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateBegin()).LocalDateTime;
+            this.datePickerEnd.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateEnd()).LocalDateTime;
+            this.timePickerEnd.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateEnd()).LocalDateTime;
+            this.timePickerCoach.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDateCoach()).LocalDateTime;
+            this.datePickerPassGun.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDatePassGun()).LocalDateTime;
+            this.timePickerPassGun.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDatePassGun()).LocalDateTime;
+            this.datePickerPrint.Value = DateTimeOffset.FromUnixTimeSeconds(this.containerMList.getDatePrint()).LocalDateTime;
             this.updateSubGrids();
         }
         private void TableFormMList_Load(object sender, EventArgs e)

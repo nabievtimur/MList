@@ -100,7 +100,7 @@ namespace MList.Storage.Table.Container
             base.gridRowFill(ref row);
             row.Cells[1].Value = this.number;
             row.Cells[2].Value = this.employeeID;
-            row.Cells[3].Value = new DateTime(this.date).ToString();
+            row.Cells[3].Value = DateTimeOffset.FromUnixTimeSeconds(this.date).LocalDateTime.ToString("dd.MM.yyyy");
             row.Cells[4].Value = this.employeeFullName;
         }
     }

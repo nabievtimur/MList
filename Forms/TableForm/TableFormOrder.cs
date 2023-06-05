@@ -150,7 +150,13 @@ namespace MList.Forms.TableForm
                             0,
                             int.Parse(this.textBoxOrderNum.Text),
                             new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
-                            this.datePickerCreate.Value.Ticks,
+                            ((DateTimeOffset)new DateTime(
+                                this.datePickerCreate.Value.Date.Year,
+                                this.datePickerCreate.Value.Date.Month,
+                                this.datePickerCreate.Value.Date.Day,
+                                this.datePickerCreate.Value.Hour,
+                                this.datePickerCreate.Value.Minute,
+                                this.datePickerCreate.Value.Second)).ToUnixTimeSeconds(),
                             ""),
                         this.guns);
                 }
@@ -161,7 +167,13 @@ namespace MList.Forms.TableForm
                             this.order.getId(),
                             int.Parse(this.textBoxOrderNum.Text),
                             new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(),
-                            this.datePickerCreate.Value.Ticks,
+                            ((DateTimeOffset)new DateTime(
+                                this.datePickerCreate.Value.Date.Year,
+                                this.datePickerCreate.Value.Date.Month,
+                                this.datePickerCreate.Value.Date.Day,
+                                this.datePickerCreate.Value.Hour,
+                                this.datePickerCreate.Value.Minute,
+                                this.datePickerCreate.Value.Second)).ToUnixTimeSeconds(),
                             ""),
                         this.guns);
                 }

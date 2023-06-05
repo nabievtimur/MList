@@ -131,15 +131,15 @@ namespace MList.Storage.Table.Container
             row.Cells[1].Value = this.numberMlist;
             row.Cells[2].Value = this.employeeID;
             row.Cells[3].Value = this.employeeFullName;
-            row.Cells[4].Value = new DateTime(this.dateCreate).ToLocalTime().Date.ToString("dd.MM.yyyy");
-            row.Cells[5].Value = new DateTime(this.dateBegin).ToLocalTime().Date.ToString("dd.MM.yyyy");
-            row.Cells[6].Value = new DateTime(this.dateBegin).ToLocalTime().ToString("hh:mm:ss");
-            row.Cells[7].Value = new DateTime(this.dateEnd).ToLocalTime().Date.ToString("dd.MM.yyyy");
-            row.Cells[8].Value = new DateTime(this.dateEnd).ToLocalTime().ToString("hh:mm:ss");
-            row.Cells[9].Value = new DateTime(this.dateCoach).ToLocalTime().ToString("hh:mm:ss");
-            row.Cells[10].Value = new DateTime(this.datePassGun).ToLocalTime().Date.ToString("dd.MM.yyyy");
-            row.Cells[11].Value = new DateTime(this.datePassGun).ToLocalTime().ToString("hh:mm:ss");
-            row.Cells[12].Value = new DateTime(this.datePrint).ToLocalTime().Date.ToString("dd.MM.yyyy");
+            row.Cells[4].Value = DateTimeOffset.FromUnixTimeSeconds(this.dateCreate).LocalDateTime.ToString("dd.MM.yyyy");
+            row.Cells[5].Value = DateTimeOffset.FromUnixTimeSeconds(this.dateBegin).LocalDateTime.ToString("dd.MM.yyyy");
+            row.Cells[6].Value = DateTimeOffset.FromUnixTimeSeconds(this.dateBegin).LocalDateTime.ToString("HH:mm:ss");
+            row.Cells[7].Value = DateTimeOffset.FromUnixTimeSeconds(this.dateEnd).LocalDateTime.ToString("dd.MM.yyyy");
+            row.Cells[8].Value = DateTimeOffset.FromUnixTimeSeconds(this.dateEnd).LocalDateTime.ToString("HH:mm:ss");
+            row.Cells[9].Value = DateTimeOffset.FromUnixTimeSeconds(this.dateCoach).LocalDateTime.ToString("HH:mm:ss");
+            row.Cells[10].Value = DateTimeOffset.FromUnixTimeSeconds(this.datePassGun).LocalDateTime.ToString("dd.MM.yyyy");
+            row.Cells[11].Value = DateTimeOffset.FromUnixTimeSeconds(this.datePassGun).LocalDateTime.ToString("HH:mm:ss");
+            row.Cells[12].Value = DateTimeOffset.FromUnixTimeSeconds(this.datePrint).LocalDateTime.ToString("dd.MM.yyyy");
             row.Cells[13].Value = this.notes;
         }
     }

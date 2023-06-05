@@ -42,9 +42,9 @@ namespace MList.Printer
             
             List<TemplateEngine.Docx.IContentItem> contents = new List<IContentItem>();
             contents.Add(new FieldContent("Mlist_Num", mlist.getNumberMlist().ToString()));
-            contents.Add(new FieldContent("##ATIME##", dateTimeBegin.ToString("hh:mm:ss")));
+            contents.Add(new FieldContent("##ATIME##", dateTimeBegin.ToString("HH:mm:ss")));
             contents.Add(new FieldContent("##ADATE##", dateTimeBegin.ToString("dd-MM-yyyy")));
-            contents.Add(new FieldContent("##DTIME##", dateTimeEnd.ToString("hh:mm:ss")));
+            contents.Add(new FieldContent("##DTIME##", dateTimeEnd.ToString("HH:mm:ss")));
             contents.Add(new FieldContent("##DDATE##", dateTimeEnd.ToString("dd-MM-yyyy")));
             contents.Add(new FieldContent("##CDATE##", $"{dateTimeCoach.ToString("dd-MM-yyyy")} в {dateTimeCoach.ToString("dd-MM-yyyy")}"));
             
