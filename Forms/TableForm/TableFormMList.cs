@@ -75,6 +75,10 @@ namespace MList.Forms.TableForm
             if (this.dataGridViewEmployee.SelectedRows.Count > 0)
             {
                 this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+                new TableGun().gridFill(this.dataGridViewGuns,
+                    this.textBoxSearchGuns.Text.Length == 0 ?
+                        new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast() :
+                        new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast());
             }
         }
 
@@ -97,10 +101,6 @@ namespace MList.Forms.TableForm
                     }
                 }
 
-                new TableGun().gridFill(this.dataGridViewGuns,
-                    this.textBoxSearchGuns.Text.Length == 0 ?
-                        new TableGun().storageGet() : 
-                        new TableGun().storageGet(this.textBoxSearchGuns.Text));
                 new TableCar().gridFill(this.dataGridViewCars,
                     this.textBoxSearchCars.Text.Length == 0 ?
                         new TableCar().storageGet() : 
@@ -417,6 +417,15 @@ namespace MList.Forms.TableForm
         private void dataGridViewEmployee_Click(object sender, EventArgs e)
         {
             this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
+            
+            this.guns.Clear();
+            this.dataGridViewGuns.Rows.Clear();
+            this.dataGridViewPickedGuns.Rows.Clear();
+
+            new TableGun().gridFill(this.dataGridViewGuns,
+                this.textBoxSearchGuns.Text.Length == 0 ?
+                    new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast() :
+                    new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast());
         }
     }
 }
