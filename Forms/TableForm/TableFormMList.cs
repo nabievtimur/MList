@@ -78,7 +78,7 @@ namespace MList.Forms.TableForm
                 new TableGun().gridFill(this.dataGridViewGuns,
                     this.textBoxSearchGuns.Text.Length == 0 ?
                         new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast() :
-                        new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast());
+                        new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(), this.textBoxSearchGuns.Text).downCast());
             }
         }
 
@@ -99,6 +99,14 @@ namespace MList.Forms.TableForm
                         it.Selected = true;
                         it.Cells[1].Selected = true;
                     }
+                }
+
+                if (this.dataGridViewEmployee.SelectedRows.Count > 0)
+                {
+                    new TableGun().gridFill(this.dataGridViewGuns,
+                        this.textBoxSearchGuns.Text.Length == 0 ?
+                            new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast() :
+                            new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(), this.textBoxSearchGuns.Text).downCast());
                 }
 
                 new TableCar().gridFill(this.dataGridViewCars,
@@ -396,26 +404,46 @@ namespace MList.Forms.TableForm
         }
         private void textBoxSearchGuns_TextChanged(object sender, EventArgs e)
         {
-            this.updateConstGrids();
+            if (this.dataGridViewEmployee.SelectedRows.Count > 0)
+            {
+                new TableGun().gridFill(this.dataGridViewGuns,
+                    this.textBoxSearchGuns.Text.Length == 0 ?
+                        new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast() :
+                        new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(), this.textBoxSearchGuns.Text).downCast());
+            }
         }
         private void textBoxSearchDeepAddresses_TextChanged(object sender, EventArgs e)
         {
-            this.updateConstGrids();
+            new TableAddress().gridFill(this.dataGridViewDeepAddresses,
+                this.textBoxSearchDeepAddresses.Text.Length == 0 ?
+                    new TableAddress().storageGet() :
+                    new TableAddress().storageGet(this.textBoxSearchDeepAddresses.Text));
         }
         private void textBoxSearchCars_TextChanged(object sender, EventArgs e)
         {
-            this.updateConstGrids();
+            new TableCar().gridFill(this.dataGridViewCars,
+                this.textBoxSearchCars.Text.Length == 0 ?
+                    new TableCar().storageGet() :
+                    new TableCar().storageGet(this.textBoxSearchCars.Text));
         }
         private void textBoxSearchArriveAddresses_TextChanged(object sender, EventArgs e)
         {
-            this.updateConstGrids();
+            new TableAddress().gridFill(this.dataGridViewArriveAddresses,
+                this.textBoxSearchArriveAddresses.Text.Length == 0 ?
+                    new TableAddress().storageGet() :
+                    new TableAddress().storageGet(this.textBoxSearchArriveAddresses.Text));
         }
         private void textBoxSearchEmployee_TextChanged(object sender, EventArgs e)
         {
-            this.updateConstGrids();
+            new TableEmployee().gridFill(this.dataGridViewEmployee,
+                this.textBoxSearchEmployee.Text.Length == 0 ?
+                    new TableEmployee().storageGet() :
+                    new TableEmployee().storageGet(this.textBoxSearchEmployee.Text));
         }
         private void dataGridViewEmployee_Click(object sender, EventArgs e)
         {
+            if (this.dataGridViewEmployee.SelectedRows.Count == 0)
+                return;
             this.textBoxPickedEmployee.Text = new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getFullName();
             
             this.guns.Clear();
@@ -425,7 +453,7 @@ namespace MList.Forms.TableForm
             new TableGun().gridFill(this.dataGridViewGuns,
                 this.textBoxSearchGuns.Text.Length == 0 ?
                     new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast() :
-                    new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId()).downCast());
+                    new TableGun().storageGetCurrentByEmployee(new ContainerEmployee(this.dataGridViewEmployee.SelectedRows[0]).getId(), this.textBoxSearchGuns.Text).downCast());
         }
     }
 }
