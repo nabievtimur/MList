@@ -100,5 +100,21 @@ namespace MList.Storage.Table
                 (SqliteCommand command) => { command.Parameters.Add(new SqliteParameter("@employee_id", mEmployeeId)); },
                 "Get " + this.StorageTableName + " by employee."));
         }
+
+        public ContainerCollection<ContainerGun> storageGetCurrentByEmployee(long mEmployeeId, string like)
+        {
+            return new ContainerCollection<ContainerGun>(SqLite.execGet(
+                "SELECT gn.id, gn.brand, gn.series, gn.number, gn.ammo FROM " + this.StorageTableName + " AS gn " +
+                "JOIN order_gun og ON og.gun_id = gn.id " +
+                "JOIN orders o ON o.id = og.order_id " +
+                "WHERE o.employee_id = @employee_id " +
+                "AND (gn.brand LIKE @like OR gn.series LIKE @like OR gn.number LIKE @like OR gn.ammo LIKE @like)",
+                (SqliteCommand command) =>
+                {
+                    command.Parameters.Add(new SqliteParameter("@employee_id", mEmployeeId));
+                    command.Parameters.Add(new SqliteParameter("@like", like));
+                },
+                "Get " + this.StorageTableName + " by employee and like param."));
+        }
     }
 }
